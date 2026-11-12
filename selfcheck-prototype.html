@@ -207,8 +207,8 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
   <section id="s-thanks" class="hide">
     <span class="eyebrow">Thank you</span>
     <h1>Your answers are in</h1>
-    <p class="lead">They are stored without your name. The person who asked will see them in a combined result, together with the answers of others. You do not see their answers, so nothing you read here can change yours.</p>
-    <div class="card"><h2>Want to run the self-check for your own team?</h2><p>It takes about 6 minutes and shows what you can see and what you cannot.</p><a class="btn btn--primary" href="selfcheck-prototype.html">Start the self-check</a></div>
+    <p class="lead">They were added to your colleague's self-check. Ask your colleague to share the complete results with you.</p>
+    <div class="card"><h2>Take a look at the complete self-check</h2><p>You answered the questions for your area. The full self-check has 12 questions about how well an organisation sees what its customers say: how many conversations are reviewed, what reaches the CRM, how you prove what was said, how quality is judged and how agents get feedback. You get a level and the area to look at first. It takes about 6 minutes.</p><a class="btn btn--primary" href="selfcheck-prototype.html">See the complete self-check</a></div>
   </section>
 </div></main>
 <footer class="sc-foot"><div class="container"><img src="Assets/comms-inspector-logo_tm-white.svg" alt="Comms Inspector"><span>AI Comms Inspector is built by DataSentics, a Bull company. The self-check is a self-assessment based on your answers, not an audit.</span><img src="Assets/BULL_LOGO_WHITE_RGB.svg" alt="Bull" style="margin-left:auto"></div></footer>
@@ -449,7 +449,7 @@ function showResult(){
   $("admWrap").classList.toggle("hide",!sess._saved);
   // status line and differences
   var parts=sess.inv.map(lab);
-  $("rStatus").innerHTML=sess.inv.length?'<p class="small"><b>Answers from:</b> you'+(myRole?' ('+ROLES[myRole]+')':'')+', '+parts.join(", ")+'.</p>':'';
+  $("rStatus").innerHTML=sess.inv.length?'<p class="small"><b>Your answers</b>'+(myRole?' ('+ROLES[myRole]+')':'')+' <b>plus answers filled in by your colleagues:</b> '+parts.join(", ")+'.</p>':'';
   var dh="";
   if(m.diffs.length){dh='<h2 style="margin-top:26px">Where your view and a colleague\'s view differ</h2><p class="small">A difference does not mean someone is wrong. It marks where nobody has compared notes.</p>';
     m.diffs.forEach(function(d){var q=Q[d.i];dh+='<div class="dom"><p style="font-weight:700;margin-bottom:8px">'+q.q+'</p><div style="display:flex;gap:10px;margin:4px 0;font-size:15px"><span style="flex:0 0 160px;color:var(--ink-soft);font-weight:700">You</span><span>'+q.o[d.l][0]+'</span></div><div style="display:flex;gap:10px;margin:4px 0;font-size:15px"><span style="flex:0 0 160px;color:var(--ink-soft);font-weight:700">'+d.who+'</span><span>'+q.o[d.c][0]+'</span></div></div>'})}
