@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="Assets/comm-inspector-favicon_color.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=3">
+<title>Self-check prototype: How much of your customer conversations do you actually see?</title>
+<style>
+/* Self-check: uses the site's own tokens (styles.css). Only quiz-specific rules below. */
+body{font-family:var(--font-body);color:var(--ink);background:var(--white);margin:0}
+.sc-head{border-bottom:1px solid var(--hairline);background:#fff}
+.sc-head .container{display:flex;align-items:center;gap:20px;min-height:68px}
+.sc-head .byline{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+.sc-head .byline img{height:20px}
+.sc-head .logo{height:20px;width:auto}
+.sc-main{background:var(--grey-50);padding:56px 0 150px}
+.sc-wrap{max-width:780px;margin:0 auto;padding-inline:var(--gutter)}
+.eyebrow{display:inline-block;font-size:var(--fs-eyebrow);font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--orange);margin-bottom:14px}
+h1{font-family:var(--font-display);font-weight:900;font-size:clamp(28px,4.2vw,44px);line-height:1.08;letter-spacing:-.02em;margin:0 0 16px;color:var(--ink);text-wrap:balance}
+h2{font-family:var(--font-display);font-weight:500;font-size:clamp(22px,2.6vw,30px);line-height:1.15;letter-spacing:-.015em;margin:0 0 10px;color:var(--ink)}
+h3{font-family:var(--font-display);font-weight:500;margin:0}
+p{margin:0 0 12px;line-height:var(--lh-prose)}
+.lead{font-size:18px;color:var(--ink-soft)}
+.card{background:#fff;border:1px solid var(--hairline);border-radius:var(--r-card-lg);padding:28px;box-shadow:var(--shadow-sm)}
+.btn--ghost{background:#fff;color:var(--ink);border-color:var(--hairline)}
+.btn--ghost:hover{border-color:var(--ink)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.link{background:none;border:0;padding:10px 6px;font:600 15px var(--font-body);color:var(--ink);text-decoration:underline;cursor:pointer}
+input[type=email],select{width:100%;padding:13px 14px;border:1px solid #c9ced8;border-radius:var(--r-btn);font:400 16px var(--font-body);color:var(--ink);background:#fff}
+input:focus,select:focus,.opt:focus-visible{outline:3px solid rgba(255,85,57,.35);outline-offset:1px}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row input{flex:1 1 240px;width:auto}
+.small{font-size:var(--fs-meta);color:var(--ink-soft);line-height:1.5}
+.err{color:#b3261e;font-size:14px;font-weight:600;margin:8px 0 0}
+label.f{display:block;margin:0 0 14px}label.f span{display:block;font-weight:600;font-size:14px;margin-bottom:6px}
+.qmeta{display:flex;justify-content:space-between;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.prog{height:4px;background:var(--hairline);border-radius:2px;margin:10px 0 26px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--orange);width:0;transition:width .25s}
+.q{font-family:var(--font-display);font-weight:500;font-size:clamp(21px,2.8vw,28px);line-height:1.2;letter-spacing:-.015em;margin:0 0 8px}
+.hint{color:var(--ink-soft);font-size:15px;margin-bottom:18px}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1px solid #c9ced8;border-radius:var(--r-card);padding:15px 18px;margin:0 0 10px;font:500 16px/1.4 var(--font-body);color:var(--ink);cursor:pointer;min-height:48px;transition:border-color .15s,background .15s}
+.opt:hover{border-color:var(--ink)}
+.opt.sel{border-color:var(--orange);background:var(--tint-50);box-shadow:inset 0 0 0 1px var(--orange)}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:18px}
+:root{--rag-r:#d4382c;--rag-a:#FFB600;--rag-g:#00B290}
+.band{display:inline-block;border-radius:999px;padding:4px 12px;font-weight:700;font-size:12px;letter-spacing:.12em;border:1px solid}
+.b-red{background:#fdecea;color:#a1271d;border-color:#f3b9b3}.b-amber{background:#fff4d6;color:#7a5600;border-color:#f5d98a}.b-green{background:#dff6f0;color:#00694f;border-color:#9fe0cf}
+.dom{border:1px solid var(--hairline);border-radius:var(--r-card-lg);padding:20px 22px 16px;margin:0 0 14px;background:#fff;break-inside:avoid;box-shadow:var(--shadow-sm)}
+.dom h3{font-size:19px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.bar{height:8px;background:var(--grey-100);border-radius:4px;margin:12px 0 14px;overflow:hidden}
+.bar i{display:block;height:100%}
+.bar .r{background:var(--rag-r)}.bar .a{background:var(--rag-a)}.bar .g{background:var(--rag-g)}
+.ask{background:var(--tint-50);border-left:3px solid var(--orange);border-radius:0 var(--r-btn) var(--r-btn) 0;padding:10px 14px;font-size:15px}
+.ask b{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:2px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}
+details{border:1px solid var(--hairline);border-radius:var(--r-card);padding:14px 18px;margin:14px 0;background:#fff}
+summary{cursor:pointer;font-weight:700}
+table{border-collapse:collapse;width:100%;font-size:14px;margin-top:10px}td,th{border-bottom:1px solid var(--hairline);padding:7px 8px;text-align:left;vertical-align:top}
+th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.next{background:var(--blue-deep);color:#fff;border-radius:var(--r-card-lg);padding:30px;margin-top:26px}
+.next h2{color:#fff}.next p{color:var(--on-blue-soft)}.next .eyebrow{color:#ffb4a6}
+.sc-foot{background:var(--blue-deep);color:var(--on-blue-soft);padding:28px 0;font-size:14px}
+.sc-foot .container{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.sc-foot img{height:22px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:96px;background:var(--ink);color:#fff;padding:10px 16px;border-radius:8px;font-size:14px;z-index:60}
+.hide{display:none!important}
+.pk{position:fixed;left:0;right:0;bottom:0;background:#0d1b3e;color:#fff;font:500 12.5px/1.35 system-ui;padding:10px 14px;z-index:50;display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start}
+.pk b{color:#ffb4a6;text-transform:uppercase;letter-spacing:.04em;font-size:11.5px}
+.pk select{width:auto;padding:3px 6px;font-size:12.5px}
+.pk .ev{flex:1 1 320px;max-height:62px;overflow:auto;font:11.5px/1.3 ui-monospace,Consolas,monospace;opacity:.9}
+.pk button{background:#2a3a66;color:#fff;border:0;border-radius:6px;padding:4px 8px;cursor:pointer;font:600 12px system-ui;margin:3px 4px 0 0}
+@media print{.pk,.actions,.no-print,.toast,.next,.sc-foot,.sc-head .byline{display:none!important}.sc-main{background:#fff;padding:0}body{font-size:12.5pt}.print-only{display:block!important}}
+.print-only{display:none}
+</style>
+</head>
+<body>
+<header class="sc-head"><div class="container">
+  <a href="#" aria-label="AI Comms Inspector"><img class="logo" src="Assets/comms-inspector-logo_tm.svg" alt="Comms Inspector" width="219" height="20"></a>
+  <span class="byline"><span>built by</span> <img src="Assets/BULL_LOGO_COLOR_RGB.svg" alt="Bull"></span>
+</div></header>
+<main class="sc-main"><div class="sc-wrap">
+
+  <!-- SCREEN 1: intro / gate -->
+  <section id="s-intro">
+    <div class="card hide" id="colBanner" style="margin-bottom:22px;border-left:4px solid var(--orange)">
+      <span class="eyebrow">A colleague asked for your view</span>
+      <p id="colText" style="margin:0"></p>
+    </div>
+    <span class="eyebrow">Self-check · about 6 minutes · 12 questions</span>
+    <h1>How much of your customer conversations do you actually see?</h1>
+    <p class="lead">Twelve questions on coverage, customer signals, evidence, quality and coaching. You get a Red, Amber or Green result for each area and one question to ask your team. Your individual answers stay in your browser.</p>
+    <div class="card" id="gate">
+      <form id="gateForm" novalidate>
+        <label class="f"><span>Work email</span></label>
+        <div class="row">
+          <input type="email" id="email" placeholder="Work email" autocomplete="email" aria-label="Work email">
+          <button class="btn btn--primary" id="gateBtn" type="submit">Start the self-check</button>
+        </div>
+        <p class="err hide" id="gateErr" role="alert"></p>
+        <p class="small" style="margin-top:12px"><b>It opens right here.</b> Your answers stay in your browser. After that, at most two short notes from a colleague. No newsletter.</p>
+        <p class="small">By continuing, you agree that Comms Inspector may contact you about this self-check. See our Privacy Policy.</p>
+      </form>
+      <div id="noGate" class="hide"><button class="btn btn--primary" id="startBtn">Start the self-check</button><p class="small" style="margin-top:12px">No email needed to see your result in this variant. You can ask for a copy afterwards.</p></div>
+    </div>
+    <p class="small" style="margin-top:14px">This is a self-assessment, not an audit. There is no industry benchmark behind it, and it does not state what any regulation requires.</p>
+  </section>
+
+  <!-- SCREEN 1b: optional role / volume -->
+  <section id="s-profile" class="hide">
+    <span class="eyebrow">Before you start (optional)</span>
+    <h2 id="profH">Two quick questions, so we send you the right follow-up</h2>
+    <p class="small" id="profP">Skipping does not change your result.</p>
+    <label class="f"><span>Which describes you best?</span>
+      <select id="role"><option value="0">Choose</option><option value="1">Customer service or contact centre</option><option value="2">Quality assurance</option><option value="3">Compliance or risk</option><option value="4">Sales or CRM</option><option value="5">Customer experience or insights</option><option value="6">Operations</option><option value="7">Data or IT</option><option value="8">Other</option></select></label>
+    <label class="f" id="volWrap"><span>How many customer conversations do you handle per year?</span>
+      <select id="vol"><option value="">Choose</option><option>Under 250,000</option><option>250,000 to 1 million</option><option>Over 1 million</option></select></label>
+    <button class="btn btn--primary" id="profGo">Continue</button> <button class="link" id="profSkip">Skip</button>
+  </section>
+
+  <!-- SCREEN 2: quiz -->
+  <section id="s-quiz" class="hide">
+    <div class="qmeta"><span id="qDom"></span><span id="qNum"></span></div>
+    <div class="prog"><i id="prog"></i></div>
+    <h2 class="q" id="qText"></h2>
+    <p class="hint" id="qHint"></p>
+    <div id="qOpts"></div>
+    <div class="nav"><button class="link" id="back">Back</button><span class="small">Pick the answer closest to what usually happens.</span></div>
+  </section>
+
+  <!-- SCREEN 2b: email before result (variant) -->
+  <section id="s-resgate" class="hide">
+    
+    <h2>Your result is ready</h2>
+    <div class="card">
+      <form id="resForm" novalidate>
+        <div class="row"><input type="email" id="email2" placeholder="Work email" aria-label="Work email"><button class="btn btn--primary" type="submit">Show my result</button></div>
+        <p class="err hide" id="resErr" role="alert"></p>
+        <p class="small" style="margin-top:12px">Your answers stay in your browser. At most two short notes from a colleague. No newsletter.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- SCREEN 3: result -->
+  <section id="s-result" class="hide">
+    <span class="eyebrow">Your result</span>
+    <h1 id="rHead"></h1>
+    <p class="lead" id="rSub"></p>
+    <div class="dom" id="rWhere" style="border-left:4px solid var(--orange)"><span class="eyebrow" style="margin-bottom:6px">Where to look first</span><p id="rWhereT" style="margin:0"></p></div>
+    <p class="small" id="rNs"></p>
+    <h2 style="margin-top:26px">Your answers by area</h2>
+    <div id="rDoms"></div>
+    <div id="rGroup"></div>
+    <div class="card no-print" id="inviteBox" style="margin-top:22px">
+      <h2>See how your colleagues see it</h2>
+      <p>People in different roles usually answer differently, and the gaps are the useful part. Send a colleague the link below. They answer for themselves, then see where you agree and where you do not. They do not need to give an email address.</p>
+      <p class="small"><b>Before you send it:</b> the link contains your answers, so anyone who has it can see them. We store nothing: the answers travel inside the link itself. Send it only to people you are happy to show them to.</p>
+      <div class="row"><input type="text" id="linkBox" readonly aria-label="Link for colleagues" style="padding:13px 14px;border:1px solid #c9ced8;border-radius:8px;font:400 14px var(--font-body);color:var(--ink);background:#fff"><button class="btn btn--primary" id="bShare">Copy link</button></div>
+    </div>
+    <div class="actions no-print">
+      <button class="btn btn--primary" id="bPrint">Print or save as PDF</button>
+      <button class="btn btn--ghost" id="bMail">Email me my result</button>
+      <button class="link" id="bRestart">Start again</button>
+    </div>
+        <details open><summary>How this result is calculated</summary>
+      <p class="small" style="margin-top:8px">Each answer describes a situation and is worth 0 to 4 points. "I'm not sure" is worth 0, because not knowing is itself a finding. For each area we add up your points and compare them with the maximum. Below 40%: Red. 40 to 79%: Amber. 80% and above: Green. The headline profile does not come from one total. It comes from the pattern across areas: how many answers were "not sure", whether customer signals are ahead of or behind quality, evidence and coaching, and whether everything is high or low. A well-run sample with a clear selection logic and regular calibration lands in Amber, not Red. The bands and profile rules are our judgement, not an industry benchmark. This is a self-assessment: it shows how people describe their operation, not what an audit would find.</p>
+      <div id="rTable"></div>
+    </details>
+    <div class="next no-print">
+      <span class="eyebrow">Ready to see it on your data?</span>
+      <h2>Bring one decision to a use-case session</h2>
+      <p>One hour. You bring a decision you face this year. We show what your customer conversations could answer about it, and what they cannot.</p>
+      <a class="btn btn--primary" href="#" onclick="return false">Book a use-case session</a>
+    </div>
+    <p class="small print-only">Comms Inspector self-check · comms-inspector.com · Self-assessment, not an audit.</p>
+  </section>
+</div></main>
+<footer class="sc-foot"><div class="container"><img src="Assets/comms-inspector-logo_tm-white.svg" alt="Comms Inspector"><span>AI Comms Inspector is built by DataSentics, a Bull company.</span><img src="Assets/BULL_LOGO_WHITE_RGB.svg" alt="Bull" style="margin-left:auto"></div></footer>
+
+<div class="toast hide" id="toast"></div>
+
+<div class="pk no-print">
+  <div><b>Prototype · nothing is sent</b><br><span style="opacity:.85">Version: <b style="color:#fff">1 profiles</b> · <a style="color:#ffb4a6" href="selfcheck-prototype.html">2 levels</a></span><br>
+    Email gate:
+    <select id="gateMode"><option value="start">before the quiz</option><option value="result">before the result</option><option value="none">none (email optional)</option></select><br>
+    <button id="fillA">Fill: well-run sample</button><button id="fillB">Fill: well-run insight team</button><button id="fillC">Fill: mostly unknown</button><button id="fillD">Fill: fully automated</button><button id="fillG">Demo: team of 3</button>
+  </div>
+  <div class="ev" id="ev"><b>Events (what the page would send)</b><br></div>
+</div>
+
+<script>
+// ---------- CONTENT ----------
+var DOMAINS={
+ cov:{name:"Coverage",
+  tx:{red:"Most conversations are never looked at by anyone, and it may be unclear which ones are missed.",
+      amber:"You review a meaningful share, chosen with some logic. What lies outside the sample is still unseen.",
+      green:"Almost every conversation is screened, and people review what stands out."},
+  ask:"For last month: how many conversations were there, how many did someone or something review, and who chose which ones?"},
+ sig:{name:"Customer signals and business use",
+  tx:{red:"What customers say mostly stays in the recording or in the agent's notes.",
+      amber:"Some of it reaches other teams, but usually late or only when someone asks for it.",
+      green:"Customer signals reach named owners quickly, and you can see what changed because of them."},
+  ask:"Pick one recent customer need or complaint theme. Who found out first, how long did it take, and what happened next?"},
+ evi:{name:"Evidence and compliance",
+  tx:{red:"Proving what was said in a given conversation is slow, and required statements are not checked routinely.",
+      amber:"Checks happen on the reviewed part, and a single case can be found with some effort.",
+      green:"Required statements are checked across conversations, and a single case can be retrieved quickly."},
+  ask:"Choose one required statement. How would you show it was given in one specific conversation, and how long would that take?"},
+ qua:{name:"Quality and protocol",
+  tx:{red:"Quality criteria are informal, and reviewers may not score alike.",
+      amber:"There is a written scorecard and some calibration. Explaining why a score moved takes manual work.",
+      green:"Criteria are reviewed regularly, reviewers are calibrated, and score changes can be explained with evidence."},
+  ask:"Give two reviewers the same conversation. How far apart are their scores?"},
+ coa:{name:"Coaching loop",
+  tx:{red:"Feedback reaches agents late or in general terms, and nobody checks whether it worked.",
+      amber:"Feedback happens, but not always soon or tied to the exact moment, and follow-up is occasional.",
+      green:"Agents get timely feedback on the actual conversation, and you re-check later conversations to see if it helped."},
+  ask:"Take one agent coached last month. How many days passed between the conversation and the feedback?"}
+};
+// options: [text, points]; every question max 4. "Not sure" first and always 0.
+var NS="I'm not sure";
+var Q=[
+ {d:"cov",q:"Roughly what share of your customer conversations does anyone, person or system, review in a typical month?",h:"Think of calls, chats and emails together.",
+  o:[[NS,0],["Under 2%",1],["2 to 5%",2],["5 to 20%",3],["Most of them",4],["All of them",4]]},
+ {d:"cov",q:"How are the reviewed conversations chosen?",h:"Choose what is true most of the time.",
+  o:[[NS,0],["Whatever the reviewers happen to pick",1],["A random sample",2],["Selected by risk, channel or topic",3],["Everything is screened automatically and people review what is flagged",4]]},
+ {d:"qua",q:"How are your quality criteria defined?",h:"",
+  o:[[NS,0],["Informally, reviewers use their judgement",1],["A written scorecard",2],["A written scorecard that we review regularly",3],["A scorecard that is tied to customer outcomes",4]]},
+ {d:"qua",q:"How often do your reviewers check that they score the same conversation the same way?",h:"This is often called calibration.",
+  o:[[NS,0],["Never",0],["Occasionally, when there is a problem",1],["Every quarter",3],["Monthly or more often",4]]},
+ {d:"evi",q:"Suppose a customer disputes a case. How long would it take to show that a specific required statement was given in that conversation?",h:"We do not say what any regulation requires. We ask what you could prove.",
+  o:[[NS,0],["We might not be able to",0],["Days",1],["Hours",3],["Minutes",4]]},
+ {d:"evi",q:"How do you check that required statements or steps were completed?",h:"",
+  o:[[NS,0],["Not routinely",0],["In the reviewed sample",2],["An automated check on all conversations, reviewed on a sample",3],["An automated check on all conversations, and people review the exceptions",4]]},
+ {d:"coa",q:"How soon after a conversation does an agent usually get feedback on it?",h:"",
+  o:[[NS,0],["Most agents rarely get any",0],["After weeks",1],["After days",3],["The same day",4]]},
+ {d:"coa",q:"Do you check whether coaching worked?",h:"For example by looking at the same agent's later conversations.",
+  o:[[NS,0],["No",0],["Occasionally",2],["Systematically, for most coaching",4]]},
+ {d:"sig",q:"When a customer mentions a life event or a new need during a conversation, what usually happens to that information?",h:"For example a move, a new job, a new child, a better offer from a competitor.",
+  o:[[NS,0],["It stays in the recording",0],["The agent may note it in free text",1],["The agent picks a reason code",2],["It is captured as a structured field in the CRM",3],["It is captured and triggers a follow-up",4]]},
+ {d:"sig",q:"How long does it usually take for a pattern in complaints or requests to reach a team that can act on it?",h:"",
+  o:[[NS,0],["We hear about it when it is escalated",1],["In a quarterly report",2],["In a monthly report",2],["Within a week",3],["Within days",4]]},
+ {d:"sig",q:"How do teams outside customer service get insight from your conversations?",h:"Think of product, marketing, CRM or sales.",
+  o:[[NS,0],["They do not",0],["They ask for a report",2],["They use a shared dashboard",3],["Insight is routed to named owners automatically",4]]},
+ {d:"sig",q:"In the last year, was a campaign, offer or product change started because of something customers said in conversations, and was the effect measured?",h:"",
+  o:[[NS,0],["Not that I know of",0],["Yes, but we did not measure the effect",2],["Yes, and we measured the effect",3],["It is a routine input and we routinely link it to a business metric",4]]}
+];
+var ORDER=["cov","sig","evi","qua","coa"];
+var OVERALL={
+ red:{h:"Large parts of your customer conversations are not visible yet",s:"That is common, and it is a to-do list, not a verdict. The areas below show where to look first."},
+ amber:{h:"You see part of the picture",s:"A well-run operation can land here: it sees what it samples and routes. The areas below show where the unseen part is largest."},
+ green:{h:"You see most of it",s:"Your answers describe broad coverage and short routes to action. Check the areas below for the weakest spot."}
+};
+
+// ---------- STATE / HELPERS ----------
+var $=function(i){return document.getElementById(i)};
+var ROLES=["Not stated","Service or contact centre","Quality","Compliance or risk","Sales or CRM","CX or insights","Operations","Data or IT","Other"];
+var ans=[],cur=0,myRole=0,group=[],ref=Math.random().toString(36).slice(2,8)+Math.random().toString(36).slice(2,6);
+var FREE="gmail.com yahoo.com outlook.com hotmail.com icloud.com proton.me protonmail.com seznam.cz".split(" ");
+function ev(n,p){var l=$("ev");l.innerHTML+=n+(p?" "+JSON.stringify(p):"")+"<br>";l.scrollTop=1e6}
+function show(id){["s-intro","s-profile","s-quiz","s-resgate","s-result"].forEach(function(x){$(x).classList.toggle("hide",x!==id)});window.scrollTo(0,0)}
+function band(p){return p>=.8?"green":p>=.4?"amber":"red"}
+function badge(b){return '<span class="band b-'+b+'">'+b.toUpperCase()+'</span>'}
+function toast(t){var e=$("toast");e.textContent=t;e.classList.remove("hide");setTimeout(function(){e.classList.add("hide")},2200)}
+function validWork(v){v=(v||"").trim().toLowerCase();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v))return"Please enter a valid email address.";
+ if(FREE.indexOf(v.split("@")[1])>-1)return"Please use your work email address.";return""}
+var mode=function(){return group.length?"none":$("gateMode").value};
+
+// ---------- link format: #r=<ref>&g=<person>.<person>  person = role digit + one digit per answer ----------
+function encPerson(x){return x.role+x.ans.join("")}
+function decPerson(t){if(!/^\d{13}$/.test(t))return null;var a=[];for(var i=1;i<t.length;i++){var v=+t[i];if(v>=Q[i-1].o.length)return null;a.push(v)}return{role:+t[0]<=8?+t[0]:0,ans:a}}
+function buildHash(people){return "#r="+ref+"&g="+people.map(encPerson).join(".")}
+function parseHash(){var m=location.hash.match(/g=([\d.]+)/);if(!m)return[];var out=[];m[1].split(".").forEach(function(t){var d=decPerson(t);if(d)out.push(d)});
+ var r=location.hash.match(/r=(\w+)/);if(r)ref=r[1];return out.slice(0,20)}
+
+// ---------- scoring ----------
+function computeFor(a){
+  var d={};ORDER.forEach(function(k){d[k]={pts:0,max:0}});var ns=0;
+  Q.forEach(function(q,i){d[q.d].pts+=q.o[a[i]][1];d[q.d].max+=4;if(a[i]===0)ns++});
+  var tp=0,tm=0;ORDER.forEach(function(k){d[k].p=d[k].pts/d[k].max;d[k].b=band(d[k].p);tp+=d[k].pts;tm+=d[k].max});
+  return{d:d,p:tp/tm,ns:ns}}
+function mean(a){return a.reduce(function(x,y){return x+y},0)/a.length}
+// profile from domain shares (0..1) and number of "not sure" answers
+var PROFILES={
+ unknown:{h:"Hard to see from where you sit",
+  s:"Several answers were \"I'm not sure\". That is a finding in itself: the answers probably sit with other teams.",
+  w:"Ask the teams that own the data and the reviews. The comparison with colleagues below is the quickest way to fill the blanks."},
+ unseen:{h:"Most of it is still unseen",
+  s:"Few conversations are reviewed, and little of what customers say reaches anyone who can act on it. That is common, and it is a to-do list, not a verdict.",
+  w:"Start with the weakest area below. One question there usually takes an hour to answer and shows the size of the gap."},
+ controlAhead:{h:"A well-run review that keeps its findings inside",
+  s:"Your review, evidence and coaching are in better shape than the route from conversations to other teams. What customers say is found, but it does not travel far.",
+  w:"Look at customer signals: who outside customer service receives what you find, and how soon."},
+ insightAhead:{h:"Insight ahead of control",
+  s:"What customers say travels better than your checks on quality, evidence and coaching. Teams use the signals, but it is harder to prove what was said or to coach from it.",
+  w:"Look at the weakest of coverage, evidence, quality and coaching. Signals are only as trustworthy as the conversations behind them."},
+ balanced:{h:"Part of the picture, everywhere",
+  s:"No area stands out as clearly strong or weak. You see part of every area, and the unseen part is similar everywhere.",
+  w:"Pick the area where a gap would cost you most, and ask its question below."},
+ broad:{h:"A broad view",
+  s:"Your answers describe wide coverage, short routes to action and a checked loop. Check the weakest area below for anything that was assumed rather than tested.",
+  w:"Test one claim end to end: pick a recent case and follow it from the conversation to the outcome."}
+};
+function profileOf(pc,ns){
+  var avg=mean(ORDER.map(function(k){return pc[k]}));
+  var ctrl=mean([pc.cov,pc.evi,pc.qua,pc.coa]),gap=pc.sig-ctrl;
+  if(ns>=4)return"unknown";
+  if(avg>=.8&&Math.min.apply(null,ORDER.map(function(k){return pc[k]}))>=.6)return"broad";
+  if(avg<.3)return"unseen";
+  if(gap>=.2)return"insightAhead";
+  if(gap<=-.2)return"controlAhead";
+  return"balanced"}
+
+// ---------- flow ----------
+function initIntro(){
+  var g=group.length>0;
+  $("colBanner").classList.toggle("hide",!g);
+  if(g){var who=group.map(function(x){return ROLES[x.role]==="Not stated"?"a colleague":ROLES[x.role]}).join(", ");
+    $("colText").textContent=(group.length===1?"One colleague":group.length+" colleagues")+" ("+who+") already answered. Answer for yourself, from where you sit. Afterwards you will see where your answers match and where they differ. No email needed.";}
+  $("gateForm").classList.toggle("hide",mode()!=="start");
+  $("noGate").classList.toggle("hide",mode()==="start");
+  ev(g?"selfcheck_group_open":"selfcheck_card_view",g?{people:group.length,ref:ref}:{gate:mode()});
+}
+$("gateMode").onchange=function(){show("s-intro");initIntro()};
+$("gateForm").onsubmit=function(e){e.preventDefault();var m=validWork($("email").value);
+  if(m){$("gateErr").textContent=m;$("gateErr").classList.remove("hide");ev(m.indexOf("work")>-1?"selfcheck_freemail":"selfcheck_invalid");return}
+  $("gateErr").classList.add("hide");ev("selfcheck_unlock",{form_id:"selfcheck_gate",ref:ref});toProfile()};
+function toProfile(){var g=group.length>0;$("volWrap").classList.toggle("hide",g);
+  $("profH").textContent=g?"What is your role?":"Two quick questions, so we send you the right follow-up";
+  $("profP").textContent=g?"It lets the comparison show who sees what. Skipping does not change your result.":"Skipping does not change your result.";show("s-profile")}
+$("startBtn").onclick=function(){ev("selfcheck_start",{gate:mode()});group.length?toProfile():begin()};
+$("profGo").onclick=function(){myRole=+$("role").value||0;ev("selfcheck_profile",{role:myRole||null,volume:$("vol").value||null});ev("selfcheck_start");begin()};
+$("profSkip").onclick=function(){myRole=0;ev("selfcheck_profile_skip");ev("selfcheck_start");begin()};
+function begin(){ans=[];cur=0;renderQ();show("s-quiz")}
+function renderQ(){
+  var q=Q[cur];$("qDom").textContent=DOMAINS[q.d].name;$("qNum").textContent="Question "+(cur+1)+" of "+Q.length;
+  $("prog").style.width=(cur/Q.length*100)+"%";$("qText").textContent=q.q;$("qHint").textContent=q.h;
+  var h="";q.o.forEach(function(o,i){h+='<button class="opt'+(ans[cur]===i?" sel":"")+'" data-i="'+i+'">'+o[0]+'</button>'});
+  $("qOpts").innerHTML=h;
+  [].forEach.call($("qOpts").children,function(b){b.onclick=function(){
+    ans[cur]=+b.dataset.i;ev("selfcheck_q",{n:cur+1,domain:q.d});
+    if(cur<Q.length-1){cur++;renderQ()}else finish()}});
+  $("back").style.visibility=cur?"visible":"hidden"}
+$("back").onclick=function(){if(cur>0){cur--;renderQ()}};
+function finish(){$("prog").style.width="100%";
+  if(mode()==="result"){show("s-resgate");ev("selfcheck_complete_gate")}else{showResult()}}
+$("resForm").onsubmit=function(e){e.preventDefault();var m=validWork($("email2").value);
+  if(m){$("resErr").textContent=m;$("resErr").classList.remove("hide");return}
+  ev("selfcheck_unlock",{form_id:"selfcheck_gate",ref:ref,position:"result"});showResult()};
+
+// ---------- result ----------
+function labels(people){var cnt={},seen={};people.forEach(function(x){var n=ROLES[x.role];cnt[n]=(cnt[n]||0)+1});
+  return people.map(function(x,i){var n=ROLES[x.role];if(x.me)return"You"+(x.role?" ("+n+")":"");if(n==="Not stated")n="Colleague";
+    if(cnt[ROLES[x.role]]>1){seen[n]=(seen[n]||0)+1;n+=" "+seen[n]}return n})}
+function showResult(){
+  var me={role:myRole,ans:ans.slice(),me:true},r=computeFor(ans);
+  var pc={};ORDER.forEach(function(k){pc[k]=r.d[k].p});
+  var P=PROFILES[profileOf(pc,r.ns)];
+  $("rHead").textContent=P.h;$("rSub").textContent=P.s;$("rWhereT").textContent=P.w;
+  $("rNs").textContent=r.ns>0?'You answered "I\'m not sure" on '+r.ns+" of "+Q.length+" questions."+(r.ns>=4?" Those are the places to ask a colleague.":""):"";
+  var h="";ORDER.forEach(function(k){var x=r.d[k],D=DOMAINS[k];
+    h+='<div class="dom"><h3><span>'+D.name+'</span>'+badge(x.b)+'</h3><div class="bar"><i class="'+x.b[0]+'" style="width:'+Math.max(4,Math.round(x.p*100))+'%"></i></div><p>'+D.tx[x.b]+'</p>'+
+     (x.b!=="green"?'<div class="ask"><b>One question to ask your team</b>'+D.ask+'</div>':'')+'</div>'});
+  $("rDoms").innerHTML=h;
+  var t='<table><tr><th>Area</th><th>Your points</th><th>Share</th><th>Band</th></tr>';
+  ORDER.forEach(function(k){var x=r.d[k];t+='<tr><td>'+DOMAINS[k].name+'</td><td>'+x.pts+' of '+x.max+'</td><td>'+Math.round(x.p*100)+'%</td><td>'+x.b+'</td></tr>'});
+  $("rTable").innerHTML=t+'</table>';
+  var people=group.concat([me]);
+  renderGroup(people);
+  var hash=buildHash(people);
+  $("linkBox").value=location.origin+location.pathname+hash;
+  var bands={};ORDER.forEach(function(k){bands[k]=r.d[k].b});
+  ev("selfcheck_complete",{profile:profileOf(pc,r.ns),bands:bands,notSure:r.ns,people:people.length,ref:ref});
+  show("s-result")}
+
+function renderGroup(people){
+  var box=$("rGroup");
+  if(people.length<2){box.innerHTML="";return}
+  var L=labels(people),R=people.map(function(x){return computeFor(x.ans)});
+  var h='<h2 style="margin-top:30px">Where your team agrees and where it does not</h2><p class="small">'+people.length+' people answered. Different answers do not mean someone is wrong. They show where nobody has compared notes.</p>';
+  // combined profile
+  var pcm={},nsm=mean(R.map(function(x){return x.ns}));ORDER.forEach(function(k){pcm[k]=mean(R.map(function(x){return x.d[k].p}))});
+  var GP=PROFILES[profileOf(pcm,nsm)];
+  h+='<div class="dom" style="border-left:4px solid var(--orange)"><span class="eyebrow" style="margin-bottom:6px">Combined view of the team</span><h3 style="font-size:22px;margin-bottom:6px">'+GP.h+'</h3><p style="margin:0">'+GP.s+'</p></div>';
+  // per-area grid
+  h+='<div class="dom"><table><tr><th>Area</th>'+L.map(function(l){return'<th>'+l+'</th>'}).join("")+'<th>Gap</th></tr>';
+  var gaps=[];
+  ORDER.forEach(function(k,ki){var ps=R.map(function(x){return x.d[k].p}),sp=Math.max.apply(null,ps)-Math.min.apply(null,ps);gaps.push([k,sp]);
+    h+='<tr><td>'+DOMAINS[k].name+'</td>'+R.map(function(x){return'<td>'+badge(x.d[k].b)+'</td>'}).join("")+'<td>'+(sp>=.35?'<b style="color:#a1271d">Different views</b>':sp>=.2?'Some difference':'Similar')+'</td></tr>'});
+  h+='</table></div>';
+  // biggest question-level disagreements
+  var qd=Q.map(function(q,i){var pts=people.map(function(x){return q.o[x.ans[i]][1]});return{i:i,sp:Math.max.apply(null,pts)-Math.min.apply(null,pts)}}).sort(function(a,b){return b.sp-a.sp}).slice(0,3).filter(function(x){return x.sp>=2});
+  if(qd.length){h+='<h3 style="margin:22px 0 10px;font-size:20px">Where your answers differ most</h3>';
+    qd.forEach(function(x){var q=Q[x.i];h+='<div class="dom"><p style="font-weight:700;margin-bottom:8px">'+q.q+'</p>'+people.map(function(pp,pi){return'<div style="display:flex;gap:10px;margin:4px 0;font-size:15px"><span style="flex:0 0 150px;color:var(--ink-soft);font-weight:700">'+L[pi]+'</span><span>'+q.o[pp.ans[x.i]][0]+'</span></div>'}).join("")+'</div>'})}
+  else h+='<p class="small">No single question stands out: your answers are close.</p>';
+  var worst=gaps.sort(function(a,b){return b[1]-a[1]})[0];
+  if(worst&&worst[1]>=.2)h+='<div class="ask" style="margin-top:6px"><b>Start the conversation here</b>'+DOMAINS[worst[0]].name+': '+DOMAINS[worst[0]].ask+'</div>';
+  box.innerHTML=h}
+
+$("bShare").onclick=function(){ev("selfcheck_share_copy",{ref:ref});var u=$("linkBox").value;
+  (navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(u):Promise.reject()).then(function(){toast("Link copied")},function(){$("linkBox").select();toast("Select and copy the link")})};
+$("bPrint").onclick=function(){ev("selfcheck_print");window.print()};
+$("bMail").onclick=function(){ev("selfcheck_result_email");toast("Prototype: would send the result to your address")};
+$("bRestart").onclick=function(){ev("selfcheck_restart");show("s-intro");initIntro()};
+
+// ---------- prototype helpers ----------
+function byText(q,t){for(var i=0;i<q.o.length;i++)if(q.o[i][0]===t)return i;throw new Error("no option: "+t)}
+function pickText(arr){return Q.map(function(q,i){return byText(q,arr[i])})}
+var PROF_A=["5 to 20%","Selected by risk, channel or topic","A written scorecard that we review regularly","Every quarter","Hours","In the reviewed sample","After days","Occasionally","The agent picks a reason code","In a quarterly report","They ask for a report","Not that I know of"];
+var PROF_B=["2 to 5%","A random sample","A written scorecard","Occasionally, when there is a problem","Days","In the reviewed sample","After weeks","Occasionally","It is captured as a structured field in the CRM","Within a week","They use a shared dashboard","Yes, and we measured the effect"];
+var PROF_C=["Under 2%","Whatever the reviewers happen to pick","Informally, reviewers use their judgement","Occasionally, when there is a problem","We might not be able to","Not routinely","Most agents rarely get any","No","It stays in the recording","We hear about it when it is escalated","They do not","Not that I know of"];
+function fill(a){ans=a;myRole=0;group=[];showResult()}
+$("fillA").onclick=function(){fill(pickText(PROF_A))};
+$("fillB").onclick=function(){fill(pickText(PROF_B))};
+$("fillC").onclick=function(){fill(Q.map(function(){return 0}))};
+$("fillD").onclick=function(){fill(Q.map(function(q){return q.o.length-1}))};
+$("fillG").onclick=function(){group=[{role:2,ans:pickText(PROF_A)},{role:5,ans:pickText(PROF_B)}];ans=pickText(PROF_C);myRole=3;showResult()};
+
+group=parseHash();
+initIntro();
+</script>
+</body>
+</html>

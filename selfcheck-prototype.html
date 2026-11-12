@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="Assets/comm-inspector-favicon_color.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=3">
+<title>Self-check prototype: How much of your customer conversations do you actually see?</title>
+<style>
+/* Self-check: uses the site's own tokens (styles.css). Only quiz-specific rules below. */
+body{font-family:var(--font-body);color:var(--ink);background:var(--white);margin:0}
+.sc-head{border-bottom:1px solid var(--hairline);background:#fff}
+.sc-head .container{display:flex;align-items:center;gap:20px;min-height:68px}
+.sc-head .byline{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+.sc-head .byline img{height:20px}
+.sc-head .logo{height:20px;width:auto}
+.sc-main{background:var(--grey-50);padding:56px 0 150px}
+.sc-wrap{max-width:780px;margin:0 auto;padding-inline:var(--gutter)}
+.eyebrow{display:inline-block;font-size:var(--fs-eyebrow);font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--orange);margin-bottom:14px}
+h1{font-family:var(--font-display);font-weight:900;font-size:clamp(28px,4.2vw,44px);line-height:1.08;letter-spacing:-.02em;margin:0 0 16px;color:var(--ink);text-wrap:balance}
+h2{font-family:var(--font-display);font-weight:500;font-size:clamp(22px,2.6vw,30px);line-height:1.15;letter-spacing:-.015em;margin:0 0 10px;color:var(--ink)}
+h3{font-family:var(--font-display);font-weight:500;margin:0}
+p{margin:0 0 12px;line-height:var(--lh-prose)}
+.lead{font-size:18px;color:var(--ink-soft)}
+.card{background:#fff;border:1px solid var(--hairline);border-radius:var(--r-card-lg);padding:28px;box-shadow:var(--shadow-sm)}
+.btn--ghost{background:#fff;color:var(--ink);border-color:var(--hairline)}
+.btn--ghost:hover{border-color:var(--ink)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.link{background:none;border:0;padding:10px 6px;font:600 15px var(--font-body);color:var(--ink);text-decoration:underline;cursor:pointer}
+input[type=email],select{width:100%;padding:13px 14px;border:1px solid #c9ced8;border-radius:var(--r-btn);font:400 16px var(--font-body);color:var(--ink);background:#fff}
+input:focus,select:focus,.opt:focus-visible{outline:3px solid rgba(255,85,57,.35);outline-offset:1px}
+.row{display:flex;gap:12px;flex-wrap:wrap}.row input{flex:1 1 240px;width:auto}
+.small{font-size:var(--fs-meta);color:var(--ink-soft);line-height:1.5}
+.err{color:#b3261e;font-size:14px;font-weight:600;margin:8px 0 0}
+label.f{display:block;margin:0 0 14px}label.f span{display:block;font-weight:600;font-size:14px;margin-bottom:6px}
+.qmeta{display:flex;justify-content:space-between;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.prog{height:4px;background:var(--hairline);border-radius:2px;margin:10px 0 26px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--orange);width:0;transition:width .25s}
+.q{font-family:var(--font-display);font-weight:500;font-size:clamp(21px,2.8vw,28px);line-height:1.2;letter-spacing:-.015em;margin:0 0 8px}
+.hint{color:var(--ink-soft);font-size:15px;margin-bottom:18px}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1px solid #c9ced8;border-radius:var(--r-card);padding:15px 18px;margin:0 0 10px;font:500 16px/1.4 var(--font-body);color:var(--ink);cursor:pointer;min-height:48px;transition:border-color .15s,background .15s}
+.opt:hover{border-color:var(--ink)}
+.opt.sel{border-color:var(--orange);background:var(--tint-50);box-shadow:inset 0 0 0 1px var(--orange)}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:18px}
+:root{--rag-r:#d4382c;--rag-a:#FFB600;--rag-g:#00B290}
+.band{display:inline-block;border-radius:999px;padding:4px 12px;font-weight:700;font-size:12px;letter-spacing:.12em;border:1px solid}
+.b-red{background:#fdecea;color:#a1271d;border-color:#f3b9b3}.b-amber{background:#fff4d6;color:#7a5600;border-color:#f5d98a}.b-green{background:#dff6f0;color:#00694f;border-color:#9fe0cf}
+.dom{border:1px solid var(--hairline);border-radius:var(--r-card-lg);padding:20px 22px 16px;margin:0 0 14px;background:#fff;break-inside:avoid;box-shadow:var(--shadow-sm)}
+.dom h3{font-size:19px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.bar{height:8px;background:var(--grey-100);border-radius:4px;margin:12px 0 14px;overflow:hidden}
+.bar i{display:block;height:100%}
+.bar .r{background:var(--rag-r)}.bar .a{background:var(--rag-a)}.bar .g{background:var(--rag-g)}
+.ask{background:var(--tint-50);border-left:3px solid var(--orange);border-radius:0 var(--r-btn) var(--r-btn) 0;padding:10px 14px;font-size:15px}
+.ask b{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:2px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}
+details{border:1px solid var(--hairline);border-radius:var(--r-card);padding:14px 18px;margin:14px 0;background:#fff}
+summary{cursor:pointer;font-weight:700}
+table{border-collapse:collapse;width:100%;font-size:14px;margin-top:10px}td,th{border-bottom:1px solid var(--hairline);padding:7px 8px;text-align:left;vertical-align:top}
+th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.next{background:var(--blue-deep);color:#fff;border-radius:var(--r-card-lg);padding:30px;margin-top:26px}
+.next h2{color:#fff}.next p{color:var(--on-blue-soft)}.next .eyebrow{color:#ffb4a6}
+.sc-foot{background:var(--blue-deep);color:var(--on-blue-soft);padding:28px 0;font-size:14px}
+.sc-foot .container{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.sc-foot img{height:22px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:96px;background:var(--ink);color:#fff;padding:10px 16px;border-radius:8px;font-size:14px;z-index:60}
+.hide{display:none!important}
+.pk{position:fixed;left:0;right:0;bottom:0;background:#0d1b3e;color:#fff;font:500 12.5px/1.35 system-ui;padding:10px 14px;z-index:50;display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start}
+.pk b{color:#ffb4a6;text-transform:uppercase;letter-spacing:.04em;font-size:11.5px}
+.pk select{width:auto;padding:3px 6px;font-size:12.5px}
+.pk .ev{flex:1 1 320px;max-height:62px;overflow:auto;font:11.5px/1.3 ui-monospace,Consolas,monospace;opacity:.9}
+.pk button{background:#2a3a66;color:#fff;border:0;border-radius:6px;padding:4px 8px;cursor:pointer;font:600 12px system-ui;margin:3px 4px 0 0}
+@media print{.pk,.actions,.no-print,.toast,.next,.sc-foot,.sc-head .byline{display:none!important}.sc-main{background:#fff;padding:0}body{font-size:12.5pt}.print-only{display:block!important}}
+.print-only{display:none}
+.lk{padding:13px 14px;border:1px solid #c9ced8;border-radius:8px;font:400 14px var(--font-body);color:var(--ink);background:#fff}.inv{display:flex;gap:10px;align-items:baseline;margin:0 0 8px;font-size:15px}.inv b{flex:0 0 auto}.nsnote{display:block;margin-top:4px;font-size:13px;font-weight:400;color:var(--ink-soft)}.msg{width:100%;min-height:190px;padding:12px 14px;border:1px solid #c9ced8;border-radius:8px;font:400 14px/1.5 var(--font-body);color:var(--ink);background:#fff;resize:vertical}.icard{background:#fff;border:1px solid var(--hairline);border-radius:var(--r-card-lg);padding:20px 22px;margin:0 0 14px;box-shadow:var(--shadow-sm)}.icard h3{font-size:19px;margin-bottom:4px}.icard .row{margin-top:10px}.people{margin-top:26px}.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.pc{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--hairline);border-radius:var(--r-card);padding:14px}
+.pc img{width:56px;height:56px;border-radius:50%;object-fit:cover;flex:0 0 56px}
+.pc strong{display:block;font-size:15px;line-height:1.25}.pc span{display:block;font-size:13px;color:var(--ink-soft);line-height:1.35;margin:2px 0 4px}.pc em{display:block;font-size:12px;font-style:normal;color:var(--ink);font-weight:500}
+.rule{border:0;border-top:1px solid var(--hairline);margin:32px 0 6px}
+@media(max-width:760px){.pgrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="sc-head"><div class="container">
+  <a href="#" aria-label="AI Comms Inspector"><img class="logo" src="Assets/comms-inspector-logo_tm.svg" alt="Comms Inspector" width="219" height="20"></a>
+  <span class="byline"><span>built by</span> <img src="Assets/BULL_LOGO_COLOR_RGB.svg" alt="Bull"></span>
+</div></header>
+<main class="sc-main"><div class="sc-wrap">
+
+  <!-- SCREEN 1: intro / gate -->
+  <section id="s-intro">
+    <div class="card hide" id="colBanner" style="margin-bottom:22px;border-left:4px solid var(--orange)">
+      <span class="eyebrow" id="colEy">A colleague asked for your view</span>
+      <p id="colText" style="margin:0"></p>
+    </div>
+    <span class="eyebrow">Self-check · about 6 minutes · 12 questions</span>
+    <h1>How much of your customer conversations do you actually see?</h1>
+    <p class="lead">Twelve questions, about 6 minutes. You get a level, the area to look at first and one question for your next team meeting. Questions you cannot answer go to the right colleague in one message, and their answers join yours.</p>
+    <div class="card" id="gate">
+      <form id="gateForm" novalidate>
+        <label class="f"><span>Work email</span></label>
+        <div class="row">
+          <input type="email" id="email" placeholder="Work email" autocomplete="email" aria-label="Work email">
+          <button class="btn btn--primary" id="gateBtn" type="submit">Start the self-check</button>
+        </div>
+        <p class="err hide" id="gateErr" role="alert"></p>
+        <p class="small" style="margin-top:12px"><b>We email you your result.</b> If you ask colleagues to answer, we also send the private link where their answers join yours. The quiz opens right here, and your answers stay in your browser unless you ask a colleague. At most two short notes from our team follow. No newsletter.</p>
+        <p class="small">By continuing, you agree that Comms Inspector may contact you about this self-check. See our Privacy Policy.</p>
+      </form>
+      <div id="noGate" class="hide"><button class="btn btn--primary" id="startBtn">Start the self-check</button><p class="small" style="margin-top:12px">No email needed to see your result in this variant. You can ask for a copy afterwards.</p></div>
+    </div>
+  </section>
+
+  <!-- SCREEN 1b: optional role / volume -->
+  <section id="s-profile" class="hide">
+    <span class="eyebrow">Before you start (optional)</span>
+    <h2 id="profH">Two quick questions, so we send you the right follow-up</h2>
+    <p class="small" id="profP">Skipping does not change your result.</p>
+    <label class="f"><span>Which describes you best?</span>
+      <select id="role"><option value="0">Choose</option><option value="1">Customer service or contact centre</option><option value="2">Quality assurance</option><option value="3">Compliance or risk</option><option value="4">Sales or CRM</option><option value="5">Customer experience or insights</option><option value="6">Operations</option><option value="7">Data or IT</option><option value="8">Other</option></select></label>
+    <label class="f" id="volWrap"><span>How many customer conversations do you handle per year?</span>
+      <select id="vol"><option value="">Choose</option><option>Under 250,000</option><option>250,000 to 1 million</option><option>Over 1 million</option></select></label>
+    <button class="btn btn--primary" id="profGo">Continue</button> <button class="link" id="profSkip">Skip</button>
+  </section>
+
+  <!-- SCREEN 2: quiz -->
+  <section id="s-quiz" class="hide">
+    <div class="qmeta"><span id="qDom"></span><span id="qNum"></span></div>
+    <div class="prog"><i id="prog"></i></div>
+    <h2 class="q" id="qText"></h2>
+    <p class="hint" id="qHint"></p>
+    <div id="qOpts"></div>
+    <div class="nav"><button class="link" id="back">Back</button><span class="small">Pick the answer closest to what usually happens.</span></div>
+  </section>
+
+  <!-- SCREEN 2b: email before result (variant) -->
+  <section id="s-resgate" class="hide">
+    
+    <h2>Your result is ready</h2>
+    <div class="card">
+      <form id="resForm" novalidate>
+        <div class="row"><input type="email" id="email2" placeholder="Work email" aria-label="Work email"><button class="btn btn--primary" type="submit">Show my result</button></div>
+        <p class="err hide" id="resErr" role="alert"></p>
+        <p class="small" style="margin-top:12px">Your answers stay in your browser. At most two short notes from a colleague. No newsletter.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- SCREEN 3: result -->
+  <section id="s-result" class="hide">
+    <span class="eyebrow">Your result</span>
+    <h1 id="rHead"></h1>
+    <div id="rSteps" style="display:flex;gap:6px;margin:6px 0 16px;max-width:420px"></div>
+    <p class="lead" id="rSub"></p>
+    <p class="small">Based on your answers, not on a comparison with other companies.</p>
+    <div class="dom" id="rWhere" style="border-left:4px solid var(--orange)"><span class="eyebrow" style="margin-bottom:6px">Where to look first</span><p id="rWhereT" style="margin:0"></p></div>
+    <p class="small" id="rNs"></p>
+    <h2 style="margin-top:26px">Your answers by area</h2>
+    <p style="margin-bottom:6px">Each bar shows how far this area is in place, going by your answers.</p>
+    <p style="display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px"><span class="band b-red">NOT YET IN PLACE</span><span class="band b-amber">PARTLY IN PLACE</span><span class="band b-green">WELL IN PLACE</span></p>
+    <p class="small">This is a map of where to look, not a grade. Partly in place is a normal place to be, and a well-run sample belongs here: it shows what it samples.</p>
+    <div id="rDoms"></div>
+    <div class="row no-print hide" id="mailAsk" style="margin:0 0 16px"><input type="email" id="email3" placeholder="Work email" aria-label="Work email"><button class="btn btn--primary" id="mailGo">Send me the result</button></div>
+    <div id="rStatus"></div>
+    <div id="rDiffs"></div>
+    <div class="no-print" id="inviteBox" style="margin-top:22px">
+      <h2>Ask the people who know</h2>
+      <p>For each group below we have written a short message. You send it from your own email or chat, so your colleague sees a name they know. Their answers come back to this page.</p>
+      <div id="invCards"></div>
+      <p class="small">Nothing is sent by us. The link in the message opens only the questions for that colleague, takes about a minute and needs no email address. Nothing is stored until you send the first message. After that, answers are stored without names and deleted after 30 days. (In this prototype they are stored in this browser only.)</p>
+      <div class="card hide" id="admWrap" style="margin-top:14px">
+        <label class="f"><span>Your private link to the combined result (bookmark it)</span></label>
+        <div class="row"><input type="text" id="admLink" readonly aria-label="Your private link" class="lk"><button class="btn btn--ghost" id="bCopyAdm">Copy</button> <button class="btn btn--ghost" id="bRefresh">Refresh result</button></div>
+      </div>
+    </div>
+    <div class="actions no-print">
+      <button class="btn btn--primary" id="bPrint">Print or save as PDF</button>
+      <button class="btn btn--ghost" id="bMail">Email me my result</button>
+      <button class="link" id="bRestart">Start again</button>
+    </div>
+    <div class="next no-print">
+      <span class="eyebrow">Next step</span>
+      <h2>Bring one decision to a use-case session</h2>
+      <p id="nextText"></p>
+      <a class="btn btn--primary" href="#" onclick="return false">Book a use-case session</a>
+    </div>
+
+    <div class="people no-print" aria-labelledby="peopleH">
+      <p class="eyebrow" id="peopleH" style="margin-bottom:6px">The people you can meet in the session</p>
+      <p class="small" style="margin-bottom:14px">For years we ran customer intelligence inside banks, insurers and telcos. They work with you on it.</p>
+      <div class="pgrid">
+        <div class="pc"><img src="Assets/v2/david-vopelka-avatar.jpg" alt="David Vopelka" width="56" height="56"><div><strong>David Vopelka</strong><span>Business AI Cluster Lead at Bull, co-founder of DataSentics</span><em>15+ years in customer intelligence and data/AI consulting</em></div></div>
+        <div class="pc"><img src="Assets/v2/jirina-nedbalkova-avatar.jpg" alt="Jiřina Nedbálková" width="56" height="56"><div><strong>Jiřina Nedbálková</strong><span>AI Use Case Architect and Customer Intelligence Lead</span><em>20+ years in financial services, telecom and consultancy</em></div></div>
+        <div class="pc"><img src="Assets/v2/jiri-jelinek-avatar.jpg" alt="Jiří Jelínek" width="56" height="56"><div><strong>Jiří Jelínek</strong><span>AI Consultant, digital marketing and personalisation</span><em>15+ years in digital marketing and AdTech</em></div></div>
+      </div>
+    </div>
+
+    <hr class="rule no-print">
+    <details class="no-print"><summary>How this result is calculated</summary>
+      <p class="small" style="margin-top:8px">Each answer describes a situation and is worth 0 to 4 points. "I'm not sure" does not count against you: the question is left out and shows up as an open question for a colleague. A level needs at least 8 answers and at least one in every area. We add up the points you earned and compare them with the maximum for the questions answered. Your level is the share you reach: under 25% is Level 1, 25 to 44% Level 2, 45 to 64% Level 3, 65 to 84% Level 4, 85% and above Level 5. The strongest and weakest area are the highest and lowest shares among the five areas. Each area is shown as Not yet in place (under 40% of its points), Partly in place (40 to 79%) or Well in place (80% and above). The levels are our judgement, not an industry benchmark. This is a self-assessment: it shows how people describe their operation, not what an audit would find.</p>
+      <div id="rTable"></div>
+    </details>
+    <p class="small print-only">Comms Inspector self-check · comms-inspector.com · Self-assessment, not an audit.</p>
+  </section>
+  <section id="s-thanks" class="hide">
+    <span class="eyebrow">Thank you</span>
+    <h1>Your answers are in</h1>
+    <p class="lead">They are stored without your name. The person who asked will see them in a combined result, together with the answers of others. You do not see their answers, so nothing you read here can change yours.</p>
+    <div class="card"><h2>Want to run the self-check for your own team?</h2><p>It takes about 6 minutes and shows what you can see and what you cannot.</p><a class="btn btn--primary" href="selfcheck-prototype.html">Start the self-check</a></div>
+  </section>
+</div></main>
+<footer class="sc-foot"><div class="container"><img src="Assets/comms-inspector-logo_tm-white.svg" alt="Comms Inspector"><span>AI Comms Inspector is built by DataSentics, a Bull company. The self-check is a self-assessment based on your answers, not an audit.</span><img src="Assets/BULL_LOGO_WHITE_RGB.svg" alt="Bull" style="margin-left:auto"></div></footer>
+
+<div class="toast hide" id="toast"></div>
+
+<div class="pk no-print">
+  <div><b>Prototype · nothing is sent</b><br><span style="opacity:.85">Version: <a style="color:#ffb4a6" href="selfcheck-prototype-v1.html">1 profiles</a> · <b style="color:#fff">2 levels</b></span><br>
+    Email gate:
+    <select id="gateMode" autocomplete="off"><option value="start">before the quiz</option><option value="result">before the result</option><option value="none">none (email optional)</option></select><br>
+    <button id="fillA">Fill: well-run sample</button><button id="fillB">Fill: well-run insight team</button><button id="fillC">Fill: mostly unknown</button><button id="fillD">Fill: fully automated</button><br><button id="fillL">Demo: leader, unsure on 2 areas</button><button id="fillComp">+ compliance answers</button><button id="fillCrm">+ CRM answers</button><button id="resetDemo">Reset demo storage</button>
+  </div>
+  <div class="ev" id="ev"><b>Events (what the page would send)</b><br></div>
+</div>
+
+<script>
+// ---------- CONTENT ----------
+var DOMAINS={
+ cov:{name:"Coverage",
+  tx:{red:"Most conversations are never looked at by anyone, and it may be unclear which ones are missed.",
+      amber:"You review a meaningful share, chosen with some logic. What lies outside the sample is still unseen.",
+      green:"Almost every conversation is screened, and people review what stands out."},
+  ask:"For last month: how many conversations were there, how many did someone or something review, and who chose which ones?"},
+ sig:{name:"Customer signals and business use",
+  tx:{red:"What customers say mostly stays in the recording or in the agent's notes.",
+      amber:"Some of it reaches other teams, but usually late or only when someone asks for it.",
+      green:"Customer signals reach named owners quickly, and you can see what changed because of them."},
+  ask:"Pick one recent customer need or complaint theme. Who found out first, how long did it take, and what happened next?"},
+ evi:{name:"Evidence and compliance",
+  tx:{red:"Proving what was said in a given conversation is slow, and required statements are not checked routinely.",
+      amber:"Checks happen on the reviewed part, and a single case can be found with some effort.",
+      green:"Required statements are checked across conversations, and a single case can be retrieved quickly."},
+  ask:"Choose one required statement. How would you show it was given in one specific conversation, and how long would that take?"},
+ qua:{name:"Quality and protocol",
+  tx:{red:"Quality criteria are informal, and reviewers may not score alike.",
+      amber:"There is a written scorecard and some calibration. Explaining why a score moved takes manual work.",
+      green:"Criteria are reviewed regularly, reviewers are calibrated, and score changes can be explained with evidence."},
+  ask:"Give two reviewers the same conversation. How far apart are their scores?"},
+ coa:{name:"Coaching loop",
+  tx:{red:"Feedback reaches agents late or in general terms, and nobody checks whether it worked.",
+      amber:"Feedback happens, but not always soon or tied to the exact moment, and follow-up is occasional.",
+      green:"Agents get timely feedback on the actual conversation, and you re-check later conversations to see if it helped."},
+  ask:"Take one agent coached last month. How many days passed between the conversation and the feedback?"}
+};
+// options: [text, points]; every question max 4. "Not sure" first and always 0.
+var NS="I'm not sure, someone else would know";
+var Q=[
+ {d:"cov",q:"Roughly what share of your customer conversations does anyone, person or software, review in a typical month?",h:"Review means a person or software listens to or reads a conversation to check it. Count calls, chats and emails together.",
+  o:[[NS,0],["Under 2%",1],["2 to 5%",2],["5 to 20%",3],["Most of them",4],["All of them",4]]},
+ {d:"cov",q:"How are the reviewed conversations chosen?",h:"Choose what is true most of the time.",
+  o:[[NS,0],["Whatever the reviewers happen to pick",1],["A random sample",2],["Chosen on purpose, for example by risk, channel or topic",3],["Software checks every conversation and people look at the ones it flags",4]]},
+ {d:"qua",q:"How are your quality criteria defined?",h:"Quality criteria are what reviewers check in a conversation.",
+  o:[[NS,0],["Informally, each reviewer uses their own judgement",1],["A written scorecard (a list of criteria with scores)",2],["A written scorecard that we update regularly",3],["A written scorecard that we check against customer results, such as satisfaction or complaints",4]]},
+ {d:"qua",q:"How often do your reviewers check that they score the same conversation the same way?",h:"This is often called calibration.",
+  o:[[NS,0],["Never",0],["Occasionally, when there is a problem",1],["About every quarter",3],["Monthly or more often",4]]},
+ {d:"evi",q:"Suppose a customer disputes what was said in a call. How long would it take you to show that a required statement, such as a disclosure, was given?",h:"We ask what you could prove, not what is required.",
+  o:[[NS,0],["We might not be able to show it at all",0],["Days",1],["Hours",3],["Minutes",4]]},
+ {d:"evi",q:"How do you check that agents said what they must say and completed the required steps?",h:"",
+  o:[[NS,0],["Not routinely",0],["Only in the conversations people review",2],["Software checks every conversation, and people review a sample of the results",3],["Software checks every conversation, and people review the ones it flags",4]]},
+ {d:"coa",q:"How soon after a conversation does an agent usually get feedback on it?",h:"",
+  o:[[NS,0],["Most agents rarely get feedback on a specific conversation",0],["After weeks",1],["After days",3],["The same day",4]]},
+ {d:"coa",q:"Do you check whether coaching worked?",h:"For example by looking at the same agent's later conversations.",
+  o:[[NS,0],["No",0],["Occasionally",2],["Yes, for most coaching, as a routine",4]]},
+ {d:"sig",q:"When a customer mentions a life event or a new need during a conversation, what usually happens to that information?",h:"For example a move, a new job, a new child, a better offer from a competitor.",
+  o:[[NS,0],["It stays in the recording, nobody writes it down",0],["The agent may type a note after the call",1],["The agent picks a category from a list after the call",2],["The agent enters it in a dedicated CRM field after the call",3],["Software spots it during the call and it reaches the CRM, with or without the agent confirming it",4]]},
+ {d:"sig",q:"When many customers raise the same complaint or request, how long does it usually take until a team that can act on it hears about it?",h:"",
+  o:[[NS,0],["Usually only when it is escalated",1],["In a quarterly report",2],["In a monthly report",2],["Within a week",3],["Within days",4]]},
+ {d:"sig",q:"How do teams outside customer service get insight from your conversations?",h:"Think of product, marketing, CRM or sales.",
+  o:[[NS,0],["They do not",0],["They ask for a report",2],["They use a shared dashboard",3],["Findings are sent automatically to the person responsible for each topic",4]]},
+ {d:"sig",q:"In the last year, did anything change because of what customers said in conversations, for example a campaign, an offer or a product fix?",h:"",
+  o:[[NS,0],["Not that I know of",0],["Yes, but we did not check the effect",2],["Yes, and we checked the effect",3],["Yes, and it is a routine: we link such changes to a business result",4]]}
+];
+var ORDER=["cov","sig","evi","qua","coa"];
+var OVERALL={
+ red:{h:"Large parts of your customer conversations are not visible yet",s:"That is common, and it is a to-do list, not a verdict. The areas below show where to look first."},
+ amber:{h:"You see part of the picture",s:"A well-run operation can land here: it sees what it samples and routes. The areas below show where the unseen part is largest."},
+ green:{h:"You see most of it",s:"Your answers describe broad coverage and short routes to action. Check the areas below for the weakest spot."}
+};
+
+// ---------- OWNERS: who typically knows the answer (hypothesis, to be tested) ----------
+var OWNER={cov:"ops",qua:"ops",coa:"ops",evi:"comp",sig:"crm"};
+var GROUPS={ops:{name:"Quality and operations",who:"quality or contact-centre operations"},comp:{name:"Compliance",who:"compliance or risk"},crm:{name:"CRM, CX or insight",who:"CRM, customer experience, insight or data"}};
+var ROLES=["Not stated","Service or contact centre","Quality","Compliance or risk","Sales or CRM","CX or insights","Operations","Data or IT","Other"];
+var ROLEGROUP={0:null,1:"ops",2:"ops",3:"comp",4:"crm",5:"crm",6:"ops",7:"crm",8:null};
+Q.forEach(function(q){q.g=OWNER[q.d]});
+var TOPIC={ops:"quality, how many conversations are reviewed and coaching",comp:"compliance and evidence",crm:"customer signals and how they reach CRM and campaigns"};
+function grp(v){return v.group||ROLEGROUP[v.role]}
+function lab(v){return v.role?ROLES[v.role]:(v.group?GROUPS[v.group].name:"Colleague")}
+
+// ---------- STATE / HELPERS ----------
+var $=function(i){return document.getElementById(i)};
+var gotEmail=null,ans=[],qlist=[],cur=0,myRole=0,sess=null,sessId=null,asColleague=false,CTX=null;
+var FREE="gmail.com yahoo.com outlook.com hotmail.com icloud.com proton.me protonmail.com seznam.cz".split(" ");
+var STORE="sc_demo_sessions_v2";
+function loadS(){try{return JSON.parse(localStorage.getItem(STORE)||"{}")}catch(e){return{}}}
+function saveS(o){try{localStorage.setItem(STORE,JSON.stringify(o))}catch(e){}}
+function rnd(n){var c="abcdefghjkmnpqrstuvwxyz23456789",s="";for(var i=0;i<n;i++)s+=c[Math.floor(Math.random()*c.length)];return s}
+function persist(){var all=loadS();all[sessId]=sess;saveS(all)}
+// nothing is stored until the leader sends the first message to a colleague
+function commit(){if(!sess._saved){sess._saved=true;persist()}var w=$("admWrap");if(w)w.classList.remove("hide")}
+function ev(n,p){var l=$("ev");l.innerHTML+=n+(p?" "+JSON.stringify(p):"")+"<br>";l.scrollTop=1e6}
+function show(id){["s-intro","s-profile","s-quiz","s-resgate","s-result","s-thanks"].forEach(function(x){$(x).classList.toggle("hide",x!==id)});window.scrollTo(0,0)}
+function band(p){return p>=.8?"green":p>=.4?"amber":"red"}
+var BAND_LABEL={red:"Not yet in place",amber:"Partly in place",green:"Well in place"};
+function badge(b){return '<span class="band b-'+b+'">'+BAND_LABEL[b].toUpperCase()+'</span>'}
+function toast(t){var e=$("toast");e.textContent=t;e.classList.remove("hide");setTimeout(function(){e.classList.add("hide")},2200)}
+function validWork(v){v=(v||"").trim().toLowerCase();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v))return"Please enter a valid email address.";
+ if(FREE.indexOf(v.split("@")[1])>-1)return"Please use your work email address.";return""}
+var mode=function(){return asColleague?"none":$("gateMode").value};
+function mean(a){return a.reduce(function(x,y){return x+y},0)/a.length}
+function isUnk(a){return a==null||a===0}
+
+// ---------- levels ----------
+var LEVELS=[
+ {h:"Level 1: Mostly unseen",s:"Few conversations are reviewed, and little of what customers say reaches anyone who can act on it. That is common, and it is a to-do list, not a verdict."},
+ {h:"Level 2: Glimpses",s:"Some conversations are looked at and some of what customers say gets through, but it depends on who happens to look."},
+ {h:"Level 3: A partial picture",s:"You see a meaningful part, with some logic behind what is reviewed. The part outside the sample is still unseen."},
+ {h:"Level 4: A wide view",s:"Most conversations are covered and findings reach the people who can act on them. Look for anything assumed rather than tested."},
+ {h:"Level 5: Nearly everything",s:"Your answers describe broad coverage, short routes to action and a checked loop. Test one case end to end to confirm it holds."}
+];
+var CUTS=[.25,.45,.65,.85],MINANS=8;
+function levelOf(p){var l=0;CUTS.forEach(function(c){if(p>=c)l++});return l}
+
+// ---------- scoring on "effective" answers (null = nobody has answered yet) ----------
+function calc(eff){var d={},n=0,pts=0,max=0;ORDER.forEach(function(k){d[k]={pts:0,max:0,n:0}});
+  Q.forEach(function(q,i){var a=eff[i];if(isUnk(a))return;var v=q.o[a][1];d[q.d].pts+=v;d[q.d].max+=4;d[q.d].n++;pts+=v;max+=4;n++});
+  ORDER.forEach(function(k){d[k].p=d[k].max?d[k].pts/d[k].max:null;d[k].b=d[k].max?band(d[k].p):null});
+  return{d:d,n:n,p:max?pts/max:0}}
+// effective answer = the owner's answer if an owner answered, otherwise the leader's own
+function merge(){var eff=sess.leader.ans.map(function(a){return isUnk(a)?null:a}),diffs=[],who={};
+  Q.forEach(function(q,i){
+    var own=sess.inv.filter(function(v){return grp(v)===q.g&&!isUnk(v.ans[i])});
+    var oth=sess.inv.filter(function(v){return grp(v)==null&&!isUnk(v.ans[i])});
+    var c=own.length?own:oth;
+    if(c.length){var a=c[0].ans[i],l=sess.leader.ans[i];
+      if(!isUnk(l)&&Math.abs(q.o[l][1]-q.o[a][1])>=2)diffs.push({i:i,l:l,c:a,who:lab(c[0])});
+      eff[i]=a}});
+  return{eff:eff,diffs:diffs}}
+
+// ---------- routing and intro ----------
+function route(){var m=location.hash.match(/s=(\w+)/),k=location.hash.match(/k=(\w+)/);if(!m)return{};
+  var s=loadS()[m[1]];if(!s)return{missing:true};
+  var g=location.hash.match(/g=(\w+)/);
+  return(k&&k[1]===s.k)?{leader:true,id:m[1],s:s}:{colleague:true,id:m[1],s:s,g:(g&&GROUPS[g[1]])?g[1]:null}}
+function initIntro(){
+  CTX=route();asColleague=!!CTX.colleague;
+  $("colBanner").classList.toggle("hide",!asColleague&&!CTX.missing);
+  if(asColleague){var u=CTX.s.leader.ans.filter(isUnk).length;
+    if(CTX.g){var gl=grpList(CTX.g).length;$("colText").textContent="A colleague asked you "+gl+" short question"+(gl>1?"s":"")+" about "+TOPIC[CTX.g]+". It takes about a minute, you do not need to enter an email address, and your answers are stored without your name. You will not see their answers.";}
+    else $("colText").textContent="A colleague is checking how well your organisation sees its customer conversations, and needs the view of people in other roles. Choose your role and answer only the questions that fit it, about 1 to 2 minutes. You will not see their answers, and no email address is needed.";
+    ev("selfcheck_invite_open",{session:CTX.id})}
+  else if(CTX.missing){$("colEy").textContent="Link not found";$("colText").innerHTML="<b>This link has no session behind it.</b> In this prototype, answers are kept in the browser where the quiz was filled in, so the link only works there, and only until the demo storage is cleared (the Reset button does that). In the real version the link works for anyone for 30 days, and an expired link will say so instead of showing the start page. You can start a new self-check below.";ev("selfcheck_invite_missing")}
+  $("gateForm").classList.toggle("hide",mode()!=="start");
+  $("noGate").classList.toggle("hide",mode()==="start");
+  if(!asColleague)ev("selfcheck_card_view",{gate:mode()});
+  if(CTX.leader){sess=CTX.s;sess._saved=true;sessId=CTX.id;ans=sess.leader.ans.slice();myRole=sess.leader.role;ev("selfcheck_merged_view",{session:sessId,people:sess.inv.length+1});showResult()}
+}
+$("gateMode").onchange=function(){show("s-intro");initIntro()};
+$("gateForm").onsubmit=function(e){e.preventDefault();var m=validWork($("email").value);
+  if(m){$("gateErr").textContent=m;$("gateErr").classList.remove("hide");ev(m.indexOf("work")>-1?"selfcheck_freemail":"selfcheck_invalid");return}
+  $("gateErr").classList.add("hide");gotEmail=$("email").value.trim();ev("selfcheck_unlock",{form_id:"selfcheck_gate"});toProfile()};
+function toProfile(){$("volWrap").classList.toggle("hide",asColleague);
+  $("profH").textContent=asColleague?"What is your role?":"Two quick questions, so we send you the right follow-up";
+  $("profP").textContent=asColleague?"It decides which questions you see. Choose Other if none fits.":"Skipping does not change your result.";show("s-profile")}
+$("startBtn").onclick=function(){ev("selfcheck_start",{gate:mode(),group:CTX.g||null});if(asColleague){if(CTX.g){myRole=0;begin(grpList(CTX.g))}else toProfile()}else begin(Q.map(function(q,i){return i}))};
+function grpList(g){var u=[],all=[];Q.forEach(function(q,i){if(q.g===g){all.push(i);if(isUnk(CTX.s.leader.ans[i]))u.push(i)}});return u.length?u:all}
+function colList(role){var g=ROLEGROUP[role];var idx=[];
+  if(g){Q.forEach(function(q,i){if(q.g===g)idx.push(i)})}
+  else{CTX.s.leader.ans.forEach(function(a,i){if(isUnk(a))idx.push(i)})}
+  return idx.length?idx:Q.map(function(q,i){return i})}
+$("profGo").onclick=function(){myRole=+$("role").value||0;ev("selfcheck_profile",{role:myRole||null,volume:$("vol").value||null});ev("selfcheck_start");
+  begin(asColleague?colList(myRole):Q.map(function(q,i){return i}))};
+$("profSkip").onclick=function(){myRole=0;ev("selfcheck_profile_skip");ev("selfcheck_start");begin(asColleague?colList(0):Q.map(function(q,i){return i}))};
+
+// ---------- quiz ----------
+function begin(list){qlist=list;ans=[];cur=0;renderQ();show("s-quiz")}
+function renderQ(){
+  var qi=qlist[cur],q=Q[qi];$("qDom").textContent="";$("qNum").textContent="Question "+(cur+1)+" of "+qlist.length;
+  $("prog").style.width=(cur/qlist.length*100)+"%";$("qText").textContent=q.q;$("qHint").textContent=q.h;
+  var h="";q.o.forEach(function(o,i){h+='<button class="opt'+(ans[qi]===i?" sel":"")+'" data-i="'+i+'">'+o[0]+(i===0&&!asColleague?'<span class="nsnote">At the end we will help you ask someone who does.</span>':'')+'</button>'});
+  $("qOpts").innerHTML=h;
+  [].forEach.call($("qOpts").children,function(b){b.onclick=function(){
+    ans[qi]=+b.dataset.i;ev("selfcheck_q",{n:cur+1,domain:q.d});
+    if(cur<qlist.length-1){cur++;renderQ()}else finish()}});
+  $("back").style.visibility=cur?"visible":"hidden"}
+$("back").onclick=function(){if(cur>0){cur--;renderQ()}};
+function finish(){$("prog").style.width="100%";
+  if(asColleague){var a=Q.map(function(q,i){return ans[i]==null?null:ans[i]});
+    sess=CTX.s;sessId=CTX.id;sess.inv.push({role:myRole,group:CTX.g||null,ans:a,t:Date.now()});persist();
+    ev("selfcheck_invite_complete",{session:sessId,group:CTX.g||ROLEGROUP[myRole]||"other",answered:qlist.length});show("s-thanks");return}
+  var a2=Q.map(function(q,i){return ans[i]==null?0:ans[i]});ans=a2;
+  if(mode()==="result"&&!gotEmail){show("s-resgate");ev("selfcheck_complete_gate")}else showResult()}
+$("resForm").onsubmit=function(e){e.preventDefault();var m=validWork($("email2").value);
+  if(m){$("resErr").textContent=m;$("resErr").classList.remove("hide");return}
+  gotEmail=$("email2").value.trim();ev("selfcheck_unlock",{form_id:"selfcheck_gate",position:"result"});showResult()};
+
+// ---------- result ----------
+function ensureSession(){
+  if(!sess){sessId=rnd(8);sess={k:rnd(14),leader:{role:myRole,ans:ans.slice()},inv:[],created:Date.now(),_saved:false}}
+  else if(!CTX||!CTX.leader){sess.leader={role:myRole,ans:ans.slice()};if(sess._saved)persist()}}
+function showResult(){
+  ensureSession();
+  var m=merge(),r=calc(m.eff),pc={};
+  var base=location.origin+location.pathname;
+  $("admLink").value=base+"#s="+sessId+"&k="+sess.k;
+  var emptyAreas=ORDER.filter(function(k){return r.d[k].n===0}),enough=r.n>=MINANS&&emptyAreas.length===0,lv=levelOf(r.p);
+  if(enough){$("rHead").textContent=LEVELS[lv].h;$("rSub").textContent=LEVELS[lv].s;
+    var st="";for(var i=0;i<5;i++)st+='<i style="flex:1;height:10px;border-radius:5px;background:'+(i<=lv?"var(--orange)":"var(--grey-100)")+'"></i>';
+    $("rSteps").innerHTML=st;$("rSteps").classList.remove("hide");
+    var have=ORDER.filter(function(k){return r.d[k].p!=null}).sort(function(x,y){return r.d[y].p-r.d[x].p}),hi=have[0],lo=have[have.length-1];
+    $("rWhereT").innerHTML="<b>Strongest area:</b> "+DOMAINS[hi].name+".<br><b>Weakest area:</b> "+DOMAINS[lo].name+".<br><br><b>Start with the weakest.</b> "+DOMAINS[lo].ask;
+    $("rWhere").classList.remove("hide")}
+  else{$("rHead").textContent="Not enough to place you yet";
+    $("rSub").textContent="You answered "+r.n+" of "+Q.length+" questions with a real answer. A level needs at least "+MINANS+", and at least one answer in every area"+(emptyAreas.length?" ("+emptyAreas.map(function(k){return DOMAINS[k].name}).join(", ")+" still has none)":"")+". The rest need people who know. Send them the messages below and this page will fill in.";
+    $("rSteps").classList.add("hide");$("rWhere").classList.add("hide")}
+  var unk=Q.length-r.n;
+  $("rNs").textContent=unk?"Based on "+r.n+" of "+Q.length+" questions. "+unk+" still have no answer.":"Based on all "+Q.length+" questions.";
+  var h="";ORDER.forEach(function(k){var x=r.d[k],D=DOMAINS[k];
+    if(x.p==null){h+='<div class="dom"><h3><span>'+D.name+'</span><span class="band b-amber" style="background:#eef1f5;color:#475069;border-color:#dfe3ec">NO ANSWER YET</span></h3><p style="margin-top:10px">Nobody has answered this area yet. Ask someone in '+GROUPS[OWNER[k]].who+'.</p></div>';return}
+    h+='<div class="dom"><h3><span>'+D.name+'</span>'+badge(x.b)+'</h3><div class="bar"><i class="'+x.b[0]+'" style="width:'+Math.max(4,Math.round(x.p*100))+'%"></i></div><p>'+D.tx[x.b]+'</p>'+
+     (x.b!=="green"?'<div class="ask"><b>One question to ask your team</b>'+D.ask+'</div>':'')+'</div>'});
+  $("rDoms").innerHTML=h;
+  // next step text follows the result: examples are tied to the weakest areas
+  var SHORT={cov:"coverage",sig:"customer signals",evi:"evidence",qua:"quality",coa:"coaching"};
+  var EXDEC={cov:"how to review more than a small sample",sig:"which customer needs and life events should reach your CRM",evi:"how to prove what was said in a disputed case",qua:"how to make quality scores comparable between reviewers",coa:"how to get feedback to agents sooner"};
+  var weak=ORDER.filter(function(k){return r.d[k].p!=null&&r.d[k].b!=="green"}).sort(function(x,y){return r.d[x].p-r.d[y].p}).slice(0,2);
+  var nt="One hour. You bring a decision you face this year";
+  if(weak.length){
+    var st=weak.every(function(k){return r.d[k].b==="red"})?"not yet in place":weak.every(function(k){return r.d[k].b==="amber"})?"only partly in place":"not yet or only partly in place";
+    nt+=", for example "+weak.map(function(k){return EXDEC[k]}).join(", or ")+". Your answers show "+weak.map(function(k){return SHORT[k]}).join(" and ")+" as "+st+"."}
+  else nt+=".";
+  nt+=" We show what your customer conversations could answer about it, and what they cannot.";
+  $("nextText").textContent=nt;
+  var t='<table><tr><th>Area</th><th>Points</th><th>Share</th><th>Status</th></tr>';
+  ORDER.forEach(function(k){var x=r.d[k];t+='<tr><td>'+DOMAINS[k].name+'</td><td>'+(x.max?x.pts+' of '+x.max:'no answer')+'</td><td>'+(x.max?Math.round(x.p*100)+'%':'-')+'</td><td>'+(x.b?BAND_LABEL[x.b]:'-')+'</td></tr>'});
+  $("rTable").innerHTML=t+'</table>';
+  renderInvites(m,base);
+  $("admWrap").classList.toggle("hide",!sess._saved);
+  // status line and differences
+  var parts=sess.inv.map(lab);
+  $("rStatus").innerHTML=sess.inv.length?'<p class="small"><b>Answers from:</b> you'+(myRole?' ('+ROLES[myRole]+')':'')+', '+parts.join(", ")+'.</p>':'';
+  var dh="";
+  if(m.diffs.length){dh='<h2 style="margin-top:26px">Where your view and a colleague\'s view differ</h2><p class="small">A difference does not mean someone is wrong. It marks where nobody has compared notes.</p>';
+    m.diffs.forEach(function(d){var q=Q[d.i];dh+='<div class="dom"><p style="font-weight:700;margin-bottom:8px">'+q.q+'</p><div style="display:flex;gap:10px;margin:4px 0;font-size:15px"><span style="flex:0 0 160px;color:var(--ink-soft);font-weight:700">You</span><span>'+q.o[d.l][0]+'</span></div><div style="display:flex;gap:10px;margin:4px 0;font-size:15px"><span style="flex:0 0 160px;color:var(--ink-soft);font-weight:700">'+d.who+'</span><span>'+q.o[d.c][0]+'</span></div></div>'})}
+  $("rDiffs").innerHTML=dh;
+  var bands={};ORDER.forEach(function(k){bands[k]=r.d[k].b});
+  ev("selfcheck_result_shown",{level:enough?lv+1:null,answered:r.n,people:sess.inv.length+1,bands:bands});
+  show("s-result")}
+function msgText(g,name,link,n){var mins=n>2?2:1;
+  return "Hi,\n\nI am filling in a short self-check on how well we see what happens in our customer conversations. "+(n>1?n+" questions are":"One question is")+" about "+TOPIC[g]+", and I think you know "+(n>1?"them":"it")+" better than I do. It takes about "+mins+" minute"+(mins>1?"s":"")+", you do not need to enter an email address, and the answers are stored without your name.\n\n"+link+"\n\nThanks,\n"}
+function msgSubject(n){return n+" short question"+(n>1?"s":"")+" about how we handle customer conversations"}
+function renderInvites(m,base){
+  var h="",any=false;
+  Object.keys(GROUPS).forEach(function(g){
+    var qs=Q.map(function(q,i){return i}).filter(function(i){return Q[i].g===g}),miss=qs.filter(function(i){return m.eff[i]==null}),
+        got=sess.inv.filter(function(v){return grp(v)===g}).length;
+    if(!miss.length){h+='<p class="small"><b>'+GROUPS[g].name+':</b> all '+qs.length+' questions answered'+(got?' ('+got+' colleague'+(got>1?'s':'')+' answered)':'')+'.</p>';return}
+    any=true;var link=base+"#s="+sessId+"&g="+g;
+    h+='<div class="icard" data-g="'+g+'" data-n="'+miss.length+'" data-link="'+link+'"><h3>'+GROUPS[g].name+': '+miss.length+' question'+(miss.length>1?'s':'')+'</h3>'+
+      '<p class="small" style="margin-bottom:10px">Best asked of someone in '+GROUPS[g].who+(got?'. '+got+' colleague'+(got>1?'s have':' has')+' already answered.':'.')+'</p>'+
+      '<label class="f" style="margin-bottom:6px"><span>Message (you can edit it)</span><textarea class="msg"></textarea></label>'+
+      '<div class="row"><button class="btn btn--primary bm">Open in my email</button><button class="btn btn--ghost bc">Copy text</button></div></div>'});
+  if(!any)h+='<p class="small">Every question has an answer. You can still ask a second person for a different view.</p>';
+  $("invCards").innerHTML=h;
+  [].forEach.call(document.querySelectorAll(".icard"),function(c){
+    var g=c.dataset.g,n=+c.dataset.n,link=c.dataset.link,ta=c.querySelector(".msg");
+    ta.value=msgText(g,"",link,n);ev("selfcheck_msg_prepared",{group:g,questions:n});
+    c.querySelector(".bm").onclick=function(){commit();ev("selfcheck_msg_mailto",{group:g});location.href="mailto:?subject="+encodeURIComponent(msgSubject(n))+"&body="+encodeURIComponent(ta.value)};
+    c.querySelector(".bc").onclick=function(){commit();ev("selfcheck_msg_copy",{group:g});var t=msgSubject(n)+"\n\n"+ta.value;(navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(t):Promise.reject()).then(function(){toast("Text copied")},function(){ta.select();toast("Select and copy the text")})}})
+}
+$("bCopyAdm").onclick=function(){cp($("admLink"))};
+function cp(el){(navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(el.value):Promise.reject()).then(function(){toast("Link copied")},function(){el.select();toast("Select and copy the link")})}
+$("bRefresh").onclick=function(){var s=loadS()[sessId];if(s){sess=s;sess._saved=true;CTX={leader:true};showResult();toast("Result refreshed")}};
+$("bPrint").onclick=function(){ev("selfcheck_print");window.print()};
+$("bMail").onclick=function(){ev("selfcheck_result_email");
+  if(gotEmail)toast("Prototype: would send the result to "+gotEmail);
+  else $("mailAsk").classList.remove("hide")};
+$("mailGo").onclick=function(){var m=validWork($("email3").value);if(m){toast(m);return}
+  gotEmail=$("email3").value.trim();$("mailAsk").classList.add("hide");toast("Prototype: would send the result to "+gotEmail)};
+$("bRestart").onclick=function(){ev("selfcheck_restart");sess=null;sessId=null;location.hash="";initIntro();show("s-intro")};
+
+// ---------- prototype helpers ----------
+function byText(q,t){for(var i=0;i<q.o.length;i++)if(q.o[i][0]===t)return i;throw new Error("no option: "+t)}
+function pickText(arr){return Q.map(function(q,i){return byText(q,arr[i])})}
+var PROF_A=["5 to 20%", "Chosen on purpose, for example by risk, channel or topic", "A written scorecard that we update regularly", "About every quarter", "Hours", "Only in the conversations people review", "After days", "Occasionally", "The agent picks a category from a list after the call", "In a quarterly report", "They ask for a report", "Not that I know of"];
+var PROF_B=["2 to 5%", "A random sample", "A written scorecard (a list of criteria with scores)", "Occasionally, when there is a problem", "Days", "Only in the conversations people review", "After weeks", "Occasionally", "The agent enters it in a dedicated CRM field after the call", "Within a week", "They use a shared dashboard", "Yes, and we checked the effect"];
+function fillLeader(a){sess=null;sessId=null;myRole=0;ans=a;CTX={};showResult()}
+$("fillA").onclick=function(){fillLeader(pickText(PROF_A))};
+$("fillB").onclick=function(){fillLeader(pickText(PROF_B))};
+$("fillC").onclick=function(){fillLeader(Q.map(function(){return 0}))};
+$("fillD").onclick=function(){fillLeader(Q.map(function(q){return q.o.length-1}))};
+$("fillL").onclick=function(){var a=pickText(PROF_A);Q.forEach(function(q,i){if(q.g!=="ops")a[i]=0});sess=null;sessId=null;myRole=6;ans=a;CTX={};showResult()};
+function addInv(role,pick){if(!sess){toast("Make a leader result first");return}var g=ROLEGROUP[role],a=Q.map(function(q,i){return q.g===g?pick(q,i):null});commit();sess.inv.push({role:role,group:g,ans:a,t:Date.now()});persist();ev("selfcheck_invite_complete",{session:sessId,group:g,demo:true});showResult()}
+$("fillComp").onclick=function(){addInv(3,function(q){return 1})};
+$("fillCrm").onclick=function(){addInv(5,function(q){return q.o.length-1})};
+$("resetDemo").onclick=function(){try{localStorage.removeItem(STORE)}catch(e){}sess=null;sessId=null;location.hash="";toast("Demo storage cleared");initIntro();show("s-intro")};
+window.addEventListener("hashchange",function(){if(!sess||location.hash.indexOf("s=")>-1){initIntro();if(!CTX.leader)show("s-intro")}});
+initIntro();
+
+// ---------- deep links to each phase (prototype only): ?demo=intro|profile|quiz|result|notenough|invite|colleague|thanks|merged ----------
+(function(){
+  var q=location.search.match(/[?&]demo=(\w+)/),gm=location.search.match(/[?&]gate=(\w+)/);
+  if(gm&&{start:1,result:1,none:1}[gm[1]]){$("gateMode").value=gm[1];initIntro()}
+  if(!q||location.hash.indexOf("s=")>-1)return;
+  var d=q[1];
+  function leader(){var a=pickText(PROF_A);Q.forEach(function(x,i){if(x.g!=="ops")a[i]=0});sess=null;sessId=null;myRole=6;ans=a;CTX={};showResult()}
+  if(d==="intro"){show("s-intro")}
+  else if(d==="profile"){toProfile()}
+  else if(d==="quiz"){begin(Q.map(function(x,i){return i}))}
+  else if(d==="result"){fillLeader(pickText(PROF_A))}
+  else if(d==="notenough"){leader()}
+  else if(d==="invite"){leader();document.getElementById("inviteBox").scrollIntoView()}
+  else if(d==="colleague"){leader();commit();location.hash="#s="+sessId+"&g=comp"}
+  else if(d==="thanks"){leader();commit();CTX={colleague:true,s:sess,id:sessId,g:"comp"};show("s-thanks")}
+  else if(d==="merged"){leader();addInv(3,function(){return 1});addInv(5,function(x){return x.o.length-1})}
+})();
+</script>
+</body>
+</html>
