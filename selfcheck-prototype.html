@@ -475,7 +475,7 @@ function renderInvites(m,base){
   $("invCards").innerHTML=h;
   [].forEach.call(document.querySelectorAll(".icard"),function(c){
     var g=c.dataset.g,n=+c.dataset.n,link=c.dataset.link,ta=c.querySelector(".msg");
-    ta.value=msgText(g,"",link,n);ev("selfcheck_msg_prepared",{group:g,questions:n});
+    ta.value=msgText(g,"",link,n);ta.addEventListener("copy",commit);ta.addEventListener("focus",commit);ev("selfcheck_msg_prepared",{group:g,questions:n});
     c.querySelector(".bm").onclick=function(){commit();ev("selfcheck_msg_mailto",{group:g});location.href="mailto:?subject="+encodeURIComponent(msgSubject(n))+"&body="+encodeURIComponent(ta.value)};
     c.querySelector(".bc").onclick=function(){commit();ev("selfcheck_msg_copy",{group:g});var t=msgSubject(n)+"\n\n"+ta.value;(navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(t):Promise.reject()).then(function(){toast("Text copied")},function(){ta.select();toast("Select and copy the text")})}})
 }
