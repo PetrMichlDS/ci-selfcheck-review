@@ -82,6 +82,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
 .vals li{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--hairline);border-radius:var(--r-card);padding:14px}
 .vi{flex:0 0 40px;height:40px;border-radius:50%;background:var(--tint-50);color:var(--orange);display:flex;align-items:center;justify-content:center}
 .vals b{display:block;font-size:15px;line-height:1.25;margin-bottom:2px;color:var(--ink)}.vals li>span:last-child{font-size:14px;color:var(--ink-soft);line-height:1.35}
+.vals{margin-bottom:10px}.vnote{font-size:14px;font-style:italic;color:var(--ink-soft);margin:0 0 20px}
 @media(max-width:760px){.vals{grid-template-columns:1fr}}
 .rule{border:0;border-top:1px solid var(--hairline);margin:32px 0 6px}
 @media(max-width:760px){.pgrid{grid-template-columns:1fr}}
@@ -102,12 +103,13 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
     </div>
     <span class="eyebrow">Self-check · about 6 minutes · 12 questions</span>
     <h1>How much of your customer conversations do you actually see?</h1>
-    <p class="lead">Twelve questions, about 6 minutes. If you cannot answer something, send it to the right colleague in one message.</p>
+    <p class="lead" style="margin-bottom:14px">Twelve questions, about 6 minutes. This quiz gives you:</p>
     <ul class="vals">
       <li><span class="vi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 18V14M9 18V11M14 18V8M19 18V5"/></svg></span><span><b>Where you stand</b>A level from 1 to 5</span></li>
       <li><span class="vi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 21V4M6 5h11l-2 4 2 4H6"/></svg></span><span><b>Where to start</b>Your weakest area</span></li>
       <li><span class="vi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.6 2.2c-.7.4-1.1.9-1.1 1.8M12 17h.01"/></svg></span><span><b>A question to check with facts</b>One to ask your team</span></li>
     </ul>
+    <p class="vnote">If you cannot answer something, send it to the right colleague in one message.</p>
     <div class="card" id="gate">
       <form id="gateForm" novalidate>
         <label class="f"><span>Work email</span></label>
