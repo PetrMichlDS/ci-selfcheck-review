@@ -213,7 +213,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
 
     <hr class="rule no-print">
     <details class="no-print"><summary>How this result is calculated</summary>
-      <p class="small" style="margin-top:8px">Each answer describes a situation and is worth 0 to 4 points. "I'm not sure" does not count against you: the question is left out and shows up as an open question for a colleague. A level needs at least 6 answers and at least one in every area. We add up the points you earned and compare them with the maximum for the questions answered. Your level is the share you reach: under 25% is Level 1, 25 to 44% Level 2, 45 to 64% Level 3, 65 to 84% Level 4, 85% and above Level 5. The strongest and weakest area are the highest and lowest shares among the five areas. Each area is shown as Not yet in place (under 40% of its points), Partly in place (40 to 79%) or Well in place (80% and above). The levels are our judgement, not an industry benchmark. This is a self-assessment: it shows how people describe their operation, not what an audit would find.</p>
+      <p class="small" style="margin-top:8px">Each answer describes a situation and is worth 0 to 4 points. "I'm not sure" does not count against you: the question is left out and shows up as an open question for a colleague. A level needs at least 6 answers, spread over at least four of the five areas. If one area has no answer yet, the level is marked provisional and leaves that area out. We add up the points you earned and compare them with the maximum for the questions answered. Your level is the share you reach: under 25% is Level 1, 25 to 44% Level 2, 45 to 64% Level 3, 65 to 84% Level 4, 85% and above Level 5. The strongest and weakest area are the highest and lowest shares among the five areas. Each area is shown as Not yet in place (under 40% of its points), Partly in place (40 to 79%) or Well in place (80% and above). The levels are our judgement, not an industry benchmark. This is a self-assessment: it shows how people describe their operation, not what an audit would find.</p>
       <div id="rTable"></div>
     </details>
     <p class="small print-only">Comms Inspector self-check · comms-inspector.com · Self-assessment, not an audit.</p>
@@ -434,18 +434,18 @@ function showResult(){
   $("sharpBox").classList.toggle("hide",sharp);$("sharpDone").classList.toggle("hide",!sharp);
   var base=location.origin+location.pathname;
   $("admLink").value=base+"#s="+sessId+"&k="+sess.k;
-  var emptyAreas=ORDER.filter(function(k){return r.d[k].n===0}),enough=r.n>=MINANS&&emptyAreas.length===0,lv=levelOf(r.p);
-  if(enough){$("rHead").textContent=LEVELS[lv].h;$("rSub").textContent=LEVELS[lv].s;
+  var emptyAreas=ORDER.filter(function(k){return r.d[k].n===0}),enough=r.n>=MINANS&&emptyAreas.length<=1,prov=enough&&emptyAreas.length===1,lv=levelOf(r.p);
+  if(enough){$("rHead").textContent=LEVELS[lv].h+(prov?" (provisional)":"");$("rSub").textContent=LEVELS[lv].s+(prov?" This level leaves out "+DOMAINS[emptyAreas[0]].name+", where nobody has answered yet. A colleague can fill it in below, and the level may change.":"");
     var st="";for(var i=0;i<5;i++)st+='<i style="flex:1;height:10px;border-radius:5px;background:'+(i<=lv?"var(--orange)":"var(--grey-100)")+'"></i>';
     $("rSteps").innerHTML=st;$("rSteps").classList.remove("hide");
     var have=ORDER.filter(function(k){return r.d[k].p!=null}).sort(function(x,y){return r.d[y].p-r.d[x].p}),hi=have[0],lo=have[have.length-1];
     $("rWhereT").innerHTML="<b>Strongest area:</b> "+DOMAINS[hi].name+".<br><b>Weakest area:</b> "+DOMAINS[lo].name+".<br><br><b>Start with the weakest.</b> "+DOMAINS[lo].ask;
     $("rWhere").classList.remove("hide")}
   else{$("rHead").textContent="Not enough to place you yet";
-    $("rSub").textContent="You answered "+r.n+" of "+tot+" questions with a real answer. A level needs at least "+MINANS+", and at least one answer in every area"+(emptyAreas.length?" ("+emptyAreas.map(function(k){return DOMAINS[k].name}).join(", ")+" still has none)":"")+". The rest need people who know. Send them the messages below and this page will fill in.";
+    $("rSub").textContent="You answered "+r.n+" of "+tot+" questions with a real answer. A level needs at least "+MINANS+" answers, spread over at least four of the five areas"+(emptyAreas.length?" ("+emptyAreas.map(function(k){return DOMAINS[k].name}).join(", ")+" still has none)":"")+". The rest need people who know. Send them the messages below and this page will fill in.";
     $("rSteps").classList.add("hide");$("rWhere").classList.add("hide")}
   var unk=tot-r.n;
-  $("rNs").textContent=unk?"Based on "+r.n+" of "+tot+" questions. "+unk+" still have no answer.":"Based on all "+tot+" questions.";
+  $("rNs").textContent=unk?"Based on "+r.n+" of "+tot+" questions. "+unk+(unk>1?" still have no answer.":" still has no answer."):"Based on all "+tot+" questions.";
   var h="";ORDER.forEach(function(k){var x=r.d[k],D=DOMAINS[k];
     if(x.p==null){h+='<div class="dom"><h3><span>'+D.name+'</span><span class="band b-amber" style="background:#eef1f5;color:#475069;border-color:#dfe3ec">NO ANSWER YET</span></h3><p style="margin-top:10px">Nobody has answered this area yet. Ask someone in '+GROUPS[OWNER[k]].who+'.</p></div>';return}
     h+='<div class="dom"><h3><span>'+D.name+'</span>'+badge(x.b)+'</h3><div class="bar"><i class="'+x.b[0]+'" style="width:'+Math.max(4,Math.round(x.p*100))+'%"></i></div><p>'+D.tx[x.b]+'</p>'+
@@ -475,7 +475,7 @@ function showResult(){
     m.diffs.forEach(function(d){var q=Q[d.i];dh+='<div class="dom"><p style="font-weight:700;margin-bottom:8px">'+q.q+'</p><div style="display:flex;gap:10px;margin:4px 0;font-size:15px"><span style="flex:0 0 160px;color:var(--ink-soft);font-weight:700">You</span><span>'+q.o[d.l][0]+'</span></div><div style="display:flex;gap:10px;margin:4px 0;font-size:15px"><span style="flex:0 0 160px;color:var(--ink-soft);font-weight:700">'+d.who+'</span><span>'+q.o[d.c][0]+'</span></div></div>'})}
   $("rDiffs").innerHTML=dh;
   var bands={};ORDER.forEach(function(k){bands[k]=r.d[k].b});
-  ev("selfcheck_result_shown",{level:enough?lv+1:null,answered:r.n,people:sess.inv.length+1,bands:bands});
+  ev("selfcheck_result_shown",{level:enough?lv+1:null,provisional:prov,answered:r.n,people:sess.inv.length+1,bands:bands});
   show("s-result")}
 function msgText(g,name,link,n){var mins=n>2?2:1;
   return "Hi,\n\nI am filling in a short self-check on how well we see what happens in our customer conversations. "+(n>1?n+" questions are":"One question is")+" about "+TOPIC[g]+", and I think you know "+(n>1?"them":"it")+" better than I do. It takes about "+mins+" minute"+(mins>1?"s":"")+", you do not need to enter an email address, and the answers are stored without your name.\n\n"+link+"\n\nThanks,\n"}
@@ -546,6 +546,7 @@ initIntro();
   else if(d==="invite"){leader();document.getElementById("inviteBox").scrollIntoView()}
   else if(d==="colleague"){leader();commit();location.hash="#s="+sessId+"&g=comp"}
   else if(d==="thanks"){leader();commit();CTX={colleague:true,s:sess,id:sessId,g:"comp"};show("s-thanks")}
+  else if(d==="provisional"){var p=pickText(PROF_A);p[5]=0;fillLeader(p)}
   else if(d==="sharpen"){fillLeader(pickText(PROF_A));document.getElementById("sharpGo").click()}
   else if(d==="sharpened"){var a=pickText(PROF_A);EXTRA.forEach(function(i){a[i]=3});fillLeader(a)}
   else if(d==="merged"){leader();addInv(3,function(){return 1});addInv(5,function(x){return x.o.length-1})}
