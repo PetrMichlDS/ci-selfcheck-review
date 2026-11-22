@@ -121,7 +121,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
         <p class="small" style="margin-top:12px"><b>We email you your result.</b> If you ask colleagues to answer, we also send the private link where their answers join yours. The quiz opens right here, and your answers stay in your browser unless you ask a colleague. At most two short notes from our team follow. No newsletter.</p>
         <p class="small">By continuing, you agree that Comms Inspector may contact you about this self-check. See our Privacy Policy.</p>
       </form>
-      <div id="noGate" class="hide"><button class="btn btn--primary" id="startBtn">Start the self-check</button><p class="small" style="margin-top:12px">No email needed to see your result in this variant. You can ask for a copy afterwards.</p></div>
+      <div id="noGate" class="hide"><button class="btn btn--primary" id="startBtn">Start the self-check</button><p class="small" id="noGateNote" style="margin-top:12px"></p></div>
     </div>
   </section>
 
@@ -383,6 +383,7 @@ function initIntro(){
   else if(CTX.missing){$("colEy").textContent="Link not found";$("colText").innerHTML="<b>This link has no session behind it.</b> In this prototype, answers are kept in the browser where the quiz was filled in, so the link only works there, and only until the demo storage is cleared (the Reset button does that). In the real version the link works for anyone for 30 days, and an expired link will say so instead of showing the start page. You can start a new self-check below.";ev("selfcheck_invite_missing")}
   $("gateForm").classList.toggle("hide",mode()!=="start");
   $("noGate").classList.toggle("hide",mode()==="start");
+  $("noGateNote").textContent=mode()==="result"?"Your result opens at the end, after you enter your work email. Your answers stay in your browser.":"No email is needed to see your result. Your answers stay in your browser.";
   if(!asColleague)ev("selfcheck_card_view",{gate:mode()});
   if(CTX.leader){sess=CTX.s;sess._saved=true;sessId=CTX.id;ans=sess.leader.ans.slice();myRole=sess.leader.role;ev("selfcheck_merged_view",{session:sessId,people:sess.inv.length+1});showResult()}
 }
