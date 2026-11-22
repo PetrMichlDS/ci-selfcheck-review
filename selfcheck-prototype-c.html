@@ -169,7 +169,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
     <p class="small">Based on your answers, not on a comparison with other companies.</p>
     <div class="dom" id="rWhere" style="border-left:4px solid var(--orange)"><span class="eyebrow" style="margin-bottom:6px">Where to look first</span><p id="rWhereT" style="margin:0"></p></div>
     <p class="small" id="rNs"></p>
-    <div class="card no-print" id="sharpBox" style="margin:18px 0"><span class="eyebrow">Optional</span><h2 style="margin-top:4px">Sharpen your result</h2><p>Five more questions on things the first nine do not reach, for example whether coaching worked and what changed because of what customers said. About 2 to 3 minutes. Your result updates when you finish.</p><button class="btn btn--primary" id="sharpGo">Answer 5 more questions</button></div>
+    <div class="card no-print" id="sharpBox" style="margin:18px 0"><span class="eyebrow">Optional</span><h2 style="margin-top:4px">Sharpen your result</h2><p>Five more questions on things the first eight do not reach, for example whether you can open a disputed conversation and whether coaching worked. About 2 to 3 minutes. Your result updates when you finish.</p><button class="btn btn--primary" id="sharpGo">Answer 5 more questions</button></div>
     <p class="small hide" id="sharpDone">This result includes the five extra questions that sharpen it.</p>
     <h2 style="margin-top:26px">Your answers by area</h2>
     <p style="margin-bottom:6px">Each bar shows how far this area is in place, going by your answers.</p>
@@ -282,22 +282,20 @@ var Q=[
   o:[[NS,0],["Never",0],["Occasionally, when there is a problem",1],["About every quarter",3],["Monthly or more often",4]]},
  {d:"evi",q:"Suppose a customer says the agent promised something on a call, for example a discount, a refund or a delivery date. How long would it take you to find out what was actually said?",h:"",
   o:[[NS,0],["We might not be able to find out",0],["Days",1],["Hours",3],["Minutes",4]]},
- {d:"evi",q:"If a customer disputes something, can you open the exact conversation?",h:"For example a complaint about a refund, a contract change or a promise made on the phone.",
-  o:[[NS,0],["No, many conversations are not stored or cannot be found",0],["Only calls, and IT has to find them",1],["Yes for calls, our team can search by customer or date",2],["Yes for most channels, but in more than one place",3],["Yes for all channels, from one place",4]]},
  {d:"sig",q:"Do you automatically pull customer signals out of your conversations, such as needs, complaints or interest in a product?",h:"",
   o:[[NS,0],["No, it stays in the recordings",0],["People note some of it by hand",1],["Software finds some of it, and people pass it on",3],["Software finds it and records it in a structured way",4]]},
  {d:"sig",q:"When many customers start raising the same new problem, how soon do you notice?",h:"For example a faulty delivery, a confusing bill or a product fault that spreads across calls and chats. We mean many different customers, not one customer calling several times.",
   o:[[NS,0],["We usually hear about it from complaints, social media or the press",0],["Agents or supervisors notice and tell us",1],["We find out in a monthly report or review",2],["We spot it within days from a sample of conversations",3],["We see it across all conversations as it starts, and know how many customers are affected",4]]},
+ {x:true,d:"evi",q:"If a customer disputes something, can you open the exact conversation?",h:"For example a complaint about a refund, a contract change or a promise made on the phone.",
+  o:[[NS,0],["No, many conversations are not stored or cannot be found",0],["Only calls, and IT has to find them",1],["Yes for calls, our team can search by customer or date",2],["Yes for most channels, but in more than one place",3],["Yes for all channels, from one place",4]]},
  {x:true,d:"coa",q:"Do you check whether coaching worked?",h:"For example by looking at the same agent's later conversations.",
   o:[[NS,0],["No",0],["Occasionally",2],["Yes, for most coaching, as a routine",4]]},
- {x:true,d:"coa",q:"Do you know what your best human agents do differently from the rest?",h:"Not bots: the people on your phones and chats.",
-  o:[[NS,0],["No, we only see their results",0],["Supervisors have a feeling for it",1],["We listen to some of their calls",2],["We compare top and average agents regularly",3],["We analyse it across all conversations and share what works",4]]},
  {x:true,d:"qua",q:"How are your quality criteria defined?",h:"Quality criteria are what reviewers check in a conversation.",
   o:[[NS,0],["Informally, each reviewer uses their own judgement",1],["A written scorecard (a list of criteria with scores)",2],["A written scorecard that we update regularly",3],["A written scorecard that we check against customer results, such as satisfaction or complaints",4]]},
  {x:true,d:"sig",q:"In the last year, did anything change because of what customers said in conversations, for example a campaign, an offer or a product fix?",h:"",
   o:[[NS,0],["Not really",0],["Yes, but we did not check the effect",2],["Yes, and we checked the effect",3],["Yes, and it is a routine: we link such changes to a business result",4]]},
- {x:true,d:"sig",q:"How do other teams in your company get insights from customer conversations?",h:"Think of product, marketing, CRM or sales.",
-  o:[[NS,0],["They do not",0],["Informally, through meetings or messages",1],["They ask for a report",2],["They use a shared dashboard",3],["Findings are sent automatically to the right team",4]]}
+ {x:true,d:"coa",q:"Do you know what your best human agents do differently from the rest?",h:"Not bots: the people on your phones and chats.",
+  o:[[NS,0],["No, we only see their results",0],["Supervisors have a feeling for it",1],["We listen to some of their calls",2],["We compare top and average agents regularly",3],["We analyse it across all conversations and share what works",4]]}
 ];
 var ORDER=["cov","sig","evi","qua","coa"];
 var OVERALL={
@@ -516,8 +514,8 @@ $("bRestart").onclick=function(){ev("selfcheck_restart");sess=null;sessId=null;l
 // ---------- prototype helpers ----------
 function byText(q,t){for(var i=0;i<q.o.length;i++)if(q.o[i][0]===t)return i;throw new Error("no option: "+t)}
 function pickText(arr){return Q.map(function(q,i){return i<arr.length?byText(q,arr[i]):0})}
-var PROF_A=["Calls and some other channels", "5 to 20%", "Supervisors notice some of them while listening", "After days", "About every quarter", "Hours", "Yes for calls, our team can search by customer or date", "People note some of it by hand", "We find out in a monthly report or review"];
-var PROF_B=["Calls and some other channels", "2 to 5%", "Only if someone tells us", "After weeks", "Occasionally, when there is a problem", "Days", "Only calls, and IT has to find them", "Software finds some of it, and people pass it on", "Agents or supervisors notice and tell us"];
+var PROF_A=["Calls and some other channels", "5 to 20%", "Supervisors notice some of them while listening", "After days", "About every quarter", "Hours", "People note some of it by hand", "We find out in a monthly report or review"];
+var PROF_B=["Calls and some other channels", "2 to 5%", "Only if someone tells us", "After weeks", "Occasionally, when there is a problem", "Days", "Software finds some of it, and people pass it on", "Agents or supervisors notice and tell us"];
 function fillLeader(a){sess=null;sessId=null;myRole=0;ans=a;CTX={};showResult()}
 $("fillA").onclick=function(){fillLeader(pickText(PROF_A))};
 $("fillB").onclick=function(){fillLeader(pickText(PROF_B))};
