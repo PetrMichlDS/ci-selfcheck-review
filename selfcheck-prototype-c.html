@@ -151,11 +151,16 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
   <section id="s-resgate" class="hide">
     
     <h2>Your result is ready</h2>
+    <p class="lead" style="margin-bottom:14px">It opens after you enter your work email. We will also send you the guide to the five levels and the questions to ask your team.</p>
     <div class="card">
       <form id="resForm" novalidate>
-        <div class="row"><input type="email" id="email2" placeholder="Work email" aria-label="Work email"><button class="btn btn--primary" type="submit">Show my result</button></div>
+        <label class="f"><span>Work email</span></label>
+        <div class="row"><input type="email" id="email2" placeholder="Work email" autocomplete="email" aria-label="Work email"><button class="btn btn--primary" type="submit">Show my result</button></div>
         <p class="err hide" id="resErr" role="alert"></p>
-        <p class="small" style="margin-top:12px">Your answers stay in your browser. At most two short notes from a colleague. No newsletter.</p>
+        <p class="small" style="margin:12px 0 4px">Your answers stay in your browser. We receive only your email address and use it to send you the guide. <a href="https://comms-inspector.com/privacy-policy.html" target="_blank" rel="noopener">Privacy policy</a></p>
+        <p class="small" style="margin:14px 0 6px"><b>Optional</b>, both unticked unless you choose:</p>
+        <label style="display:flex;gap:10px;align-items:flex-start;margin:6px 0;font-size:14px;line-height:1.4"><input type="checkbox" id="optNotes" style="margin-top:3px;flex:0 0 auto"><span>A colleague from the AI Comms Inspector team may send me up to two short notes about seeing customer conversations.</span></label>
+        <label style="display:flex;gap:10px;align-items:flex-start;margin:6px 0;font-size:14px;line-height:1.4"><input type="checkbox" id="optNews" style="margin-top:3px;flex:0 0 auto"><span>I would like occasional emails from the AI Comms Inspector team about analysing customer conversations. I can unsubscribe at any time.</span></label>
       </form>
     </div>
   </section>
@@ -176,7 +181,6 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
     <p style="display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px"><span class="band b-red">NOT YET IN PLACE</span><span class="band b-amber">PARTLY IN PLACE</span><span class="band b-green">WELL IN PLACE</span></p>
     <p class="small">This is a map of where to look, not a grade. Partly in place is a normal place to be, and a well-run sample belongs here: it shows what it samples.</p>
     <div id="rDoms"></div>
-    <div class="row no-print hide" id="mailAsk" style="margin:0 0 16px"><input type="email" id="email3" placeholder="Work email" aria-label="Work email"><button class="btn btn--primary" id="mailGo">Send me the result</button></div>
     <div id="rStatus"></div>
     <div id="rDiffs"></div>
     <div class="no-print" id="inviteBox" style="margin-top:22px">
@@ -191,7 +195,6 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
     </div>
     <div class="actions no-print">
       <button class="btn btn--primary" id="bPrint">Print or save as PDF</button>
-      <button class="btn btn--ghost" id="bMail">Email me my result</button>
       <button class="link" id="bRestart">Start again</button>
     </div>
     <div class="next no-print">
@@ -232,7 +235,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
 <div class="pk no-print">
   <div><b>Prototype · nothing is sent</b><br><span style="opacity:.85">Questions: <a style="color:#ffb4a6" href="selfcheck-prototype.html">A (original 12)</a> · <a style="color:#ffb4a6" href="selfcheck-prototype-b.html">B (after feedback, 12)</a> · <b style="color:#fff">C (8 questions)</b> · <a style="color:#ffb4a6" href="index.html">all links</a></span><br><span style="opacity:.85">Version: <a style="color:#ffb4a6" href="selfcheck-prototype-v1.html">1 profiles</a> · <b style="color:#fff">2 levels</b></span><br>
     Email gate:
-    <select id="gateMode" autocomplete="off"><option value="start">before the quiz</option><option value="result">before the result</option><option value="none">none (email optional)</option></select><br>
+    <select id="gateMode" autocomplete="off"><option value="start">before the quiz</option><option value="result" selected>before the result</option><option value="none">none (email optional)</option></select><br>
     <button id="fillA">Fill: well-run sample</button><button id="fillB">Fill: well-run insight team</button><button id="fillC">Fill: mostly unknown</button><button id="fillD">Fill: fully automated</button><br><button id="fillL">Demo: leader, unsure on 2 areas</button><button id="fillComp">+ compliance answers</button><button id="fillCrm">+ CRM answers</button><button id="resetDemo">Reset demo storage</button>
   </div>
   <div class="ev" id="ev"><b>Events (what the page would send)</b><br></div>
@@ -421,7 +424,7 @@ function finish(){$("prog").style.width="100%";
   if(mode()==="result"&&!gotEmail){show("s-resgate");ev("selfcheck_complete_gate")}else showResult()}
 $("resForm").onsubmit=function(e){e.preventDefault();var m=validWork($("email2").value);
   if(m){$("resErr").textContent=m;$("resErr").classList.remove("hide");return}
-  gotEmail=$("email2").value.trim();ev("selfcheck_unlock",{form_id:"selfcheck_gate",position:"result"});showResult()};
+  gotEmail=$("email2").value.trim();ev("selfcheck_unlock",{form_id:"selfcheck_gate",position:"result",notes_ok:$("optNotes").checked,news_ok:$("optNews").checked});showResult()};
 
 // ---------- result ----------
 function ensureSession(){
@@ -504,11 +507,6 @@ $("bCopyAdm").onclick=function(){cp($("admLink"))};
 function cp(el){(navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(el.value):Promise.reject()).then(function(){toast("Link copied")},function(){el.select();toast("Select and copy the link")})}
 $("bRefresh").onclick=function(){var s=loadS()[sessId];if(s){sess=s;sess._saved=true;CTX={leader:true};showResult();toast("Result refreshed")}};
 $("bPrint").onclick=function(){ev("selfcheck_print");window.print()};
-$("bMail").onclick=function(){ev("selfcheck_result_email");
-  if(gotEmail)toast("Prototype: would send the result to "+gotEmail);
-  else $("mailAsk").classList.remove("hide")};
-$("mailGo").onclick=function(){var m=validWork($("email3").value);if(m){toast(m);return}
-  gotEmail=$("email3").value.trim();$("mailAsk").classList.add("hide");toast("Prototype: would send the result to "+gotEmail)};
 $("bRestart").onclick=function(){ev("selfcheck_restart");sess=null;sessId=null;location.hash="";initIntro();show("s-intro")};
 
 // ---------- prototype helpers ----------
@@ -547,6 +545,7 @@ initIntro();
   else if(d==="colleague"){leader();commit();location.hash="#s="+sessId+"&g=comp"}
   else if(d==="thanks"){leader();commit();CTX={colleague:true,s:sess,id:sessId,g:"comp"};show("s-thanks")}
   else if(d==="provisional"){var p=pickText(PROF_A);p[5]=0;fillLeader(p)}
+  else if(d==="resgate"){$("gateMode").value="result";initIntro();ans=pickText(PROF_A);gotEmail=null;show("s-resgate")}
   else if(d==="sharpen"){fillLeader(pickText(PROF_A));document.getElementById("sharpGo").click()}
   else if(d==="sharpened"){var a=pickText(PROF_A);EXTRA.forEach(function(i){a[i]=3});fillLeader(a)}
   else if(d==="merged"){leader();addInv(3,function(){return 1});addInv(5,function(x){return x.o.length-1})}
