@@ -504,7 +504,7 @@ function renderOpen(m,sharp){
     $("oqToggle").onclick=function(){var open=$("oqToggle").getAttribute("aria-expanded")==="true";$("oqToggle").setAttribute("aria-expanded",open?"false":"true");$("oqBody").classList.toggle("hide",open);$("oqChev").style.transform=open?"":"rotate(180deg)";ev("selfcheck_open_questions_"+(open?"collapse":"expand"))}
   }else el.innerHTML='<h2>Questions you were not sure about</h2>'+intro+h;
   [].forEach.call(el.querySelectorAll(".ocard"),function(c){var i=+c.dataset.i;
-    c.querySelector(".oa").onclick=function(){ev("selfcheck_reanswer_start",{n:i+1});reanswering=true;ans=sess.leader.ans.slice();begin([i],true)};
+    c.querySelector(".oa").onclick=function(){ev("selfcheck_reanswer_start",{n:i+1});reanswering=true;ans=sess.leader.ans.slice();ans[i]=null;begin([i],true)};
     c.querySelector(".oc").onclick=function(){ev("selfcheck_copy_question",{n:i+1});var t=qCopyText(Q[i]);(navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(t):Promise.reject()).then(function(){toast("Question copied")},function(){toast("Copying is blocked in this browser")})}})
 }
 function renderInvites(m,base){
@@ -526,7 +526,7 @@ function renderInvites(m,base){
     c.querySelector(".bm").onclick=function(){commit();ev("selfcheck_msg_mailto",{group:g});location.href="mailto:?subject="+encodeURIComponent(msgSubject(n))+"&body="+encodeURIComponent(ta.value)};
     c.querySelector(".bc").onclick=function(){commit();ev("selfcheck_msg_copy",{group:g});var t=msgSubject(n)+"\n\n"+ta.value;(navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(t):Promise.reject()).then(function(){toast("Text copied")},function(){ta.select();toast("Select and copy the text")})}})
 }
-$("sharpGo").onclick=function(){ev("selfcheck_sharpen_start");ga("quiz_sharpen_start");sharpening=true;ans=sess.leader.ans.slice();begin(EXTRA.slice(),true)};
+$("sharpGo").onclick=function(){ev("selfcheck_sharpen_start");ga("quiz_sharpen_start");sharpening=true;ans=sess.leader.ans.slice();EXTRA.forEach(function(i){ans[i]=null});begin(EXTRA.slice(),true)};
 $("bCopyAdm").onclick=function(){cp($("admLink"))};
 function cp(el){(navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(el.value):Promise.reject()).then(function(){toast("Link copied")},function(){el.select();toast("Select and copy the link")})}
 $("bRefresh").onclick=function(){var s=loadS()[sessId];if(s){sess=s;sess._saved=true;CTX={leader:true};showResult();toast("Result refreshed")}};
