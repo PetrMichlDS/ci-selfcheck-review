@@ -157,9 +157,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
         <label class="f"><span>Work email</span></label>
         <div class="row"><input type="email" id="email2" placeholder="Work email" autocomplete="email" aria-label="Work email"><button class="btn btn--primary" type="submit">Show my result</button></div>
         <p class="err hide" id="resErr" role="alert"></p>
-        <p class="small" style="margin:14px 0 6px"><b>Optional.</b> Your role and the size of your operation help us make the follow-up relevant.</p>
-        <div class="row" style="gap:10px;flex-wrap:wrap"><select id="role2" aria-label="Your role" style="flex:1 1 220px"></select><select id="vol2" aria-label="Conversations per year" style="flex:1 1 220px"></select></div>
-        <p class="small" style="margin:12px 0 4px">Your answers stay in your browser. We receive only your email address, plus the two optional answers below, and use them to send you those questions and to prepare a relevant follow-up. <a href="https://comms-inspector.com/privacy-policy.html" target="_blank" rel="noopener">Privacy policy</a></p>
+        <p class="small" style="margin:12px 0 4px">Your answers stay in your browser. We receive only your email address and use it to send you those questions. <a href="https://comms-inspector.com/privacy-policy.html" target="_blank" rel="noopener" style="color:var(--ink);text-decoration:underline">Privacy policy</a></p>
         <p class="small" style="margin:14px 0 6px"><b>Optional</b>, both unticked unless you choose:</p>
         <label style="display:flex;gap:10px;align-items:flex-start;margin:6px 0;font-size:14px;line-height:1.4"><input type="checkbox" id="optNotes" style="margin-top:3px;flex:0 0 auto"><span>A colleague from the AI Comms Inspector team may send me up to two short notes about seeing customer conversations.</span></label>
         <label style="display:flex;gap:10px;align-items:flex-start;margin:6px 0;font-size:14px;line-height:1.4"><input type="checkbox" id="optNews" style="margin-top:3px;flex:0 0 auto"><span>I would like occasional emails from the AI Comms Inspector team about analysing customer conversations. I can unsubscribe at any time.</span></label>
@@ -393,7 +391,7 @@ function initIntro(){
 $("gateMode").onchange=function(){show("s-intro");initIntro()};
 $("gateForm").onsubmit=function(e){e.preventDefault();var m=validWork($("email").value);
   if(m){$("gateErr").textContent=m;$("gateErr").classList.remove("hide");ev(m.indexOf("work")>-1?"selfcheck_freemail":"selfcheck_invalid");return}
-  $("gateErr").classList.add("hide");gotEmail=$("email").value.trim();ev("selfcheck_unlock",{form_id:"selfcheck_gate"});toProfile()};
+  $("gateErr").classList.add("hide");gotEmail=$("email").value.trim();ev("selfcheck_unlock",{form_id:"selfcheck_gate"});if(asColleague)toProfile();else{ev("selfcheck_start",{gate:mode()});begin(CORE.slice())}};
 function toProfile(){$("volWrap").classList.toggle("hide",asColleague);
   $("profH").textContent=asColleague?"What is your role?":"Two quick questions, so we send you the right follow-up";
   $("profP").textContent=asColleague?"It decides which questions you see. Choose Other if none fits.":"Skipping does not change your result.";show("s-profile")}
@@ -412,7 +410,7 @@ function begin(list,keep){qlist=list;if(!keep)ans=[];cur=0;renderQ();show("s-qui
 function renderQ(){
   var qi=qlist[cur],q=Q[qi];$("qDom").textContent="";$("qNum").textContent="Question "+(cur+1)+" of "+qlist.length;
   $("prog").style.width=(cur/qlist.length*100)+"%";$("qText").textContent=q.q;$("qHint").textContent=q.h;
-  var h="";q.o.forEach(function(o,i){h+='<button class="opt'+(ans[qi]===i?" sel":"")+'" data-i="'+i+'">'+o[0]+(i===0&&!asColleague&&!q.x?'<span class="nsnote">At the end we will help you ask someone who does.</span>':'')+'</button>'});
+  var h="",ord=[];q.o.forEach(function(o,i){if(i)ord.push(i)});ord.push(0);ord.forEach(function(i){var o=q.o[i];h+='<button class="opt'+(ans[qi]===i?" sel":"")+'" data-i="'+i+'"'+(i===0?' style="margin-top:16px"':'')+'>'+o[0]+(i===0&&!asColleague&&!q.x?'<span class="nsnote">At the end we will help you ask someone who does.</span>':'')+'</button>'});
   $("qOpts").innerHTML=h;
   [].forEach.call($("qOpts").children,function(b){b.onclick=function(){
     ans[qi]=+b.dataset.i;ev("selfcheck_q",{n:cur+1,domain:q.d});
@@ -429,7 +427,7 @@ function finish(){$("prog").style.width="100%";
   if(mode()==="result"&&!gotEmail){show("s-resgate");ev("selfcheck_complete_gate")}else showResult()}
 $("resForm").onsubmit=function(e){e.preventDefault();var m=validWork($("email2").value);
   if(m){$("resErr").textContent=m;$("resErr").classList.remove("hide");return}
-  gotEmail=$("email2").value.trim();myRole=+$("role2").value||0;ev("selfcheck_unlock",{form_id:"selfcheck_gate",position:"result",role:myRole||null,volume:$("vol2").value||null,notes_ok:$("optNotes").checked,news_ok:$("optNews").checked});showResult()};
+  gotEmail=$("email2").value.trim();ev("selfcheck_unlock",{form_id:"selfcheck_gate",position:"result",notes_ok:$("optNotes").checked,news_ok:$("optNews").checked});showResult()};
 
 // ---------- result ----------
 function ensureSession(){
@@ -544,7 +542,6 @@ $("resetDemo").onclick=function(){try{localStorage.removeItem(STORE)}catch(e){}s
 (function(){var W=["Zero","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten","Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen"],n=CORE.length,w=W[n]||n;
   $("eyN").textContent="Self-check \u00b7 about 4 minutes \u00b7 "+n+" questions";$("leadN").textContent=w+" questions, about 4 minutes. This quiz gives you:";$("thxN").textContent=n})();
 window.addEventListener("hashchange",function(){if(!sess||location.hash.indexOf("s=")>-1){initIntro();if(!CTX.leader)show("s-intro")}});
-$("role2").innerHTML=$("role").innerHTML;$("vol2").innerHTML=$("vol").innerHTML;
 initIntro();
 
 // ---------- deep links to each phase (prototype only): ?demo=intro|profile|quiz|result|notenough|invite|colleague|thanks|merged ----------
