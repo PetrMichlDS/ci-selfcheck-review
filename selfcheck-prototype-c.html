@@ -15,7 +15,7 @@ body{font-family:var(--font-body);color:var(--ink);background:var(--white);margi
 .sc-head{border-bottom:1px solid var(--hairline);background:#fff}
 .sc-head .container{display:flex;align-items:center;gap:20px;min-height:68px}
 .sc-head .byline{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
-.sc-head .byline img{height:20px}
+.sc-head .byline img{height:36px;margin:-8px 0}
 .sc-head .logo{height:20px;width:auto}
 .sc-main{background:var(--grey-50);padding:56px 0 150px}
 .sc-wrap{max-width:780px;margin:0 auto;padding-inline:var(--gutter)}
@@ -72,7 +72,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
 .pk select{width:auto;padding:3px 6px;font-size:12.5px}
 .pk .ev{flex:1 1 320px;max-height:62px;overflow:auto;font:11.5px/1.3 ui-monospace,Consolas,monospace;opacity:.9}
 .pk button{background:#2a3a66;color:#fff;border:0;border-radius:6px;padding:4px 8px;cursor:pointer;font:600 12px system-ui;margin:3px 4px 0 0}
-@media print{.pk,.actions,.no-print,.toast,.next,.sc-foot,.sc-head .byline{display:none!important}.sc-main{background:#fff;padding:0}body{font-size:12.5pt}.print-only{display:block!important}}
+@media print{.pk,.actions,.no-print,.toast,.next,.sc-foot{display:none!important}.sc-main{background:#fff;padding:0}body{font-size:12.5pt}.print-only{display:block!important}}
 .print-only{display:none}
 .lk{padding:13px 14px;border:1px solid #c9ced8;border-radius:8px;font:400 14px var(--font-body);color:var(--ink);background:#fff}.inv{display:flex;gap:10px;align-items:baseline;margin:0 0 8px;font-size:15px}.inv b{flex:0 0 auto}.nsnote{display:block;margin-top:4px;font-size:13px;font-weight:400;color:var(--ink-soft)}.msg{width:100%;min-height:190px;padding:12px 14px;border:1px solid #c9ced8;border-radius:8px;font:400 14px/1.5 var(--font-body);color:var(--ink);background:#fff;resize:vertical}.icard{background:#fff;border:1px solid var(--hairline);border-radius:var(--r-card-lg);padding:20px 22px;margin:0 0 14px;box-shadow:var(--shadow-sm)}.icard h3{font-size:19px;margin-bottom:4px}.icard .row{margin-top:10px}.people{margin-top:26px}.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .pc{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--hairline);border-radius:var(--r-card);padding:14px}
@@ -88,6 +88,53 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
 @media(max-width:760px){.pgrid{grid-template-columns:1fr}}
 .oqhead{display:flex;width:100%;align-items:center;justify-content:space-between;gap:16px;text-align:left;background:#fff;border:1px solid rgba(0,0,0,.14);border-radius:16px;padding:16px 20px;cursor:pointer;font:inherit;color:inherit}.oqhead:hover{border-color:rgba(0,0,0,.3)}.oqhead svg{flex:0 0 auto;transition:transform .15s}
 .opt.ns{margin-top:30px;border-style:dashed;color:var(--ink-soft)}.opt.ns.sel{border-style:solid;color:var(--ink)}
+@page{size:A4;margin:24mm 14mm 16mm;
+@top-left{content:"";width:95mm;margin-bottom:4mm;border-bottom:2px solid #FF5539;background:url(Assets/comms-inspector-logo_tm.svg) no-repeat left 10.9mm/auto 6.2mm}
+@top-center{content:"";margin-bottom:4mm;border-bottom:2px solid #FF5539}
+@top-right{content:"BUILT BY";width:70mm;margin-bottom:4mm;text-align:right;vertical-align:top;padding:12.6mm 28mm 0 0;font:700 8pt Roboto,Arial,sans-serif;letter-spacing:.14em;color:#475069;border-bottom:2px solid #FF5539;background:url(Assets/BULL_LOGO_COLOR_RGB.svg) no-repeat right 8.35mm/auto 11.3mm}
+@bottom-left{content:"comms-inspector.com  \007c  comms-inspector.com/self-check";font:8.5pt Roboto,Arial,sans-serif;color:#475069}@bottom-right{content:counter(page) " / " counter(pages);font:8.5pt Roboto,Arial,sans-serif;color:#475069}}
+@media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.sc-head{display:none!important}
+#printSummary{margin-top:22px}
+.dom .band,.dom .bar{display:none!important}
+.container,.sc-wrap{padding-left:0!important;padding-right:0!important;padding-inline:0!important}
+#hAreas{break-before:page;margin-top:0!important}
+.dom{box-shadow:none;border-left-width:6px;padding:12px 16px 10px!important;margin:0 0 10px!important}
+.dom h3{font-size:15pt}.dom p{font-size:10.5pt;line-height:1.45;margin:4px 0 8px}.dom .ask{font-size:10.5pt;padding:8px 12px}
+.dom[data-st=red]{border-left-color:#d9382c}.dom[data-st=amber]{border-left-color:#f0a800}.dom[data-st=green]{border-left-color:#00B290}
+#rHead{font-size:34pt}
+.pa-q .pa-n{color:#FF5539}
+.pa-on{background:#FFE4DF;border-radius:4px;padding:1px 6px;margin-left:-6px!important}
+.pc{padding:6px 9px!important;gap:9px!important;break-inside:avoid;box-shadow:none}
+.pc img{width:36px!important;height:36px!important;flex:0 0 36px!important}
+.pc strong{font-size:10.5pt!important}.pc span{font-size:8.5pt!important;margin:1px 0 2px!important}.pc em{font-size:8pt!important}
+#rNs{display:none!important}#rWhere{margin:8px 0!important}#printPeople{break-inside:avoid;margin-top:14px}
+#printSee{margin:12px 0 0;padding:8px 14px;border-left:5px solid #FF5539;background:#FFF7F5;font-size:11pt}
+#printActions{break-before:page;display:flex!important;flex-direction:column;min-height:249mm}.pn-end{margin-top:auto;padding-top:8px;border-top:1px solid #D5DAE5;font-size:9.5pt;color:#475069;line-height:1.5}.pn-end p{margin:0}#printActions h2{margin:0 0 10px;font-size:20pt}
+#printActions h3.st{margin:20px 0 6px;font-size:13pt}
+.oq-it{break-inside:avoid;margin:0 0 12px;font-size:10.5pt;line-height:1.35}
+.oq-it .oq-q{font-weight:700;margin:0 0 1px}.oq-it .oq-w{color:#475069;font-size:9.5pt;margin:0 0 4px}
+.oq-it .oq-o{margin:2px 0;padding-left:22px;position:relative}.oq-it .oq-o:before{content:"";position:absolute;left:0;top:2px;width:11px;height:11px;border:1.2px solid #002870;border-radius:2px}
+.oq-it .oq-n{margin:5px 0 0;padding-left:22px;color:#475069;font-size:9.5pt}
+.oq-line{border-bottom:1px solid #9aa3b8;height:16px;margin-top:2px}#printPeople .small{display:none}#printPeople .eyebrow{margin-bottom:6px!important}#printPeople .pgrid{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:8px!important}#printPeople .pc{flex-direction:column;align-items:flex-start;gap:4px!important}#printPeople .pc em{display:block}#printPeople .pc img{margin-bottom:2px}
+.pn-box{background:#001f63;color:#fff;border-radius:16px;padding:18px 22px 20px;margin:0 0 6px;break-inside:avoid}
+.pn-box .eyebrow{color:#FFADA0;margin-bottom:8px}
+.pn-box h3{color:#fff;font-size:19pt;line-height:1.15;margin:0 0 8px}
+.pn-box p{color:#C9D6FF;font-size:11pt;line-height:1.45;margin:0 0 12px}
+.pn-btn{display:inline-block;background:#FF5539;color:#0b0f1f;font-weight:700;font-size:11.5pt;padding:9px 18px;border-radius:8px}
+.pn-box p.pn-ph{margin:8px 0 0;font-size:9pt;color:#A4AFFB}
+.ep{margin-top:10px;break-inside:avoid}.ep .eyebrow{margin-bottom:2px}.ep h3{font-size:16pt;margin:0 0 2px}.ep>p{font-size:10pt;margin:0 0 8px;color:#475069}
+.ep-big{display:flex;align-items:center;justify-content:space-between;gap:16px;background:#F6F7F9;border:1px solid #E1E4EB;border-radius:12px;padding:12px 18px;margin-bottom:8px}
+.ep-lab{font-size:8pt;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#FF5539;margin:0 0 3px}
+.ep-big h4{font-size:17pt;margin:0 0 3px}.ep-big p{margin:0;font-size:10pt;color:#475069}.ep-big img{height:34px;width:auto;flex:0 0 auto}
+.ep-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ep-sm{background:#F6F7F9;border:1px solid #E1E4EB;border-radius:12px;padding:10px 12px}
+.ep-sm h4{font-size:12.5pt;margin:0 0 3px;line-height:1.15}.ep-sm p{margin:0;font-size:9pt;line-height:1.35;color:#475069}
+.ps-row{display:flex;align-items:center;gap:14px;margin:5px 0}
+.ps-row .nm{flex:0 0 40%;font-weight:700}
+.ps-row .bar{flex:1;margin:0}
+.ps-row .st{flex:0 0 24%;text-align:right}
+}
 </style>
 </head>
 <body>
@@ -174,16 +221,19 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
     <h1 id="rHead"></h1>
     <div id="rSteps" style="display:flex;gap:6px;margin:6px 0 16px;max-width:420px"></div>
     <p class="lead" id="rSub"></p>
-    <p class="small">Based on your answers, not on a comparison with other companies.</p>
+    <p class="small no-print">Based on your answers, not on a comparison with other companies.</p>
     <div class="dom" id="rWhere" style="border-left:4px solid var(--orange)"><span class="eyebrow" style="margin-bottom:6px">Where to look first</span><p id="rWhereT" style="margin:0"></p></div>
     <p class="small" id="rNs"></p>
     <div class="card no-print" id="sharpBox" style="margin:18px 0"><span class="eyebrow">Optional</span><h2 style="margin-top:4px">Sharpen your result</h2><p>Five more questions on things the first eight do not reach, for example whether you can open a disputed conversation and whether coaching worked. About 2 to 3 minutes. Your result updates when you finish.</p><button class="btn btn--primary" id="sharpGo">Answer 5 more questions</button></div>
-    <p class="small hide" id="sharpDone">This result includes the five extra questions that sharpen it.</p>
-    <h2 style="margin-top:26px">Your answers by area</h2>
-    <p style="margin-bottom:6px">Each bar shows how far this area is in place, going by your answers.</p>
-    <p style="display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px"><span class="band b-red">NOT YET IN PLACE</span><span class="band b-amber">PARTLY IN PLACE</span><span class="band b-green">WELL IN PLACE</span></p>
+    <div id="printSummary" class="print-only"></div>
+    <p id="printSee" class="print-only"><b>What to do with this result? See page 3.</b></p>
+    <p class="small hide no-print" id="sharpDone">This result includes the five extra questions that sharpen it.</p>
+    <h2 id="hAreas" style="margin-top:26px">What each area means</h2>
+    <p class="no-print" style="margin-bottom:6px">Each bar shows how far this area is in place, going by your answers.</p>
+    <p class="no-print" style="display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px"><span class="band b-red">NOT YET IN PLACE</span><span class="band b-amber">PARTLY IN PLACE</span><span class="band b-green">WELL IN PLACE</span></p>
     <p class="small">This is a map of where to look, not a grade. Partly in place is a normal place to be, and a well-run sample belongs here: it shows what it samples.</p>
     <div id="rDoms"></div>
+    <div id="printActions" class="print-only"></div>
     <div id="printAnswers" class="print-only"></div>
     <div class="no-print hide" id="openQs" style="margin-top:22px"></div>
     <div id="rStatus"></div>
@@ -202,6 +252,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
       <button class="btn btn--primary" id="bPrint">Print or save as PDF</button>
       <button class="link" id="bRestart">Start again</button>
     </div>
+    <p class="small no-print" style="margin:-8px 0 14px">Tip: in the print window, turn off &ldquo;Headers and footers&rdquo; for a cleaner page.</p>
     <div class="next no-print">
       <span class="eyebrow">Next step</span>
       <h2>Bring one decision to a use-case session</h2>
@@ -224,7 +275,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
       <p class="small" style="margin-top:8px">Each answer describes a situation and is worth 0 to 4 points. "I'm not sure" does not count against you: the question is left out and listed so you can ask someone who knows. A level needs at least 6 answers, spread over at least four of the five areas. If one area has no answer yet, the level is marked provisional and leaves that area out. We add up the points you earned and compare them with the maximum for the questions answered. Your level is the share you reach: under 25% is Level 1, 25 to 44% Level 2, 45 to 64% Level 3, 65 to 84% Level 4, 85% and above Level 5. The strongest and weakest area are the highest and lowest shares among the five areas. Each area is shown as Not yet in place (under 40% of its points), Partly in place (40 to 79%) or Well in place (80% and above). The levels are our judgement, not an industry benchmark. This is a self-assessment: it shows how people describe their operation, not what an audit would find.</p>
       <div id="rTable"></div>
     </details>
-    <p class="small print-only">Comms Inspector self-check · comms-inspector.com · Self-assessment, not an audit.</p>
+    <p class="small print-only">Self-assessment based on your answers, not an audit and not a comparison with other companies.</p>
   </section>
   <section id="s-thanks" class="hide">
     <span class="eyebrow">Thank you</span>
@@ -462,9 +513,9 @@ function showResult(){
   $("rNs").textContent=unk?"Based on "+r.n+" of "+tot+" questions. "+unk+(unk>1?" still have no answer.":" still has no answer."):"Based on all "+tot+" questions.";
   var h="";ORDER.forEach(function(k){var x=r.d[k],D=DOMAINS[k];
     if(x.p==null){h+='<div class="dom"><h3><span>'+D.name+'</span><span class="band b-amber" style="background:#eef1f5;color:#475069;border-color:#dfe3ec">NO ANSWER YET</span></h3><p style="margin-top:10px">Nobody has answered this area yet. Ask someone in '+GROUPS[OWNER[k]].who+'.</p></div>';return}
-    h+='<div class="dom"><h3><span>'+D.name+'</span>'+badge(x.b)+'</h3><div class="bar"><i class="'+x.b[0]+'" style="width:'+Math.max(4,Math.round(x.p*100))+'%"></i></div><p>'+D.tx[x.b]+'</p>'+
+    h+='<div class="dom" data-st="'+x.b+'"><h3><span>'+D.name+'</span>'+badge(x.b)+'</h3><div class="bar"><i class="'+x.b[0]+'" style="width:'+Math.max(4,Math.round(x.p*100))+'%"></i></div><p>'+D.tx[x.b]+'</p>'+
      (x.b!=="green"?'<div class="ask"><b>One question to ask your team</b>'+D.ask+'</div>':'')+'</div>'});
-  $("rDoms").innerHTML=h;
+  $("rDoms").innerHTML=h;renderPrintSummary(r,sharp);
   // next step text follows the result: examples are tied to the weakest areas
   var SHORT={cov:"coverage",sig:"customer signals",evi:"evidence",qua:"quality",coa:"agent support and coaching"};
   var EXDEC={cov:"how to review more than a small sample",sig:"which customer needs and problems should reach your CRM",evi:"how to find out quickly what was said in a disputed case",qua:"how to make quality scores comparable between reviewers",coa:"how to get agents feedback sooner and check that it helps"};
@@ -475,7 +526,7 @@ function showResult(){
     nt+=", for example "+weak.map(function(k){return EXDEC[k]}).join(", or ")+". Your answers show "+weak.map(function(k){return SHORT[k]}).join(" and ")+" as "+st+"."}
   else nt+=".";
   nt+=" We show what your customer conversations could answer about it, and what they cannot.";
-  $("nextText").textContent=nt;
+  $("nextText").textContent=nt;renderPrintNext(nt,m,sharp);
   var t='<table><tr><th>Area</th><th>Points</th><th>Share</th><th>Status</th></tr>';
   ORDER.forEach(function(k){var x=r.d[k];t+='<tr><td>'+DOMAINS[k].name+'</td><td>'+(x.max?x.pts+' of '+x.max:'no answer')+'</td><td>'+(x.max?Math.round(x.p*100)+'%':'-')+'</td><td>'+(x.b?BAND_LABEL[x.b]:'-')+'</td></tr>'});
   $("rTable").innerHTML=t+'</table>';
@@ -494,12 +545,42 @@ function showResult(){
 function msgText(g,name,link,n){var mins=n>2?2:1;
   return "Hi,\n\nI am filling in a short self-check on how well we see what happens in our customer conversations. "+(n>1?n+" questions are":"One question is")+" about "+TOPIC[g]+", and I think you know "+(n>1?"them":"it")+" better than I do. It takes about "+mins+" minute"+(mins>1?"s":"")+", you do not need to enter an email address, and the answers are stored without your name.\n\n"+link+"\n\nThanks,\n"}
 function msgSubject(n){return n+" short question"+(n>1?"s":"")+" about how we handle customer conversations"}
+function renderPrintSummary(r,sharp){
+  var d=new Date(),ds=d.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
+  var h='<p class="small" style="margin:0 0 4px">Created '+ds+' &middot; '+$("rNs").textContent+'</p><h2 style="margin:2px 0 2px">Areas at a glance</h2>';
+  ORDER.forEach(function(k){var x=r.d[k],D=DOMAINS[k];
+    if(x.p==null){h+='<div class="ps-row"><span class="nm">'+D.name+'</span><span class="bar"></span><span class="st"><span class="band" style="background:#eef1f5;color:#475069;border-color:#dfe3ec">NO ANSWER YET</span></span></div>';return}
+    h+='<div class="ps-row"><span class="nm">'+D.name+'</span><span class="bar"><i class="'+x.b[0]+'" style="width:'+Math.max(4,Math.round(x.p*100))+'%"></i></span><span class="st">'+badge(x.b)+'</span></div>'});
+  $("printSummary").innerHTML=h}
+function renderPrintNext(nt,m,sharp){
+  var h='<h2>What you can do with this result</h2>';
+  h+='<div class="pn-box"><span class="eyebrow">Next step</span><h3>Bring one decision to a use-case session</h3><p>'+nt+'</p><span class="pn-btn">Book a use-case session</span><p class="pn-ph">[booking link to be added]</p></div>';
+  h+='<div id="printPeople"><p class="eyebrow" style="margin-bottom:6px">The people you can meet in the session</p>'+document.querySelector(".people").innerHTML.replace(/^[\s\S]*?<p class="small"/,'<p class="small"')+'</div>';
+  h+='<div class="ep"><span class="eyebrow">Enterprise proof</span><h3>Proven in production</h3><p>AI Comms Inspector already processes customer conversations at enterprise scale and turns them into measurable business outcomes.</p>'
+   +'<div class="ep-big"><div><p class="ep-lab">Production scale</p><h4>30M+ calls analysed every year</h4><p>Automated supervision and quality control running in production at Home Credit Philippines. Full story: <a href="https://comms-inspector.com/case-studies.html" style="color:#475069">comms-inspector.com/case-studies</a></p></div><img src="Assets/home-credit-logo.svg" alt="Home Credit"></div>'
+   +'<div class="ep-row"><div class="ep-sm"><p class="ep-lab">Commercial impact</p><h4>Higher conversion</h4><p>AI-generated sales signals help target more relevant offers.</p></div><div class="ep-sm"><p class="ep-lab">Operational impact</p><h4>Quality control at scale</h4><p>Every selected interaction assessed consistently against predefined business, process and compliance rules.</p></div><div class="ep-sm"><p class="ep-lab">Delivery credibility</p><h4>300+ enterprise AI projects</h4><p>Built on Bull Group&rsquo;s experience from more than 300 enterprise AI projects.</p></div></div></div>';
+  var hasOq=(sharp?CORE.concat(EXTRA):CORE).some(function(i){return isUnk(m.eff[i])});
+  h+='<div class="pn-end"><p><b>Share the self-check.</b> A colleague can take it too: <a href="'+SELFCHECK_URL+'" style="color:#475069">comms-inspector.com/self-check</a> &nbsp;|&nbsp; <a href="https://comms-inspector.com" style="color:#475069">comms-inspector.com</a></p><p>Next page: '+(hasOq?'the questions you could not answer, and your answers':'your answers')+' &rarr;</p></div>';
+  $("printActions").innerHTML=h}
+var SELFCHECK_URL="https://comms-inspector.com/self-check";
+var _docTitle=document.title;
+window.addEventListener("beforeprint",function(){document.title="AI Comms Inspector self-check result"});
+window.addEventListener("afterprint",function(){document.title=_docTitle});
 function renderPrintAnswers(m,sharp){
   var list=sharp?CORE.concat(EXTRA):CORE;
-  var h='<div style="break-before:page"></div><h2 style="margin-top:0;break-after:avoid">Your answers</h2><p class="small">The answer you chose is marked with a filled circle. &ldquo;I&rsquo;m not sure&rdquo; leaves a question out of the score.</p>';
+  var ds=new Date().toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
+  var oq=list.filter(function(i){return isUnk(m.eff[i])});
+  var h='<div style="break-before:page"></div><h2 style="margin:0 0 2px">Self-check quiz</h2><p class="small" style="margin:0 0 6px">Filled out on '+ds+'</p>';
+  if(oq.length){
+    h+='<h3 class="st" style="margin-top:12px">Ask the people who know</h3><p style="margin:0 0 10px;font-size:10.5pt">The person who filled in this self-check could not answer '+(oq.length>1?'these questions':'this question')+'. If you know the answer, tick it or bring it to the meeting.</p>';
+    oq.forEach(function(i){var q=Q[i];
+      h+='<div class="oq-it"><p class="oq-q">'+q.q+'</p><p class="oq-w">Best asked of someone in '+GROUPS[q.g].who+'.</p>';
+      q.o.forEach(function(o,k){if(k)h+='<div class="oq-o">'+o[0]+'</div>'});
+      h+='<p class="oq-n">Notes:</p><div class="oq-line"></div></div>'})}
+  h+='<h3 class="st" style="margin-top:18px;break-after:avoid">Your answers</h3><p class="small">The answer you chose is marked with a filled circle. &ldquo;I&rsquo;m not sure&rdquo; leaves a question out of the score.</p>';
   list.forEach(function(i,n){var q=Q[i],a=m.eff[i],ord=[];q.o.forEach(function(o,k){if(k)ord.push(k)});ord.push(0);
-    h+='<div class="pa-q" style="break-inside:avoid;margin:0 0 11px;font-size:11pt;line-height:1.3"><p style="font-weight:700;margin:0 0 2px">'+(n+1)+'. '+q.q+'</p><p class="small" style="margin:0 0 4px">'+DOMAINS[q.d].name+(q.x?' &middot; extra question':'')+'</p>';
-    ord.forEach(function(k){var on=isUnk(a)?k===0:a===k;h+='<div style="margin:1px 0;'+(on?'font-weight:700':'color:#555')+'">'+(on?'&#9679; ':'&#9675; ')+q.o[k][0]+'</div>'});
+    h+='<div class="pa-q" style="break-inside:avoid;margin:0 0 11px;font-size:11pt;line-height:1.3"><p style="font-weight:700;margin:0 0 2px"><span class="pa-n">'+(n+1)+'.</span> '+q.q+'</p><p class="small" style="margin:0 0 4px">'+DOMAINS[q.d].name+(q.x?' &middot; extra question':'')+'</p>';
+    ord.forEach(function(k){var on=isUnk(a)?k===0:a===k;h+='<div class="'+(on?'pa-on':'')+'" style="margin:1px 0;'+(on?'font-weight:700':'color:#555')+'">'+(on?'&#9679; ':'&#9675; ')+q.o[k][0]+'</div>'});
     h+='</div>'});
   $("printAnswers").innerHTML=h}
 function qCopyText(q){var t="Hi, could you help me with one question for a short self-check on how well we see what happens in our customer conversations?\n\n"+q.q+"\n"+(q.h?q.h+"\n":"")+"\n";q.o.forEach(function(o,k){if(k)t+="- "+o[0]+"\n"});return t+"\nPlease tell me the answer closest to what usually happens. Thanks!"}
