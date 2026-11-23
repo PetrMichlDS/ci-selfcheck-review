@@ -87,6 +87,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
 .rule{border:0;border-top:1px solid var(--hairline);margin:32px 0 6px}
 @media(max-width:760px){.pgrid{grid-template-columns:1fr}}
 .oqhead{display:flex;width:100%;align-items:center;justify-content:space-between;gap:16px;text-align:left;background:#fff;border:1px solid rgba(0,0,0,.14);border-radius:16px;padding:16px 20px;cursor:pointer;font:inherit;color:inherit}.oqhead:hover{border-color:rgba(0,0,0,.3)}.oqhead svg{flex:0 0 auto;transition:transform .15s}
+.opt.ns{margin-top:30px;border-style:dashed;color:var(--ink-soft)}.opt.ns.sel{border-style:solid;color:var(--ink)}
 </style>
 </head>
 <body>
@@ -413,7 +414,7 @@ function begin(list,keep){qlist=list;if(!keep)ans=[];cur=0;if(!sharpening&&!rean
 function renderQ(){
   var qi=qlist[cur],q=Q[qi];if(!sharpening&&!reanswering&&!asColleague)ga("quiz_q"+(cur+1),null,true);$("qDom").textContent="";$("qNum").textContent="Question "+(cur+1)+" of "+qlist.length;
   $("prog").style.width=(cur/qlist.length*100)+"%";$("qText").textContent=q.q;$("qHint").textContent=q.h;
-  var h="",ord=[];q.o.forEach(function(o,i){if(i)ord.push(i)});ord.push(0);ord.forEach(function(i){var o=q.o[i];h+='<button class="opt'+(ans[qi]===i?" sel":"")+'" data-i="'+i+'"'+(i===0?' style="margin-top:16px"':'')+'>'+o[0]+(i===0&&!asColleague&&!q.x?'<span class="nsnote">At the end we will help you ask someone who does.</span>':'')+'</button>'});
+  var h="",ord=[];q.o.forEach(function(o,i){if(i)ord.push(i)});ord.push(0);ord.forEach(function(i){var o=q.o[i];h+='<button class="opt'+(i===0?" ns":"")+(ans[qi]===i?" sel":"")+'" data-i="'+i+'"'+'>'+o[0]+(i===0&&!asColleague&&!q.x?'<span class="nsnote">At the end we will help you ask someone who does.</span>':'')+'</button>'});
   $("qOpts").innerHTML=h;
   [].forEach.call($("qOpts").children,function(b){b.onclick=function(){
     ans[qi]=+b.dataset.i;ev("selfcheck_q",{n:cur+1,domain:q.d});
