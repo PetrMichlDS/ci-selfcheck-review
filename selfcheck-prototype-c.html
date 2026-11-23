@@ -86,6 +86,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
 @media(max-width:760px){.vals{grid-template-columns:1fr}}
 .rule{border:0;border-top:1px solid var(--hairline);margin:32px 0 6px}
 @media(max-width:760px){.pgrid{grid-template-columns:1fr}}
+.oqhead{display:flex;width:100%;align-items:center;justify-content:space-between;gap:16px;text-align:left;background:#fff;border:1px solid rgba(0,0,0,.14);border-radius:16px;padding:16px 20px;cursor:pointer;font:inherit;color:inherit}.oqhead:hover{border-color:rgba(0,0,0,.3)}.oqhead svg{flex:0 0 auto;transition:transform .15s}
 </style>
 </head>
 <body>
@@ -217,7 +218,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
 
     <hr class="rule no-print">
     <details class="no-print"><summary>How this result is calculated</summary>
-      <p class="small" style="margin-top:8px">Each answer describes a situation and is worth 0 to 4 points. "I'm not sure" does not count against you: the question is left out and shows up as an open question for a colleague. A level needs at least 6 answers, spread over at least four of the five areas. If one area has no answer yet, the level is marked provisional and leaves that area out. We add up the points you earned and compare them with the maximum for the questions answered. Your level is the share you reach: under 25% is Level 1, 25 to 44% Level 2, 45 to 64% Level 3, 65 to 84% Level 4, 85% and above Level 5. The strongest and weakest area are the highest and lowest shares among the five areas. Each area is shown as Not yet in place (under 40% of its points), Partly in place (40 to 79%) or Well in place (80% and above). The levels are our judgement, not an industry benchmark. This is a self-assessment: it shows how people describe their operation, not what an audit would find.</p>
+      <p class="small" style="margin-top:8px">Each answer describes a situation and is worth 0 to 4 points. "I'm not sure" does not count against you: the question is left out and listed so you can ask someone who knows. A level needs at least 6 answers, spread over at least four of the five areas. If one area has no answer yet, the level is marked provisional and leaves that area out. We add up the points you earned and compare them with the maximum for the questions answered. Your level is the share you reach: under 25% is Level 1, 25 to 44% Level 2, 45 to 64% Level 3, 65 to 84% Level 4, 85% and above Level 5. The strongest and weakest area are the highest and lowest shares among the five areas. Each area is shown as Not yet in place (under 40% of its points), Partly in place (40 to 79%) or Well in place (80% and above). The levels are our judgement, not an industry benchmark. This is a self-assessment: it shows how people describe their operation, not what an audit would find.</p>
       <div id="rTable"></div>
     </details>
     <p class="small print-only">Comms Inspector self-check · comms-inspector.com · Self-assessment, not an audit.</p>
@@ -452,7 +453,7 @@ function showResult(){
     $("rWhereT").innerHTML="<b>Strongest area:</b> "+DOMAINS[hi].name+".<br><b>Weakest area:</b> "+DOMAINS[lo].name+".<br><br><b>Start with the weakest.</b> "+DOMAINS[lo].ask;
     $("rWhere").classList.remove("hide")}
   else{$("rHead").textContent="Not enough to place you yet";
-    $("rSub").textContent="You answered "+r.n+" of "+tot+" questions with a real answer. A level needs at least "+MINANS+" answers, spread over at least four of the five areas"+(emptyAreas.length?" ("+emptyAreas.map(function(k){return DOMAINS[k].name}).join(", ")+" still has none)":"")+". The rest need people who know. Send them the messages below and this page will fill in.";
+    $("rSub").textContent="You answered "+r.n+" of "+tot+" questions with a real answer. A level needs at least "+MINANS+" answers, spread over at least four of the five areas"+(emptyAreas.length?" ("+emptyAreas.map(function(k){return DOMAINS[k].name}).join(", ")+" still has none)":"")+". The rest need people who know. The questions you skipped are listed below: ask the person most likely to know, then answer them here and the level will appear.";
     $("rSteps").classList.add("hide");$("rWhere").classList.add("hide")}
   var unk=tot-r.n;
   $("rNs").textContent=unk?"Based on "+r.n+" of "+tot+" questions. "+unk+(unk>1?" still have no answer.":" still has no answer."):"Based on all "+tot+" questions.";
@@ -495,9 +496,13 @@ function renderOpen(m,sharp){
   var el=$("openQs"),oq=[];(sharp?CORE.concat(EXTRA):CORE).forEach(function(i){if(isUnk(m.eff[i]))oq.push(i)});
   if(!oq.length){el.innerHTML="";el.classList.add("hide");return}
   el.classList.remove("hide");
-  var h='<h2>Questions you were not sure about</h2><p>Ask the person most likely to know, then change your answer here. Nothing is sent: the answer stays in your browser.</p>';
+  var h='';
   oq.forEach(function(i){var q=Q[i];h+='<div class="card ocard" data-i="'+i+'" style="margin:10px 0"><p style="font-weight:700;margin:0 0 6px">'+q.q+'</p><p class="small" style="margin:0 0 10px">Best asked of someone in '+GROUPS[q.g].who+'.</p><div class="row"><button class="btn btn--primary oa">Answer it now</button><button class="btn btn--ghost oc">Copy for a colleague</button></div></div>'});
-  el.innerHTML=h;
+  var intro='<p>Ask the person most likely to know, then change your answer here. Nothing is sent: the answer stays in your browser.</p>';
+  if(oq.length>1){
+    el.innerHTML='<button type="button" class="oqhead" id="oqToggle" aria-expanded="false" aria-controls="oqBody"><span><b style="display:block;font-size:20px">Questions you were not sure about ('+oq.length+')</b><span class="small" style="display:block;margin-top:2px">Show them, ask the person most likely to know, then answer here</span></span><svg id="oqChev" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div id="oqBody" class="hide">'+intro+h+'</div>';
+    $("oqToggle").onclick=function(){var open=$("oqToggle").getAttribute("aria-expanded")==="true";$("oqToggle").setAttribute("aria-expanded",open?"false":"true");$("oqBody").classList.toggle("hide",open);$("oqChev").style.transform=open?"":"rotate(180deg)";ev("selfcheck_open_questions_"+(open?"collapse":"expand"))}
+  }else el.innerHTML='<h2>Questions you were not sure about</h2>'+intro+h;
   [].forEach.call(el.querySelectorAll(".ocard"),function(c){var i=+c.dataset.i;
     c.querySelector(".oa").onclick=function(){ev("selfcheck_reanswer_start",{n:i+1});reanswering=true;ans=sess.leader.ans.slice();begin([i],true)};
     c.querySelector(".oc").onclick=function(){ev("selfcheck_copy_question",{n:i+1});var t=qCopyText(Q[i]);(navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(t):Promise.reject()).then(function(){toast("Question copied")},function(){toast("Copying is blocked in this browser")})}})
