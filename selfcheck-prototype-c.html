@@ -183,6 +183,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
     <p style="display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px"><span class="band b-red">NOT YET IN PLACE</span><span class="band b-amber">PARTLY IN PLACE</span><span class="band b-green">WELL IN PLACE</span></p>
     <p class="small">This is a map of where to look, not a grade. Partly in place is a normal place to be, and a well-run sample belongs here: it shows what it samples.</p>
     <div id="rDoms"></div>
+    <div id="printAnswers" class="print-only"></div>
     <div class="no-print hide" id="openQs" style="margin-top:22px"></div>
     <div id="rStatus"></div>
     <div id="rDiffs"></div>
@@ -477,7 +478,7 @@ function showResult(){
   var t='<table><tr><th>Area</th><th>Points</th><th>Share</th><th>Status</th></tr>';
   ORDER.forEach(function(k){var x=r.d[k];t+='<tr><td>'+DOMAINS[k].name+'</td><td>'+(x.max?x.pts+' of '+x.max:'no answer')+'</td><td>'+(x.max?Math.round(x.p*100)+'%':'-')+'</td><td>'+(x.b?BAND_LABEL[x.b]:'-')+'</td></tr>'});
   $("rTable").innerHTML=t+'</table>';
-  renderInvites(m,base);renderOpen(m,sharp);
+  renderInvites(m,base);renderOpen(m,sharp);renderPrintAnswers(m,sharp);
   $("admWrap").classList.toggle("hide",!sess._saved);
   // status line and differences
   var parts=sess.inv.map(lab);
@@ -492,6 +493,14 @@ function showResult(){
 function msgText(g,name,link,n){var mins=n>2?2:1;
   return "Hi,\n\nI am filling in a short self-check on how well we see what happens in our customer conversations. "+(n>1?n+" questions are":"One question is")+" about "+TOPIC[g]+", and I think you know "+(n>1?"them":"it")+" better than I do. It takes about "+mins+" minute"+(mins>1?"s":"")+", you do not need to enter an email address, and the answers are stored without your name.\n\n"+link+"\n\nThanks,\n"}
 function msgSubject(n){return n+" short question"+(n>1?"s":"")+" about how we handle customer conversations"}
+function renderPrintAnswers(m,sharp){
+  var list=sharp?CORE.concat(EXTRA):CORE;
+  var h='<h2 style="margin-top:26px">Your answers</h2><p class="small">The answer you chose is marked with a filled circle. &ldquo;I&rsquo;m not sure&rdquo; leaves a question out of the score.</p>';
+  list.forEach(function(i,n){var q=Q[i],a=m.eff[i],ord=[];q.o.forEach(function(o,k){if(k)ord.push(k)});ord.push(0);
+    h+='<div class="pa-q" style="break-inside:avoid;margin:0 0 14px"><p style="font-weight:700;margin:0 0 2px">'+(n+1)+'. '+q.q+'</p><p class="small" style="margin:0 0 4px">'+DOMAINS[q.d].name+(q.x?' &middot; extra question':'')+'</p>';
+    ord.forEach(function(k){var on=isUnk(a)?k===0:a===k;h+='<div style="margin:2px 0;'+(on?'font-weight:700':'color:#555')+'">'+(on?'&#9679; ':'&#9675; ')+q.o[k][0]+'</div>'});
+    h+='</div>'});
+  $("printAnswers").innerHTML=h}
 function qCopyText(q){var t="Hi, could you help me with one question for a short self-check on how well we see what happens in our customer conversations?\n\n"+q.q+"\n"+(q.h?q.h+"\n":"")+"\n";q.o.forEach(function(o,k){if(k)t+="- "+o[0]+"\n"});return t+"\nPlease tell me the answer closest to what usually happens. Thanks!"}
 function renderOpen(m,sharp){
   var el=$("openQs"),oq=[];(sharp?CORE.concat(EXTRA):CORE).forEach(function(i){if(isUnk(m.eff[i]))oq.push(i)});
