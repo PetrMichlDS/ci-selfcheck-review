@@ -109,7 +109,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
       <li><span class="vi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 21V4M6 5h11l-2 4 2 4H6"/></svg></span><span><b>Where to start</b>Your weakest area</span></li>
       <li><span class="vi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.6 2.2c-.7.4-1.1.9-1.1 1.8M12 17h.01"/></svg></span><span><b>A question to check with facts</b>One to ask your team</span></li>
     </ul>
-    <p class="vnote">Not sure you can answer everything? That is fine.<br>The quiz helps you collect the missing answers from colleagues and brings them together in one result.</p>
+    <p class="vnote">Not sure you can answer everything? That is fine.<br>At the end you get the questions you skipped, with a note on who is most likely to know, and you can change your answer.</p>
     <div class="card" id="gate">
       <form id="gateForm" novalidate>
         <label class="f"><span>Work email</span></label>
@@ -118,8 +118,8 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
           <button class="btn btn--primary" id="gateBtn" type="submit">Start the self-check</button>
         </div>
         <p class="err hide" id="gateErr" role="alert"></p>
-        <p class="small" style="margin-top:12px"><b>We email you your result.</b> If you ask colleagues to answer, we also send the private link where their answers join yours. The quiz opens right here, and your answers stay in your browser unless you ask a colleague. At most two short notes from our team follow. No newsletter.</p>
-        <p class="small">By continuing, you agree that Comms Inspector may contact you about this self-check. See our Privacy Policy.</p>
+        <p class="small" style="margin-top:12px">Your answers stay in your browser. We receive only your email address and use it to send you the questions to ask your team about each area.</p>
+        <p class="small">See our <a href="https://comms-inspector.com/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a>.</p>
       </form>
       <div id="noGate" class="hide"><button class="btn btn--primary" id="startBtn">Start the self-check</button><p class="small" id="noGateNote" style="margin-top:12px"></p></div>
     </div>
@@ -151,13 +151,15 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
   <section id="s-resgate" class="hide">
     
     <h2>Your result is ready</h2>
-    <p class="lead" style="margin-bottom:14px">It opens after you enter your work email. We will also send you the guide to the five levels and the questions to ask your team.</p>
+    <p class="lead" style="margin-bottom:14px">It opens after you enter your work email. We will also send you the questions to ask your team about each area.</p>
     <div class="card">
       <form id="resForm" novalidate>
         <label class="f"><span>Work email</span></label>
         <div class="row"><input type="email" id="email2" placeholder="Work email" autocomplete="email" aria-label="Work email"><button class="btn btn--primary" type="submit">Show my result</button></div>
         <p class="err hide" id="resErr" role="alert"></p>
-        <p class="small" style="margin:12px 0 4px">Your answers stay in your browser. We receive only your email address and use it to send you the guide. <a href="https://comms-inspector.com/privacy-policy.html" target="_blank" rel="noopener">Privacy policy</a></p>
+        <p class="small" style="margin:14px 0 6px"><b>Optional.</b> Your role and the size of your operation help us make the follow-up relevant.</p>
+        <div class="row" style="gap:10px;flex-wrap:wrap"><select id="role2" aria-label="Your role" style="flex:1 1 220px"></select><select id="vol2" aria-label="Conversations per year" style="flex:1 1 220px"></select></div>
+        <p class="small" style="margin:12px 0 4px">Your answers stay in your browser. We receive only your email address, plus the two optional answers below, and use them to send you those questions and to prepare a relevant follow-up. <a href="https://comms-inspector.com/privacy-policy.html" target="_blank" rel="noopener">Privacy policy</a></p>
         <p class="small" style="margin:14px 0 6px"><b>Optional</b>, both unticked unless you choose:</p>
         <label style="display:flex;gap:10px;align-items:flex-start;margin:6px 0;font-size:14px;line-height:1.4"><input type="checkbox" id="optNotes" style="margin-top:3px;flex:0 0 auto"><span>A colleague from the AI Comms Inspector team may send me up to two short notes about seeing customer conversations.</span></label>
         <label style="display:flex;gap:10px;align-items:flex-start;margin:6px 0;font-size:14px;line-height:1.4"><input type="checkbox" id="optNews" style="margin-top:3px;flex:0 0 auto"><span>I would like occasional emails from the AI Comms Inspector team about analysing customer conversations. I can unsubscribe at any time.</span></label>
@@ -181,9 +183,10 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
     <p style="display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px"><span class="band b-red">NOT YET IN PLACE</span><span class="band b-amber">PARTLY IN PLACE</span><span class="band b-green">WELL IN PLACE</span></p>
     <p class="small">This is a map of where to look, not a grade. Partly in place is a normal place to be, and a well-run sample belongs here: it shows what it samples.</p>
     <div id="rDoms"></div>
+    <div class="no-print hide" id="openQs" style="margin-top:22px"></div>
     <div id="rStatus"></div>
     <div id="rDiffs"></div>
-    <div class="no-print" id="inviteBox" style="margin-top:22px">
+    <div class="no-print hide" id="inviteBox" style="margin-top:22px">
       <h2>Ask the people who know</h2>
       <p>For each group below we have written a short message. You send it from your own email or chat, so your colleague sees a name they know. Their answers come back to this page.</p>
       <div id="invCards"></div>
@@ -313,7 +316,7 @@ var GROUPS={ops:{name:"Quality and operations",who:"quality or contact-centre op
 var ROLES=["Not stated","Service or contact centre","Quality","Compliance or risk","Sales or CRM","CX or insights","Operations","Data or IT","Other"];
 var ROLEGROUP={0:null,1:"ops",2:"ops",3:"comp",4:"crm",5:"crm",6:"ops",7:"crm",8:null};
 Q.forEach(function(q){q.g=OWNER[q.d]});
-var CORE=[],EXTRA=[];Q.forEach(function(q,i){(q.x?EXTRA:CORE).push(i)});var sharpening=false;
+var CORE=[],EXTRA=[];Q.forEach(function(q,i){(q.x?EXTRA:CORE).push(i)});var sharpening=false,reanswering=false;
 var TOPIC={ops:"quality, how many conversations are reviewed, agent feedback and coaching",comp:"finding out what was said in a conversation",crm:"customer signals and how they reach CRM and campaigns"};
 function grp(v){return v.group||ROLEGROUP[v.role]}
 function lab(v){return v.role?ROLES[v.role]:(v.group?GROUPS[v.group].name:"Colleague")}
@@ -417,6 +420,7 @@ function renderQ(){
   $("back").style.visibility=cur?"visible":"hidden"}
 $("back").onclick=function(){if(cur>0){cur--;renderQ()}};
 function finish(){$("prog").style.width="100%";
+  if(reanswering){var s3=Q.map(function(q,i){return ans[i]==null?0:ans[i]});ans=s3;reanswering=false;sess.leader.ans=s3.slice();if(sess._saved)persist();ev("selfcheck_reanswer");showResult();return}
   if(sharpening){var s2=Q.map(function(q,i){return ans[i]==null?0:ans[i]});ans=s2;sharpening=false;sess.leader.ans=s2.slice();sess.leader.sharp=true;if(sess._saved)persist();ev("selfcheck_sharpen_complete");showResult();return}
   if(asColleague){var a=Q.map(function(q,i){return ans[i]==null?null:ans[i]});
     sess=CTX.s;sessId=CTX.id;sess.inv.push({role:myRole,group:CTX.g||null,ans:a,t:Date.now()});persist();
@@ -425,7 +429,7 @@ function finish(){$("prog").style.width="100%";
   if(mode()==="result"&&!gotEmail){show("s-resgate");ev("selfcheck_complete_gate")}else showResult()}
 $("resForm").onsubmit=function(e){e.preventDefault();var m=validWork($("email2").value);
   if(m){$("resErr").textContent=m;$("resErr").classList.remove("hide");return}
-  gotEmail=$("email2").value.trim();ev("selfcheck_unlock",{form_id:"selfcheck_gate",position:"result",notes_ok:$("optNotes").checked,news_ok:$("optNews").checked});showResult()};
+  gotEmail=$("email2").value.trim();myRole=+$("role2").value||0;ev("selfcheck_unlock",{form_id:"selfcheck_gate",position:"result",role:myRole||null,volume:$("vol2").value||null,notes_ok:$("optNotes").checked,news_ok:$("optNews").checked});showResult()};
 
 // ---------- result ----------
 function ensureSession(){
@@ -469,7 +473,7 @@ function showResult(){
   var t='<table><tr><th>Area</th><th>Points</th><th>Share</th><th>Status</th></tr>';
   ORDER.forEach(function(k){var x=r.d[k];t+='<tr><td>'+DOMAINS[k].name+'</td><td>'+(x.max?x.pts+' of '+x.max:'no answer')+'</td><td>'+(x.max?Math.round(x.p*100)+'%':'-')+'</td><td>'+(x.b?BAND_LABEL[x.b]:'-')+'</td></tr>'});
   $("rTable").innerHTML=t+'</table>';
-  renderInvites(m,base);
+  renderInvites(m,base);renderOpen(m,sharp);
   $("admWrap").classList.toggle("hide",!sess._saved);
   // status line and differences
   var parts=sess.inv.map(lab);
@@ -484,6 +488,18 @@ function showResult(){
 function msgText(g,name,link,n){var mins=n>2?2:1;
   return "Hi,\n\nI am filling in a short self-check on how well we see what happens in our customer conversations. "+(n>1?n+" questions are":"One question is")+" about "+TOPIC[g]+", and I think you know "+(n>1?"them":"it")+" better than I do. It takes about "+mins+" minute"+(mins>1?"s":"")+", you do not need to enter an email address, and the answers are stored without your name.\n\n"+link+"\n\nThanks,\n"}
 function msgSubject(n){return n+" short question"+(n>1?"s":"")+" about how we handle customer conversations"}
+function qCopyText(q){var t="Hi, could you help me with one question for a short self-check on how well we see what happens in our customer conversations?\n\n"+q.q+"\n"+(q.h?q.h+"\n":"")+"\n";q.o.forEach(function(o,k){if(k)t+="- "+o[0]+"\n"});return t+"\nPlease tell me the answer closest to what usually happens. Thanks!"}
+function renderOpen(m,sharp){
+  var el=$("openQs"),oq=[];(sharp?CORE.concat(EXTRA):CORE).forEach(function(i){if(isUnk(m.eff[i]))oq.push(i)});
+  if(!oq.length){el.innerHTML="";el.classList.add("hide");return}
+  el.classList.remove("hide");
+  var h='<h2>Questions you were not sure about</h2><p>Ask the person most likely to know, then change your answer here. Nothing is sent: the answer stays in your browser.</p>';
+  oq.forEach(function(i){var q=Q[i];h+='<div class="card ocard" data-i="'+i+'" style="margin:10px 0"><p style="font-weight:700;margin:0 0 6px">'+q.q+'</p><p class="small" style="margin:0 0 10px">Best asked of someone in '+GROUPS[q.g].who+'.</p><div class="row"><button class="btn btn--primary oa">Answer it now</button><button class="btn btn--ghost oc">Copy for a colleague</button></div></div>'});
+  el.innerHTML=h;
+  [].forEach.call(el.querySelectorAll(".ocard"),function(c){var i=+c.dataset.i;
+    c.querySelector(".oa").onclick=function(){ev("selfcheck_reanswer_start",{n:i+1});reanswering=true;ans=sess.leader.ans.slice();begin([i],true)};
+    c.querySelector(".oc").onclick=function(){ev("selfcheck_copy_question",{n:i+1});var t=qCopyText(Q[i]);(navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(t):Promise.reject()).then(function(){toast("Question copied")},function(){toast("Copying is blocked in this browser")})}})
+}
 function renderInvites(m,base){
   var h="",any=false;
   Object.keys(GROUPS).forEach(function(g){
@@ -528,6 +544,7 @@ $("resetDemo").onclick=function(){try{localStorage.removeItem(STORE)}catch(e){}s
 (function(){var W=["Zero","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten","Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen"],n=CORE.length,w=W[n]||n;
   $("eyN").textContent="Self-check \u00b7 about 4 minutes \u00b7 "+n+" questions";$("leadN").textContent=w+" questions, about 4 minutes. This quiz gives you:";$("thxN").textContent=n})();
 window.addEventListener("hashchange",function(){if(!sess||location.hash.indexOf("s=")>-1){initIntro();if(!CTX.leader)show("s-intro")}});
+$("role2").innerHTML=$("role").innerHTML;$("vol2").innerHTML=$("vol").innerHTML;
 initIntro();
 
 // ---------- deep links to each phase (prototype only): ?demo=intro|profile|quiz|result|notenough|invite|colleague|thanks|merged ----------
