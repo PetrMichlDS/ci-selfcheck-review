@@ -237,7 +237,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
   <div><b>Prototype · nothing is sent</b><br><span style="opacity:.85">Questions: <a style="color:#ffb4a6" href="selfcheck-prototype.html">A (original 12)</a> · <a style="color:#ffb4a6" href="selfcheck-prototype-b.html">B (after feedback, 12)</a> · <b style="color:#fff">C (8 questions)</b> · <a style="color:#ffb4a6" href="index.html">all links</a></span><br><span style="opacity:.85">Version: <a style="color:#ffb4a6" href="selfcheck-prototype-v1.html">1 profiles</a> · <b style="color:#fff">2 levels</b></span><br>
     Email gate:
     <select id="gateMode" autocomplete="off"><option value="start">before the quiz</option><option value="result" selected>before the result</option><option value="none">none (email optional)</option></select><br>
-    <button id="fillA">Fill: well-run sample</button><button id="fillB">Fill: well-run insight team</button><button id="fillC">Fill: mostly unknown</button><button id="fillD">Fill: fully automated</button><br><button id="fillL">Demo: leader, unsure on 2 areas</button><button id="fillComp">+ compliance answers</button><button id="fillCrm">+ CRM answers</button><button id="resetDemo">Reset demo storage</button>
+    <button id="fillA">Fill: well-run sample</button><button id="fillB">Fill: well-run insight team</button><button id="fillC">Fill: mostly unknown</button><button id="fillD">Fill: fully automated</button><br><button id="fillL">Demo: leader, unsure on 2 areas</button><button id="fillComp">+ compliance answers</button><button id="fillCrm">+ CRM answers</button><button id="fillGate">Gate: as if email entered</button><button id="resetDemo">Reset demo storage</button>
   </div>
   <div class="ev" id="ev"><b>Events (what the page would send)</b><br></div>
 </div>
@@ -530,6 +530,7 @@ function pickText(arr){return Q.map(function(q,i){return i<arr.length?byText(q,a
 var PROF_A=["Calls and some other channels", "5 to 20%", "Supervisors notice some of them while listening", "After days", "About every quarter", "Hours", "People note some of it by hand", "We find out in a monthly report or review"];
 var PROF_B=["Calls and some other channels", "2 to 5%", "Only if someone tells us", "After weeks", "Occasionally, when there is a problem", "Days", "Software finds some of it, and people pass it on", "Agents or supervisors notice and tell us"];
 function fillLeader(a){sess=null;sessId=null;myRole=0;ans=a;CTX={};showResult()}
+$("fillGate").onclick=function(){gotEmail="test@example.com";if(!$("s-resgate").classList.contains("hide")){ev("selfcheck_unlock",{form_id:"selfcheck_gate",position:"result",test:true});showResult()}else toast("Open the gate screen first: answer the quiz or open the gate link")};
 $("fillA").onclick=function(){fillLeader(pickText(PROF_A))};
 $("fillB").onclick=function(){fillLeader(pickText(PROF_B))};
 $("fillC").onclick=function(){fillLeader(Q.map(function(){return 0}))};
@@ -560,6 +561,7 @@ initIntro();
   else if(d==="colleague"){leader();commit();location.hash="#s="+sessId+"&g=comp"}
   else if(d==="thanks"){leader();commit();CTX={colleague:true,s:sess,id:sessId,g:"comp"};show("s-thanks")}
   else if(d==="provisional"){var p=pickText(PROF_A);p[5]=0;fillLeader(p)}
+  else if(d==="openq"){var oq=pickText(PROF_A);oq[5]=0;oq[6]=0;fillLeader(oq)}
   else if(d==="resgate"){$("gateMode").value="result";initIntro();ans=pickText(PROF_A);gotEmail=null;show("s-resgate")}
   else if(d==="sharpen"){fillLeader(pickText(PROF_A));document.getElementById("sharpGo").click()}
   else if(d==="sharpened"){var a=pickText(PROF_A);EXTRA.forEach(function(i){a[i]=3});fillLeader(a)}
