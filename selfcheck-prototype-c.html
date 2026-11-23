@@ -165,6 +165,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
         <label style="display:flex;gap:10px;align-items:flex-start;margin:6px 0;font-size:14px;line-height:1.4"><input type="checkbox" id="optNews" style="margin-top:3px;flex:0 0 auto"><span>I would like occasional emails from the AI Comms Inspector team about analysing customer conversations. I can unsubscribe at any time.</span></label>
       </form>
     </div>
+    <p class="small no-print" style="margin-top:14px;padding:10px 12px;border:1px dashed rgba(0,0,0,.35);border-radius:10px">Prototype only, not part of the page: <button class="btn btn--ghost" id="gateTest" type="button" style="margin-left:8px">Continue as if an email was entered</button></p>
   </section>
 
   <!-- SCREEN 3: result -->
@@ -550,6 +551,7 @@ var PROF_A=["Calls and some other channels", "5 to 20%", "Supervisors notice som
 var PROF_B=["Calls and some other channels", "2 to 5%", "Only if someone tells us", "After weeks", "Occasionally, when there is a problem", "Days", "Software finds some of it, and people pass it on", "Agents or supervisors notice and tell us"];
 function fillLeader(a){sess=null;sessId=null;myRole=0;ans=a;CTX={};showResult()}
 $("fillGate").onclick=function(){gotEmail="test@example.com";if(!$("s-resgate").classList.contains("hide")){ev("selfcheck_unlock",{form_id:"selfcheck_gate",position:"result",test:true});showResult()}else toast("Open the gate screen first: answer the quiz or open the gate link")};
+$("gateTest").onclick=function(){$("fillGate").click()};
 $("fillA").onclick=function(){fillLeader(pickText(PROF_A))};
 $("fillB").onclick=function(){fillLeader(pickText(PROF_B))};
 $("fillC").onclick=function(){fillLeader(Q.map(function(){return 0}))};
