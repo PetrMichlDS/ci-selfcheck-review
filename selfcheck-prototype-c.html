@@ -331,6 +331,8 @@ function persist(){var all=loadS();all[sessId]=sess;saveS(all)}
 // nothing is stored until the leader sends the first message to a colleague
 function commit(){if(!sess._saved){sess._saved=true;persist()}var w=$("admWrap");if(w)w.classList.remove("hide")}
 function ev(n,p){var l=$("ev");l.innerHTML+=n+(p?" "+JSON.stringify(p):"")+"<br>";l.scrollTop=1e6}
+var gaSent={};
+function ga(n,p,once){if(once){if(gaSent[n])return;gaSent[n]=1}try{if(window.ciTrack)window.ciTrack(n,p||{})}catch(e){}ev("GA4 "+n,p)}
 function show(id){["s-intro","s-profile","s-quiz","s-resgate","s-result","s-thanks"].forEach(function(x){$(x).classList.toggle("hide",x!==id)});window.scrollTo(0,0)}
 function band(p){return p>=.8?"green":p>=.4?"amber":"red"}
 var BAND_LABEL={red:"Not yet in place",amber:"Partly in place",green:"Well in place"};
@@ -391,7 +393,7 @@ function initIntro(){
 $("gateMode").onchange=function(){show("s-intro");initIntro()};
 $("gateForm").onsubmit=function(e){e.preventDefault();var m=validWork($("email").value);
   if(m){$("gateErr").textContent=m;$("gateErr").classList.remove("hide");ev(m.indexOf("work")>-1?"selfcheck_freemail":"selfcheck_invalid");return}
-  $("gateErr").classList.add("hide");gotEmail=$("email").value.trim();ev("selfcheck_unlock",{form_id:"selfcheck_gate"});if(asColleague)toProfile();else{ev("selfcheck_start",{gate:mode()});begin(CORE.slice())}};
+  $("gateErr").classList.add("hide");gotEmail=$("email").value.trim();ga("quiz_unlock",{position:"start"});ev("selfcheck_unlock",{form_id:"selfcheck_gate"});if(asColleague)toProfile();else{ev("selfcheck_start",{gate:mode()});begin(CORE.slice())}};
 function toProfile(){$("volWrap").classList.toggle("hide",asColleague);
   $("profH").textContent=asColleague?"What is your role?":"Two quick questions, so we send you the right follow-up";
   $("profP").textContent=asColleague?"It decides which questions you see. Choose Other if none fits.":"Skipping does not change your result.";show("s-profile")}
@@ -406,9 +408,9 @@ $("profGo").onclick=function(){myRole=+$("role").value||0;ev("selfcheck_profile"
 $("profSkip").onclick=function(){myRole=0;ev("selfcheck_profile_skip");ev("selfcheck_start");begin(asColleague?colList(0):CORE.slice())};
 
 // ---------- quiz ----------
-function begin(list,keep){qlist=list;if(!keep)ans=[];cur=0;renderQ();show("s-quiz")}
+function begin(list,keep){qlist=list;if(!keep)ans=[];cur=0;if(!sharpening&&!reanswering&&!asColleague){gaSent={};ga("quiz_start",{gate_mode:mode()})}renderQ();show("s-quiz")}
 function renderQ(){
-  var qi=qlist[cur],q=Q[qi];$("qDom").textContent="";$("qNum").textContent="Question "+(cur+1)+" of "+qlist.length;
+  var qi=qlist[cur],q=Q[qi];if(!sharpening&&!reanswering&&!asColleague)ga("quiz_q"+(cur+1),null,true);$("qDom").textContent="";$("qNum").textContent="Question "+(cur+1)+" of "+qlist.length;
   $("prog").style.width=(cur/qlist.length*100)+"%";$("qText").textContent=q.q;$("qHint").textContent=q.h;
   var h="",ord=[];q.o.forEach(function(o,i){if(i)ord.push(i)});ord.push(0);ord.forEach(function(i){var o=q.o[i];h+='<button class="opt'+(ans[qi]===i?" sel":"")+'" data-i="'+i+'"'+(i===0?' style="margin-top:16px"':'')+'>'+o[0]+(i===0&&!asColleague&&!q.x?'<span class="nsnote">At the end we will help you ask someone who does.</span>':'')+'</button>'});
   $("qOpts").innerHTML=h;
@@ -419,21 +421,23 @@ function renderQ(){
 $("back").onclick=function(){if(cur>0){cur--;renderQ()}};
 function finish(){$("prog").style.width="100%";
   if(reanswering){var s3=Q.map(function(q,i){return ans[i]==null?0:ans[i]});ans=s3;reanswering=false;sess.leader.ans=s3.slice();if(sess._saved)persist();ev("selfcheck_reanswer");showResult();return}
-  if(sharpening){var s2=Q.map(function(q,i){return ans[i]==null?0:ans[i]});ans=s2;sharpening=false;sess.leader.ans=s2.slice();sess.leader.sharp=true;if(sess._saved)persist();ev("selfcheck_sharpen_complete");showResult();return}
+  if(sharpening){var s2=Q.map(function(q,i){return ans[i]==null?0:ans[i]});ans=s2;sharpening=false;sess.leader.ans=s2.slice();sess.leader.sharp=true;if(sess._saved)persist();ev("selfcheck_sharpen_complete");ga("quiz_sharpen_complete");showResult();return}
   if(asColleague){var a=Q.map(function(q,i){return ans[i]==null?null:ans[i]});
     sess=CTX.s;sessId=CTX.id;sess.inv.push({role:myRole,group:CTX.g||null,ans:a,t:Date.now()});persist();
     ev("selfcheck_invite_complete",{session:sessId,group:CTX.g||ROLEGROUP[myRole]||"other",answered:qlist.length});show("s-thanks");return}
   var a2=Q.map(function(q,i){return ans[i]==null?0:ans[i]});ans=a2;
-  if(mode()==="result"&&!gotEmail){show("s-resgate");ev("selfcheck_complete_gate")}else showResult()}
+  ga("quiz_complete",null,true);
+  if(mode()==="result"&&!gotEmail){show("s-resgate");ev("selfcheck_complete_gate");ga("quiz_gate_shown",null,true)}else showResult()}
 $("resForm").onsubmit=function(e){e.preventDefault();var m=validWork($("email2").value);
   if(m){$("resErr").textContent=m;$("resErr").classList.remove("hide");return}
-  gotEmail=$("email2").value.trim();ev("selfcheck_unlock",{form_id:"selfcheck_gate",position:"result",notes_ok:$("optNotes").checked,news_ok:$("optNews").checked});showResult()};
+  gotEmail=$("email2").value.trim();ga("quiz_unlock",{position:"result"});ev("selfcheck_unlock",{form_id:"selfcheck_gate",position:"result",notes_ok:$("optNotes").checked,news_ok:$("optNews").checked});showResult()};
 
 // ---------- result ----------
 function ensureSession(){
   if(!sess){sessId=rnd(8);sess={k:rnd(14),leader:{role:myRole,ans:ans.slice()},inv:[],created:Date.now(),_saved:false}}
   else if(!CTX||!CTX.leader){sess.leader={role:myRole,ans:ans.slice()};if(sess._saved)persist()}}
 function showResult(){
+  ga("quiz_result_shown",null,true);
   ensureSession();
   var m=merge(),r=calc(m.eff),pc={};
   var sharp=!!(sess.leader&&sess.leader.sharp)||EXTRA.some(function(i){return !isUnk(m.eff[i])}),tot=sharp?Q.length:CORE.length;
@@ -517,7 +521,7 @@ function renderInvites(m,base){
     c.querySelector(".bm").onclick=function(){commit();ev("selfcheck_msg_mailto",{group:g});location.href="mailto:?subject="+encodeURIComponent(msgSubject(n))+"&body="+encodeURIComponent(ta.value)};
     c.querySelector(".bc").onclick=function(){commit();ev("selfcheck_msg_copy",{group:g});var t=msgSubject(n)+"\n\n"+ta.value;(navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(t):Promise.reject()).then(function(){toast("Text copied")},function(){ta.select();toast("Select and copy the text")})}})
 }
-$("sharpGo").onclick=function(){ev("selfcheck_sharpen_start");sharpening=true;ans=sess.leader.ans.slice();begin(EXTRA.slice(),true)};
+$("sharpGo").onclick=function(){ev("selfcheck_sharpen_start");ga("quiz_sharpen_start");sharpening=true;ans=sess.leader.ans.slice();begin(EXTRA.slice(),true)};
 $("bCopyAdm").onclick=function(){cp($("admLink"))};
 function cp(el){(navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(el.value):Promise.reject()).then(function(){toast("Link copied")},function(){el.select();toast("Select and copy the link")})}
 $("bRefresh").onclick=function(){var s=loadS()[sessId];if(s){sess=s;sess._saved=true;CTX={leader:true};showResult();toast("Result refreshed")}};
