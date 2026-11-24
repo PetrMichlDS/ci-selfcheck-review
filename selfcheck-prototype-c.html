@@ -168,7 +168,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
       <form id="gateForm" novalidate>
         <label class="f"><span>Work email</span></label>
         <div class="row">
-          <input type="email" id="email" placeholder="Work email" autocomplete="email" aria-label="Work email">
+          <input type="email" id="email" placeholder="Work email" autocomplete="email" aria-label="Work email" aria-describedby="gateErr">
           <button class="btn btn--primary" id="gateBtn" type="submit">Start the self-check</button>
         </div>
         <p class="err hide" id="gateErr" role="alert"></p>
@@ -198,7 +198,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
     <div class="card">
       <form id="resForm" novalidate>
         <label class="f"><span>Work email</span></label>
-        <div class="row"><input type="email" id="email2" placeholder="Work email" autocomplete="email" aria-label="Work email"><button class="btn btn--primary" type="submit">Show my result</button></div>
+        <div class="row"><input type="email" id="email2" placeholder="Work email" autocomplete="email" aria-label="Work email" aria-describedby="resErr"><button class="btn btn--primary" type="submit">Show my result</button></div>
         <p class="err hide" id="resErr" role="alert"></p>
         <p class="small" style="margin:12px 0 4px">Your answers stay on this page. We receive only your email address and use it to send you those questions. <a href="https://comms-inspector.com/privacy-policy.html" target="_blank" rel="noopener" style="color:var(--ink);text-decoration:underline">Privacy policy</a></p>
         <p class="small" style="margin:14px 0 6px"><b>Optional</b>, both unticked unless you choose:</p>
@@ -231,7 +231,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
     <div id="printActions" class="print-only"></div>
     <div id="printAnswers" class="print-only"></div>
     <div class="no-print hide" id="openQs" style="margin-top:22px"></div>
-    <div class="savenote no-print"><b>Save your result now.</b> Your answers stay only on this page and we keep no copy, so closing or refreshing it makes the result disappear. The PDF is the only way to keep it and share it with your team.</div>
+    <div class="savenote no-print"><b>Save your result now.</b> Your answers stay only on this page and we keep no copy, so closing or refreshing it makes the result disappear. The PDF is the way to keep it. It holds your level, what each area means, your answers and the questions you were unsure about, with tick boxes. Send it to your colleagues and go through it together in a short meeting.</div>
     <div class="actions no-print">
       <button class="btn btn--primary" id="bPrint">Print or save as PDF</button>
       <button class="link" id="bRestart">Start again</button>
@@ -392,8 +392,8 @@ function initIntro(){
 }
 $("gateMode").onchange=function(){show("s-intro");initIntro()};
 $("gateForm").onsubmit=function(e){e.preventDefault();var m=validWork($("email").value);
-  if(m){$("gateErr").textContent=m;$("gateErr").classList.remove("hide");ev(m.indexOf("work")>-1?"selfcheck_freemail":"selfcheck_invalid");return}
-  $("gateErr").classList.add("hide");gotEmail=$("email").value.trim();ga("quiz_unlock",{position:"start"});ev("selfcheck_unlock",{form_id:"selfcheck_gate"});ev("selfcheck_start",{gate:mode()});begin(CORE.slice())};
+  if(m){$("gateErr").textContent=m;$("gateErr").classList.remove("hide");$("email").setAttribute("aria-invalid","true");$("email").focus();ev(m.indexOf("work")>-1?"selfcheck_freemail":"selfcheck_invalid");return}
+  $("gateErr").classList.add("hide");$("email").removeAttribute("aria-invalid");gotEmail=$("email").value.trim();ga("quiz_unlock",{position:"start"});ev("selfcheck_unlock",{form_id:"selfcheck_gate"});ev("selfcheck_start",{gate:mode()});begin(CORE.slice())};
 $("startBtn").onclick=function(){ev("selfcheck_start",{gate:mode()});begin(CORE.slice())};
 
 // ---------- quiz ----------
@@ -415,7 +415,8 @@ function finish(){$("prog").style.width="100%";
   ga("quiz_complete",null,true);
   if(mode()==="result"&&!gotEmail){show("s-resgate");ev("selfcheck_complete_gate");ga("quiz_gate_shown",null,true)}else showResult()}
 $("resForm").onsubmit=function(e){e.preventDefault();var m=validWork($("email2").value);
-  if(m){$("resErr").textContent=m;$("resErr").classList.remove("hide");return}
+  if(m){$("resErr").textContent=m;$("resErr").classList.remove("hide");$("email2").setAttribute("aria-invalid","true");$("email2").focus();return}
+  $("resErr").classList.add("hide");$("email2").removeAttribute("aria-invalid");
   gotEmail=$("email2").value.trim();ga("quiz_unlock",{position:"result"});ev("selfcheck_unlock",{form_id:"selfcheck_gate",position:"result",notes_ok:$("optNotes").checked,news_ok:$("optNews").checked});showResult()};
 
 // ---------- result ----------
@@ -435,7 +436,7 @@ function showResult(){
     $("rWhereT").innerHTML="<b>Strongest area:</b> "+DOMAINS[hi].name+".<br><b>Weakest area:</b> "+DOMAINS[lo].name+".<br><br><b>Start with the weakest.</b> "+DOMAINS[lo].ask;
     $("rWhere").classList.remove("hide")}
   else{$("rHead").textContent="Not enough to place you yet";
-    $("rSub").textContent="You answered "+r.n+" of "+tot+" questions with a real answer. A level needs at least "+MINANS+" answers, spread over at least four of the five areas"+(emptyAreas.length?" ("+emptyAreas.map(function(k){var n=DOMAINS[k].name;return n.charAt(0).toLowerCase()+n.slice(1)}).join(", ")+" still has none)":"")+". The rest need people who know. The questions you skipped are listed below: ask the person most likely to know, then answer them here and the level will appear.";
+    $("rSub").textContent="You answered "+r.n+" of "+tot+" questions with a real answer. A level needs at least "+MINANS+" answers, spread over at least four of the five areas"+(emptyAreas.length?" ("+emptyAreas.map(function(k){var n=DOMAINS[k].name;return n.charAt(0).toLowerCase()+n.slice(1)}).join(", ")+(emptyAreas.length>1?" still have none)":" still has none)"):"")+". The rest need people who know. The questions you skipped are listed below: ask the person most likely to know, then answer them here and the level will appear.";
     $("rSteps").classList.add("hide");$("rWhere").classList.add("hide")}
   var unk=tot-r.n;
   $("rNs").textContent=unk?"Based on "+r.n+" of "+tot+" questions. "+unk+(unk>1?" still have no answer.":" still has no answer."):"Based on all "+tot+" questions.";
@@ -500,21 +501,20 @@ function renderPrintAnswers(m,sharp){
     ord.forEach(function(k){var on=isUnk(a)?k===0:a===k;h+='<div class="'+(on?'pa-on':'')+'" style="margin:1px 0;'+(on?'font-weight:700':'color:#555')+'">'+(on?'&#9679; ':'&#9675; ')+q.o[k][0]+'</div>'});
     h+='</div>'});
   $("printAnswers").innerHTML=h}
-function qCopyText(q){var t="Hi, could you help me with one question for a short self-check on how well we see what happens in our customer conversations?\n\n"+q.q+"\n"+(q.h?q.h+"\n":"")+"\n";q.o.forEach(function(o,k){if(k)t+="- "+o[0]+"\n"});return t+"\nPlease tell me the answer closest to what usually happens. Thanks!"}
 function renderOpen(m,sharp){
   var el=$("openQs"),oq=[];(sharp?CORE.concat(EXTRA):CORE).forEach(function(i){if(isUnk(m.eff[i]))oq.push(i)});
   if(!oq.length){el.innerHTML="";el.classList.add("hide");return}
   el.classList.remove("hide");
   var h='';
-  oq.forEach(function(i){var q=Q[i];h+='<div class="card ocard" data-i="'+i+'" style="margin:10px 0"><p style="font-weight:700;margin:0 0 6px">'+q.q+'</p><p class="small" style="margin:0 0 10px">Best asked of someone in '+GROUPS[q.g].who+'.</p><div class="row"><button class="btn btn--primary oa">Answer it now</button><button class="btn btn--ghost oc">Copy for a colleague</button></div></div>'});
-  var intro='<p>Ask the person most likely to know, then change your answer here. Nothing is sent: the answer stays in your browser.</p>';
+  oq.forEach(function(i){var q=Q[i];h+='<div class="card ocard" data-i="'+i+'" style="margin:10px 0"><p style="font-weight:700;margin:0 0 6px">'+q.q+'</p><p class="small" style="margin:0 0 10px">Best asked of someone in '+GROUPS[q.g].who+'.</p><div class="row"><button class="btn btn--primary oa">Answer it now</button></div></div>'});
+  var intro='<p>Ask the person most likely to know, then answer here. The PDF lists these questions with tick boxes, so you can send it to colleagues and go through the open ones together. Nothing is sent from this page: your answers stay on it.</p>';
   if(oq.length>1){
     el.innerHTML='<button type="button" class="oqhead" id="oqToggle" aria-expanded="false" aria-controls="oqBody"><span><b style="display:block;font-size:20px">Questions you were not sure about ('+oq.length+')</b><span class="small" style="display:block;margin-top:2px">Show them, ask the person most likely to know, then answer here</span></span><svg id="oqChev" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div id="oqBody" class="hide">'+intro+h+'</div>';
     $("oqToggle").onclick=function(){var open=$("oqToggle").getAttribute("aria-expanded")==="true";$("oqToggle").setAttribute("aria-expanded",open?"false":"true");$("oqBody").classList.toggle("hide",open);$("oqChev").style.transform=open?"":"rotate(180deg)";ev("selfcheck_open_questions_"+(open?"collapse":"expand"))}
   }else el.innerHTML='<h2>Questions you were not sure about</h2>'+intro+h;
   [].forEach.call(el.querySelectorAll(".ocard"),function(c){var i=+c.dataset.i;
     c.querySelector(".oa").onclick=function(){ev("selfcheck_reanswer_start",{n:i+1});reanswering=true;ans=sess.leader.ans.slice();ans[i]=null;begin([i],true)};
-    c.querySelector(".oc").onclick=function(){ev("selfcheck_copy_question",{n:i+1});var t=qCopyText(Q[i]);(navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(t):Promise.reject()).then(function(){toast("Question copied")},function(){toast("Copying is blocked in this browser")})}})
+  })
 }
 $("sharpGo").onclick=function(){ev("selfcheck_sharpen_start");ga("quiz_sharpen_start");sharpening=true;ans=sess.leader.ans.slice();EXTRA.forEach(function(i){ans[i]=null});begin(EXTRA.slice(),true)};
 $("bPrint").onclick=function(){ev("selfcheck_print");window.print()};
