@@ -14,9 +14,14 @@
 body{font-family:var(--font-body);color:var(--ink);background:var(--white);margin:0}
 .sc-head{border-bottom:1px solid var(--hairline);background:#fff}
 .sc-head .container{display:flex;align-items:center;gap:20px;min-height:68px}
-.sc-head .byline{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
-.sc-head .byline img{height:36px;margin:-8px 0}
-.sc-head .logo{height:20px;width:auto}
+.ci-head{--ci-h:20px;--bull-h:calc(var(--ci-h) * 1.4);flex:1;display:flex;justify-content:space-between;align-items:baseline;gap:16px;white-space:nowrap;line-height:1}
+.ci-head__product,.ci-head__endorse{display:block;line-height:1}
+.ci-head img{display:inline-block;width:auto;vertical-align:baseline;max-width:none}
+.ci-head__product img{height:var(--ci-h);margin-bottom:calc(var(--ci-h) * -0.2371)}
+.ci-head__endorse img{height:var(--bull-h);margin-bottom:calc(var(--bull-h) * -0.2331)}
+.ci-head__label{font:400 13px/1 Roboto,Arial,sans-serif;color:#475069;margin-right:3px}
+@media (max-width:420px){.ci-head{--ci-h:16px}.ci-head__label{font-size:12px}}
+@media (max-width:340px){.ci-head__label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}}
 .sc-main{background:var(--grey-50);padding:56px 0 150px}
 .sc-wrap{max-width:780px;margin:0 auto;padding-inline:var(--gutter)}
 .eyebrow{display:inline-block;font-size:var(--fs-eyebrow);font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--orange);margin-bottom:14px}
@@ -91,7 +96,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
 @page{size:A4;margin:24mm 14mm 16mm;
 @top-left{content:"";width:95mm;margin-bottom:4mm;border-bottom:2px solid #FF5539;background:url(Assets/comms-inspector-logo_tm.svg) no-repeat left 10.9mm/auto 6.2mm}
 @top-center{content:"";margin-bottom:4mm;border-bottom:2px solid #FF5539}
-@top-right{content:"BUILT BY";width:70mm;margin-bottom:4mm;text-align:right;vertical-align:top;padding:12.6mm 28mm 0 0;font:700 8pt Roboto,Arial,sans-serif;letter-spacing:.14em;color:#475069;border-bottom:2px solid #FF5539;background:url(Assets/BULL_LOGO_COLOR_RGB.svg) no-repeat right 8.35mm/auto 11.3mm}
+@top-right{content:"built by";width:70mm;margin-bottom:4mm;text-align:right;vertical-align:top;padding:12.2mm 23.95mm 0 0;font:400 10pt Roboto,Arial,sans-serif;color:#475069;border-bottom:2px solid #FF5539;background:url(Assets/BULL_LOGO_COLOR_RGB.svg) no-repeat right 8.9mm/auto 8.68mm}
 @bottom-left{content:"comms-inspector.com  \007c  comms-inspector.com/self-check";font:8.5pt Roboto,Arial,sans-serif;color:#475069}@bottom-right{content:counter(page) " / " counter(pages);font:8.5pt Roboto,Arial,sans-serif;color:#475069}}
 @media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .sc-head{display:none!important}
@@ -127,7 +132,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
 .ep{margin-top:10px;break-inside:avoid}.ep .eyebrow{margin-bottom:2px}.ep h3{font-size:16pt;margin:0 0 2px}.ep>p{font-size:10pt;margin:0 0 8px;color:#475069}
 .ep-big{display:flex;align-items:center;justify-content:space-between;gap:16px;background:#F6F7F9;border:1px solid #E1E4EB;border-radius:12px;padding:12px 18px;margin-bottom:8px}
 .ep-lab{font-size:8pt;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#FF5539;margin:0 0 3px}
-.ep-big h4{font-size:17pt;margin:0 0 3px}.ep-big p{margin:0;font-size:10pt;color:#475069}.ep-big img{height:34px;width:auto;flex:0 0 auto}
+.ep-big h4{font-size:17pt;margin:0 0 3px}.ep-big p{margin:0;font-size:10pt;color:#475069}.ep-big .ep-more{margin-top:8px;font-size:10.5pt;font-weight:700}.ep-big .ep-more a{color:#FF5539;text-decoration:none}.ep-big img{height:34px;width:auto;flex:0 0 auto}
 .ep-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .ep-sm{background:#F6F7F9;border:1px solid #E1E4EB;border-radius:12px;padding:10px 12px}
 .ep-sm h4{font-size:12.5pt;margin:0 0 3px;line-height:1.15}.ep-sm p{margin:0;font-size:9pt;line-height:1.35;color:#475069}
@@ -140,8 +145,10 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
 </head>
 <body>
 <header class="sc-head"><div class="container">
-  <a href="#" aria-label="AI Comms Inspector"><img class="logo" src="Assets/comms-inspector-logo_tm.svg" alt="Comms Inspector" width="219" height="20"></a>
-  <span class="byline"><span>built by</span> <img src="Assets/BULL_LOGO_COLOR_RGB.svg" alt="Bull"></span>
+  <div class="ci-head">
+    <a class="ci-head__product" href="#" aria-label="AI Comms Inspector"><img src="Assets/comms-inspector-logo_tm.svg" alt="Comms Inspector" width="219" height="20"></a>
+    <span class="ci-head__endorse"><span class="ci-head__label">built by</span><img src="Assets/BULL_LOGO_COLOR_RGB.svg" alt="Bull" width="70" height="26"></span>
+  </div>
 </div></header>
 <main class="sc-main"><div class="sc-wrap">
 
@@ -467,7 +474,7 @@ function renderPrintNext(nt,m,sharp){
   h+='<div class="pn-box"><span class="eyebrow">Next step</span><h3>Bring one decision to a use-case session</h3><p>'+nt+'</p><span class="pn-btn">Book a use-case session</span><p class="pn-ph">[booking link to be added]</p></div>';
   h+='<div id="printPeople"><p class="eyebrow" style="margin-bottom:6px">The people you can meet in the session</p>'+document.querySelector(".people").innerHTML.replace(/^[\s\S]*?<p class="small"/,'<p class="small"')+'</div>';
   h+='<div class="ep"><span class="eyebrow">Enterprise proof</span><h3>Proven in production</h3><p>AI Comms Inspector already processes customer conversations at enterprise scale and turns them into measurable business outcomes.</p>'
-   +'<div class="ep-big"><div><p class="ep-lab">Production scale</p><h4>30M+ calls analysed every year</h4><p>Automated supervision and quality control running in production at Home Credit Philippines. Full story: <a href="https://comms-inspector.com/case-studies.html" style="color:#475069">comms-inspector.com/case-studies</a></p></div><img src="Assets/home-credit-logo.svg" alt="Home Credit"></div>'
+   +'<div class="ep-big"><div><p class="ep-lab">Production scale</p><h4>30M+ calls analysed every year</h4><p>Automated supervision and quality control running in production at Home Credit Philippines.</p><p class="ep-more"><a href="https://comms-inspector.com/case-studies.html">Read the full story &rarr;</a></p></div><img src="Assets/home-credit-logo.svg" alt="Home Credit"></div>'
    +'<div class="ep-row"><div class="ep-sm"><p class="ep-lab">Commercial impact</p><h4>Higher conversion</h4><p>AI-generated sales signals help target more relevant offers.</p></div><div class="ep-sm"><p class="ep-lab">Operational impact</p><h4>Quality control at scale</h4><p>Every selected interaction assessed consistently against predefined business, process and compliance rules.</p></div><div class="ep-sm"><p class="ep-lab">Delivery credibility</p><h4>300+ enterprise AI projects</h4><p>Built on Bull Group&rsquo;s experience from more than 300 enterprise AI projects.</p></div></div></div>';
   var hasOq=(sharp?CORE.concat(EXTRA):CORE).some(function(i){return isUnk(m.eff[i])});
   h+='<div class="pn-end"><p><b>Share the self-check.</b> A colleague can take it too: <a href="'+SELFCHECK_URL+'" style="color:#475069">comms-inspector.com/self-check</a> &nbsp;|&nbsp; <a href="https://comms-inspector.com" style="color:#475069">comms-inspector.com</a></p><p>Next page: '+(hasOq?'the questions you could not answer, and your answers':'your answers')+' &rarr;</p></div>';
