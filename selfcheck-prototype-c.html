@@ -51,10 +51,10 @@ label.f{display:block;margin:0 0 14px}label.f span{display:block;font-weight:600
 .opt.sel{border-color:var(--orange);background:var(--tint-50);box-shadow:inset 0 0 0 1px var(--orange)}
 .nav{display:flex;justify-content:space-between;align-items:center;margin-top:18px}
 :root{--rag-r:#d4382c;--rag-a:#FFB600;--rag-g:#00B290}
-.band{display:inline-block;border-radius:999px;padding:4px 12px;font-weight:700;font-size:12px;letter-spacing:.12em;border:1px solid}
+.band{white-space:nowrap;display:inline-block;border-radius:999px;padding:4px 12px;font-weight:700;font-size:12px;letter-spacing:.12em;border:1px solid}
 .b-red{background:#fdecea;color:#a1271d;border-color:#f3b9b3}.b-amber{background:#fff4d6;color:#7a5600;border-color:#f5d98a}.b-green{background:#dff6f0;color:#00694f;border-color:#9fe0cf}
 .dom{border:1px solid var(--hairline);border-radius:var(--r-card-lg);padding:20px 22px 16px;margin:0 0 14px;background:#fff;break-inside:avoid;box-shadow:var(--shadow-sm)}
-.dom h3{font-size:19px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.dom h3{font-size:19px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 10px}
 .bar{height:8px;background:var(--grey-100);border-radius:4px;margin:12px 0 14px;overflow:hidden}
 .bar i{display:block;height:100%}
 .bar .r{background:var(--rag-r)}.bar .a{background:var(--rag-a)}.bar .g{background:var(--rag-g)}
@@ -87,7 +87,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
 .vals li{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--hairline);border-radius:var(--r-card);padding:14px}
 .vi{flex:0 0 40px;height:40px;border-radius:50%;background:var(--tint-50);color:var(--orange);display:flex;align-items:center;justify-content:center}
 .vals b{display:block;font-size:15px;line-height:1.25;margin-bottom:2px;color:var(--ink)}.vals li>span:last-child{font-size:14px;color:var(--ink-soft);line-height:1.35}
-.vals{margin-bottom:10px}.privnote{font-size:16px;line-height:1.5;margin:0 0 16px}.savenote{margin:22px 0 10px;padding:12px 16px;border-left:4px solid var(--orange);background:#FFF7F5;border-radius:0 10px 10px 0;font-size:16px;line-height:1.5}.vnote{font-size:18px;font-style:italic;color:var(--ink-soft);margin:30px 0 28px}
+.vals{margin-bottom:10px}[tabindex="-1"]:focus{outline:none}.privnote{font-size:16px;line-height:1.5;margin:0 0 16px}.savenote{margin:22px 0 10px;padding:12px 16px;border-left:4px solid var(--orange);background:#FFF7F5;border-radius:0 10px 10px 0;font-size:16px;line-height:1.5}.vnote{font-size:18px;font-style:italic;color:var(--ink-soft);margin:30px 0 28px}
 @media(max-width:760px){.vals{grid-template-columns:1fr}}
 .rule{border:0;border-top:1px solid var(--hairline);margin:32px 0 6px}
 @media(max-width:760px){.pgrid{grid-template-columns:1fr}}
@@ -154,16 +154,16 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
 
   <!-- SCREEN 1: intro / gate -->
   <section id="s-intro">
-    <span class="eyebrow" id="eyN">Self-check · about 4 minutes · 12 questions</span>
+    <span class="eyebrow" id="eyN">Self-check quiz · about 5 minutes · 12 questions</span>
     <h1>How much of your customer conversations do you actually see?</h1>
-    <p class="lead" id="leadN" style="margin-bottom:14px">Twelve questions, about 4 minutes. This quiz gives you:</p>
+    <p class="lead" id="leadN" style="margin-bottom:14px">Twelve questions, about 5 minutes. This self-check quiz gives you:</p>
     <ul class="vals">
       <li><span class="vi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 18V14M9 18V11M14 18V8M19 18V5"/></svg></span><span><b>Where you stand</b>A level from 1 to 5</span></li>
       <li><span class="vi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 21V4M6 5h11l-2 4 2 4H6"/></svg></span><span><b>Where to start</b>Your weakest area</span></li>
       <li><span class="vi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.6 2.2c-.7.4-1.1.9-1.1 1.8M12 17h.01"/></svg></span><span><b>A question to check with facts</b>One to ask your team</span></li>
     </ul>
     <p class="vnote">Not sure you can answer everything? That is fine.<br>At the end you get the questions you skipped, with a note on who is most likely to know, and you can change your answer.</p>
-    <p class="privnote"><b>Your answers never leave this page.</b> We cannot see them and keep no copy. The only personal data we receive is the work email address you enter.</p>
+    <p class="privnote"><b>Your answers never leave this page.</b> We cannot see them and keep no copy.<span id="privEmail" class="hide"> The only personal data we receive is the work email address you enter.</span></p>
     <div class="card" id="gate">
       <form id="gateForm" novalidate>
         <label class="f"><span>Work email</span></label>
@@ -182,8 +182,8 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
 
   <!-- SCREEN 2: quiz -->
   <section id="s-quiz" class="hide">
-    <div class="qmeta"><span id="qDom"></span><span id="qNum"></span></div>
-    <div class="prog"><i id="prog"></i></div>
+    <div class="qmeta"><span id="qDom"></span><span id="qNum" aria-live="polite"></span></div>
+    <div class="prog" role="progressbar" aria-label="Quiz progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="prog"></i></div>
     <h2 class="q" id="qText"></h2>
     <p class="hint" id="qHint"></p>
     <div id="qOpts"></div>
@@ -215,7 +215,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
     <h1 id="rHead"></h1>
     <div id="rSteps" style="display:flex;gap:6px;margin:6px 0 16px;max-width:420px"></div>
     <p class="lead" id="rSub"></p>
-    <p class="small no-print">Based on your answers, not on a comparison with other companies.</p>
+    <p class="small no-print">Based on your answers, not on a comparison with other companies. <b>Save this as a PDF before you close the page.</b></p>
     <div class="dom" id="rWhere" style="border-left:4px solid var(--orange)"><span class="eyebrow" style="margin-bottom:6px">Where to look first</span><p id="rWhereT" style="margin:0"></p></div>
     <p class="small" id="rNs"></p>
     <div class="card no-print" id="sharpBox" style="margin:18px 0"><span class="eyebrow">Optional</span><h2 style="margin-top:4px">Sharpen your result</h2><p>Five more questions on things the first eight do not reach, for example whether you can open a disputed conversation and whether coaching worked. About 2 to 3 minutes. Your result updates when you finish.</p><button class="btn btn--primary" id="sharpGo">Answer 5 more questions</button></div>
@@ -236,7 +236,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
       <button class="btn btn--primary" id="bPrint">Print or save as PDF</button>
       <button class="link" id="bRestart">Start again</button>
     </div>
-    <p class="small no-print" style="margin:-8px 0 14px">Tip: in the print window, turn off &ldquo;Headers and footers&rdquo; for a cleaner page.</p>
+    <p class="small no-print" style="margin:-8px 0 14px">Tip: if your browser adds a date or web address at the top or bottom of the pages, turn off &ldquo;Headers and footers&rdquo; under &ldquo;More settings&rdquo; in the print window.</p>
     <div class="next no-print">
       <span class="eyebrow">Next step</span>
       <h2>Bring one decision to a use-case session</h2>
@@ -271,7 +271,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
     <select id="gateMode" autocomplete="off"><option value="start">before the quiz</option><option value="result" selected>before the result</option><option value="none">none (email optional)</option></select><br>
     <button id="fillA">Fill: well-run sample</button><button id="fillB">Fill: well-run insight team</button><button id="fillC">Fill: mostly unknown</button><button id="fillD">Fill: fully automated</button><br><button id="fillGate">Gate: as if email entered</button>
   </div>
-  <div class="ev" id="ev"><b>Events (what the page would send)</b><br></div>
+  <div class="ev" id="ev"><b>Prototype log (only lines starting with GA4 would be sent)</b><br></div>
 </div>
 
 <script>
@@ -353,7 +353,7 @@ var FREE="gmail.com yahoo.com outlook.com hotmail.com icloud.com proton.me proto
 function ev(n,p){var l=$("ev");l.innerHTML+=n+(p?" "+JSON.stringify(p):"")+"<br>";l.scrollTop=1e6}
 var gaSent={};
 function ga(n,p,once){if(once){if(gaSent[n])return;gaSent[n]=1}try{if(window.ciTrack)window.ciTrack(n,p||{})}catch(e){}ev("GA4 "+n,p)}
-function show(id){["s-intro","s-quiz","s-resgate","s-result"].forEach(function(x){$(x).classList.toggle("hide",x!==id)});window.scrollTo(0,0)}
+function show(id){["s-intro","s-quiz","s-resgate","s-result"].forEach(function(x){$(x).classList.toggle("hide",x!==id)});window.scrollTo(0,0);var hd=document.querySelector("#"+id+" h1, #"+id+" h2");if(hd){hd.setAttribute("tabindex","-1");try{hd.focus({preventScroll:true})}catch(e){}}}
 function band(p){return p>=.8?"green":p>=.4?"amber":"red"}
 var BAND_LABEL={red:"Not yet in place",amber:"Partly in place",green:"Well in place"};
 function badge(b){return '<span class="band b-'+b+'">'+BAND_LABEL[b].toUpperCase()+'</span>'}
@@ -385,6 +385,7 @@ function merge(){return{eff:sess.leader.ans.map(function(a){return isUnk(a)?null
 
 // ---------- routing and intro ----------
 function initIntro(){
+  $("privEmail").classList.toggle("hide",mode()!=="start");
   $("gateForm").classList.toggle("hide",mode()!=="start");
   $("noGate").classList.toggle("hide",mode()==="start");
   $("noGateNote").textContent=mode()==="result"?"Your result opens at the end, after you enter your work email.":"No email is needed to see your result.";
@@ -400,15 +401,15 @@ $("startBtn").onclick=function(){ev("selfcheck_start",{gate:mode()});begin(CORE.
 function begin(list,keep){qlist=list;if(!keep)ans=[];cur=0;if(!sharpening&&!reanswering){gaSent={};ga("quiz_start",{gate_mode:mode()})}renderQ();show("s-quiz")}
 function renderQ(){
   var qi=qlist[cur],q=Q[qi];if(!sharpening&&!reanswering)ga("quiz_q"+(cur+1),null,true);$("qDom").textContent="";$("qNum").textContent="Question "+(cur+1)+" of "+qlist.length;
-  $("prog").style.width=(cur/qlist.length*100)+"%";$("qText").textContent=q.q;$("qHint").textContent=q.h;
+  $("prog").style.width=(cur/qlist.length*100)+"%";$("prog").parentNode.setAttribute("aria-valuenow",Math.round(cur/qlist.length*100));$("qText").textContent=q.q;$("qHint").textContent=q.h;
   var h="",ord=[];q.o.forEach(function(o,i){if(i)ord.push(i)});ord.push(0);ord.forEach(function(i){var o=q.o[i];h+='<button class="opt'+(i===0?" ns":"")+(ans[qi]===i?" sel":"")+'" data-i="'+i+'"'+'>'+o[0]+(i===0&&!q.x?'<span class="nsnote">At the end we will help you ask someone who does.</span>':'')+'</button>'});
-  $("qOpts").innerHTML=h;
+  $("qOpts").innerHTML=h;if(cur>0){var qt=$("qText");qt.setAttribute("tabindex","-1");try{qt.focus({preventScroll:true})}catch(e){}}
   [].forEach.call($("qOpts").children,function(b){b.onclick=function(){
     ans[qi]=+b.dataset.i;ev("selfcheck_q",{n:cur+1,domain:q.d});
     if(cur<qlist.length-1){cur++;renderQ()}else finish()}});
   $("back").style.visibility=cur?"visible":"hidden"}
 $("back").onclick=function(){if(cur>0){cur--;renderQ()}};
-function finish(){$("prog").style.width="100%";
+function finish(){$("prog").style.width="100%";$("prog").parentNode.setAttribute("aria-valuenow",100);
   if(reanswering){var s3=Q.map(function(q,i){return ans[i]==null?0:ans[i]});ans=s3;reanswering=false;sess.leader.ans=s3.slice();ev("selfcheck_reanswer");showResult();return}
   if(sharpening){var s2=Q.map(function(q,i){return ans[i]==null?0:ans[i]});ans=s2;sharpening=false;sess.leader.ans=s2.slice();sess.leader.sharp=true;ev("selfcheck_sharpen_complete");ga("quiz_sharpen_complete");showResult();return}
   var a2=Q.map(function(q,i){return ans[i]==null?0:ans[i]});ans=a2;
@@ -429,7 +430,7 @@ function showResult(){
   var sharp=!!(sess.leader&&sess.leader.sharp)||EXTRA.some(function(i){return !isUnk(m.eff[i])}),tot=sharp?Q.length:CORE.length;
   $("sharpBox").classList.toggle("hide",sharp);$("sharpDone").classList.toggle("hide",!sharp);
   var emptyAreas=ORDER.filter(function(k){return r.d[k].n===0}),enough=r.n>=MINANS&&emptyAreas.length<=1,prov=enough&&emptyAreas.length===1,lv=levelOf(r.p);
-  if(enough){$("rHead").textContent=LEVELS[lv].h+(prov?" (provisional)":"");$("rSub").textContent=LEVELS[lv].s+(prov?" This level leaves out "+DOMAINS[emptyAreas[0]].name.charAt(0).toLowerCase()+DOMAINS[emptyAreas[0]].name.slice(1)+", where you have not answered yet. Answer the skipped questions below and the level may change.":"");
+  if(enough){$("rHead").textContent=LEVELS[lv].h+(prov?" (provisional)":"");$("rSub").textContent=LEVELS[lv].s+(prov?" This level leaves out "+DOMAINS[emptyAreas[0]].name.charAt(0).toLowerCase()+DOMAINS[emptyAreas[0]].name.slice(1)+", which you have not answered yet. Answer the skipped questions below and the level may change.":"");
     var st="";for(var i=0;i<5;i++)st+='<i style="flex:1;height:10px;border-radius:5px;background:'+(i<=lv?"var(--orange)":"var(--grey-100)")+'"></i>';
     $("rSteps").innerHTML=st;$("rSteps").classList.remove("hide");
     var have=ORDER.filter(function(k){return r.d[k].p!=null}).sort(function(x,y){return r.d[y].p-r.d[x].p}),hi=have[0],lo=have[have.length-1];
@@ -441,7 +442,7 @@ function showResult(){
   var unk=tot-r.n;
   $("rNs").textContent=unk?"Based on "+r.n+" of "+tot+" questions. "+unk+(unk>1?" still have no answer.":" still has no answer."):"Based on all "+tot+" questions.";
   var h="";ORDER.forEach(function(k){var x=r.d[k],D=DOMAINS[k];
-    if(x.p==null){h+='<div class="dom"><h3><span>'+D.name+'</span><span class="band b-amber" style="background:#eef1f5;color:#475069;border-color:#dfe3ec">NO ANSWER YET</span></h3><p style="margin-top:10px">Nobody has answered this area yet. Ask someone in '+GROUPS[OWNER[k]].who+'.</p></div>';return}
+    if(x.p==null){h+='<div class="dom"><h3><span>'+D.name+'</span><span class="band b-amber" style="background:#eef1f5;color:#475069;border-color:#dfe3ec">NO ANSWER YET</span></h3><p style="margin-top:10px">You have not answered any question in this area yet. Ask someone in '+GROUPS[OWNER[k]].who+'.</p></div>';return}
     h+='<div class="dom" data-st="'+x.b+'"><h3><span>'+D.name+'</span>'+badge(x.b)+'</h3><div class="bar"><i class="'+x.b[0]+'" style="width:'+Math.max(4,Math.round(x.p*100))+'%"></i></div><p>'+D.tx[x.b]+'</p>'+
      (x.b!=="green"?'<div class="ask"><b>One question to ask your team</b>'+D.ask+'</div>':'')+'</div>'});
   $("rDoms").innerHTML=h;renderPrintSummary(r,sharp);
@@ -533,7 +534,7 @@ $("fillB").onclick=function(){fillLeader(pickText(PROF_B))};
 $("fillC").onclick=function(){fillLeader(Q.map(function(){return 0}))};
 $("fillD").onclick=function(){fillLeader(Q.map(function(q){return q.o.length-1}))};
 (function(){var W=["Zero","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten","Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen"],n=CORE.length,w=W[n]||n;
-  $("eyN").textContent="Self-check \u00b7 about 4 minutes \u00b7 "+n+" questions";$("leadN").textContent=w+" questions, about 4 minutes. This quiz gives you:"})();
+  $("eyN").textContent="Self-check quiz \u00b7 about 5 minutes \u00b7 "+n+" questions";$("leadN").textContent=w+" questions, about 5 minutes. This self-check quiz gives you:"})();
 initIntro();
 
 // ---------- deep links to each phase (prototype only): ?demo=intro|quiz|resgate|result|openq|sharpen|sharpened|provisional|notenough ----------
