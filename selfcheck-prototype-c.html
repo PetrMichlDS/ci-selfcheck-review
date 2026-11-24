@@ -309,14 +309,14 @@ var Q=[
  {d:"cov",q:"Which of your customer channels does your review cover?",h:"Think of calls, chats, emails, messaging apps and bots.",
   o:[[NS,0],["Calls only, although customers also use other channels",1],["Calls and some other channels",2],["Most of our channels",3],["All the channels we use, the same way",4]]},
  {d:"cov",q:"Of the conversations in those channels, roughly what share does anyone, person or software, review in a typical month?",h:"Review means a person or software listens to or reads a conversation to check it. A sample chosen on purpose, for example by risk, counts too.",
-  o:[[NS,0],["Under 2%",1],["2 to 5%",2],["5 to 20%",3],["Most of them",4],["All of them",4]]},
+  o:[[NS,0],["Under 2%",1],["2 to 5%",2],["6 to 20%",3],["21 to 50%",3],["More than half",4]]},
  {d:"cov",q:"How would you find a conversation that went badly, if the customer never complained?",h:"Went badly means the problem was not solved, the agent gave wrong information, or the customer left annoyed. The customer never complained or filled in a survey, so nobody was told.",
   o:[[NS,0],["We would not find it",0],["Only if someone tells us",1],["Supervisors notice some of them while listening",2],["We check conversations with certain triggers, for example repeated contact",3],["Software flags them from all conversations, automatically",4]]},
  {d:"coa",q:"How soon does an agent usually get feedback on a conversation?",h:"",
   o:[[NS,0],["Most agents rarely get feedback on a specific conversation",0],["After weeks",1],["After days",2],["The same day",3],["While the conversation is still going on",4]]},
  {d:"qua",q:"How often do your reviewers check that they score the same conversation the same way?",h:"This is often called calibration.",
   o:[[NS,0],["Never",0],["Occasionally, when there is a problem",1],["About every quarter",3],["Monthly or more often",4]]},
- {d:"evi",q:"Suppose a customer says the agent promised something on a call, for example a discount, a refund or a delivery date. How long would it take you to find out what was actually said?",h:"",
+ {d:"evi",q:"Suppose a customer says the agent promised something in a conversation, for example a discount, a refund or a delivery date. How long would it take you to find out what was actually said?",h:"",
   o:[[NS,0],["We might not be able to find out",0],["Days",1],["Hours",3],["Minutes",4]]},
  {d:"sig",q:"Do you automatically pull customer signals out of your conversations, such as needs, complaints or interest in a product?",h:"",
   o:[[NS,0],["No, it stays in the recordings",0],["People note some of it by hand",1],["Software finds some of it, and people pass it on",3],["Software finds it and records it in a structured way",4]]},
@@ -524,7 +524,7 @@ $("bRestart").onclick=function(){ev("selfcheck_restart");sess=null;ans=[];gotEma
 // ---------- prototype helpers ----------
 function byText(q,t){for(var i=0;i<q.o.length;i++)if(q.o[i][0]===t)return i;throw new Error("no option: "+t)}
 function pickText(arr){return Q.map(function(q,i){return i<arr.length?byText(q,arr[i]):0})}
-var PROF_A=["Calls and some other channels", "5 to 20%", "Supervisors notice some of them while listening", "After days", "About every quarter", "Hours", "People note some of it by hand", "We find out in a monthly report or review"];
+var PROF_A=["Calls and some other channels", "6 to 20%", "Supervisors notice some of them while listening", "After days", "About every quarter", "Hours", "People note some of it by hand", "We find out in a monthly report or review"];
 var PROF_B=["Calls and some other channels", "2 to 5%", "Only if someone tells us", "After weeks", "Occasionally, when there is a problem", "Days", "Software finds some of it, and people pass it on", "Agents or supervisors notice and tell us"];
 function fillLeader(a){sess=null;ans=a;showResult()}
 $("fillGate").onclick=function(){gotEmail="test@example.com";if(!$("s-resgate").classList.contains("hide")){ev("selfcheck_unlock",{form_id:"selfcheck_gate",position:"result",test:true});showResult()}else toast("Open the gate screen first: answer the quiz or open the gate link")};
