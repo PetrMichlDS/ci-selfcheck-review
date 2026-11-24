@@ -68,8 +68,8 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
 .next{background:var(--blue-deep);color:#fff;border-radius:var(--r-card-lg);padding:30px;margin-top:26px}
 .next h2{color:#fff}.next p{color:var(--on-blue-soft)}.next .eyebrow{color:#ffb4a6}
 .sc-foot{background:var(--blue-deep);color:var(--on-blue-soft);padding:28px 0;font-size:14px}
-.sc-foot .container{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
-.sc-foot img{height:22px}
+.sc-foot .container{display:flex;flex-direction:column;gap:14px;align-items:center;text-align:center}.sc-foot p{margin:0}.sc-foot a{display:inline-block;line-height:0}
+.sc-foot img{height:26px}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:96px;background:var(--ink);color:#fff;padding:10px 16px;border-radius:8px;font-size:14px;z-index:60}
 .hide{display:none!important}
 .pk{position:fixed;left:0;right:0;bottom:0;background:#0d1b3e;color:#fff;font:500 12.5px/1.35 system-ui;padding:10px 14px;z-index:50;display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start}
@@ -147,7 +147,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
 <header class="sc-head"><div class="container">
   <div class="ci-head">
     <a class="ci-head__product" href="#" aria-label="AI Comms Inspector"><img src="Assets/comms-inspector-logo_tm.svg" alt="Comms Inspector" width="219" height="20"></a>
-    <span class="ci-head__endorse"><span class="ci-head__label">built by</span><img src="Assets/BULL_LOGO_COLOR_RGB.svg" alt="Bull" width="70" height="26"></span>
+    <span class="ci-head__endorse"><span class="ci-head__label">built by</span><a href="https://www.bull.com/en/about-bull" target="_blank" rel="noopener" aria-label="Bull"><img src="Assets/BULL_LOGO_COLOR_RGB.svg" alt="Bull" width="70" height="26"></a></span>
   </div>
 </div></header>
 <main class="sc-main"><div class="sc-wrap">
@@ -175,7 +175,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
         <p class="small" style="margin-top:12px">We use your email address to send you the questions to ask your team about each area.</p>
         <p class="small">See our <a href="https://comms-inspector.com/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a>.</p>
       </form>
-      <div id="noGate" class="hide"><button class="btn btn--primary" id="startBtn">Start the self-check</button><p class="small" id="noGateNote" style="margin-top:12px"></p></div>
+      <div id="noGate" class="hide"><button class="btn btn--primary" id="startBtn">Start the self-check</button></div>
     </div>
   </section>
 
@@ -261,7 +261,7 @@ th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
     </details>
   </section>
 </div></main>
-<footer class="sc-foot"><div class="container"><img src="Assets/comms-inspector-logo_tm-white.svg" alt="Comms Inspector"><span>AI Comms Inspector is built by DataSentics, a Bull company. The self-check is a self-assessment based on your answers, not an audit.</span><img src="Assets/BULL_LOGO_WHITE_RGB.svg" alt="Bull" style="margin-left:auto"></div></footer>
+<footer class="sc-foot"><div class="container"><a href="https://comms-inspector.com/" target="_blank" rel="noopener" aria-label="Comms Inspector"><img src="Assets/comms-inspector-logo_tm-white.svg" alt="Comms Inspector"></a><p>Analyse 100% of your customer conversations — insights, compliance, quality, coaching.</p></div></footer>
 
 <div class="toast hide" id="toast"></div>
 
@@ -388,7 +388,6 @@ function initIntro(){
   $("privEmail").classList.toggle("hide",mode()!=="start");
   $("gateForm").classList.toggle("hide",mode()!=="start");
   $("noGate").classList.toggle("hide",mode()==="start");
-  $("noGateNote").textContent=mode()==="result"?"Your result opens at the end, after you enter your work email.":"No email is needed to see your result.";
   ev("selfcheck_card_view",{gate:mode()});
 }
 $("gateMode").onchange=function(){show("s-intro");initIntro()};
